@@ -4,6 +4,7 @@
     "module": "commonjs",
     "declaration": false,
     "noImplicitAny": true,
+    "strictNullChecks": true,
     "jsx": "react",
     "sourceMap": true,
     "noLib": false
