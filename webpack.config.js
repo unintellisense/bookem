@@ -11,8 +11,7 @@ module.exports = {
   },
 
   entry: [
-    './main.tsx',
-    '../node_modules/bootstrap/dist/css/bootstrap.css'
+    './main.tsx'
   ],
   output: {
     path: path.join(basePath, 'dist'),
@@ -41,8 +40,8 @@ module.exports = {
         loader: 'style-loader!css-loader'
       },            
       {
-        test: /\.(png|jpg|gif|svg|ttf|woff|woff2)$/,
-        loader: 'file'
+        test: /\.(eot|png|jpg|gif|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader'
       }
     ]
   },
