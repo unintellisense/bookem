@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-export class Book extends React.Component {
+export class LogOut extends React.Component {
 
   render() {
     return (
       <div>
-        Books
+        Login
       </div>
     )
 
