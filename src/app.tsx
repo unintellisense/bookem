@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from 'react-bootstrap'
 import { Route, BrowserRouter } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Book } from './book'
+import { Book } from './components/book'
 export class App extends React.Component {
   render() {
     return (  
