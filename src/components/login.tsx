@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { RouteComponentWrapper } from './index'
 
-export class Login extends React.Component {
+class Login extends React.Component {
 
   render() {
     return (
@@ -8,6 +9,13 @@ export class Login extends React.Component {
         Login
       </div>
     )
-
   }
 }
+
+const wrapper: RouteComponentWrapper = {
+  component: Login,
+  routeLabel: 'Login',
+  routePath: 'login'
+}
+
+export default wrapper;

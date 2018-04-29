@@ -1,6 +1,10 @@
-import * as React from 'react';
+import * as React from 'react'
+import { RouteComponentWrapper } from './index'
 
-export class Book extends React.Component {
+class Book extends React.Component {
+
+  routeLabel: 'Books';
+  routePath: 'book';
 
   render() {
     return (
@@ -11,3 +15,11 @@ export class Book extends React.Component {
 
   }
 }
+
+const wrapper: RouteComponentWrapper = {
+  component: Book,
+  routeLabel: 'Books',
+  routePath: 'book'
+}
+
+export default wrapper;
