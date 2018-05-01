@@ -1,15 +1,12 @@
 import * as React from 'react'
 import { RouteComponentWrapper } from './index'
 
-class Book extends React.Component {
-
-  routeLabel: 'Books';
-  routePath: 'book';
+class Browse extends React.Component {
 
   render() {
     return (
       <div>
-        Books
+        Browse
       </div>
     )
 
@@ -17,9 +14,9 @@ class Book extends React.Component {
 }
 
 const wrapper: RouteComponentWrapper = {
-  component: Book,
-  routeLabel: 'Books',
-  routePath: 'book'
+  component: Browse,
+  routeLabel: 'Browse',
+  routePath: 'browse'
 }
 
 export default wrapper;

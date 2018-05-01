@@ -7,7 +7,7 @@ var basePath = __dirname;
 module.exports = {
   context: path.join(basePath, "src"),
   resolve: {
-      extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx']
   },
 
   entry: [
@@ -21,12 +21,12 @@ module.exports = {
   devtool: 'source-map',
 
   devServer: {
-       contentBase: './dist', //Content base
-       inline: true, //Enable watch and live reload
-       host: '0.0.0.0', // available externally!
-       port: 8080,
-       stats: 'errors-only',
-       historyApiFallback: true
+    contentBase: './dist', //Content base
+    //inline: true, //Enable watch and live reload
+    host: '0.0.0.0', // available externally!
+    port: 8080,
+    stats: 'errors-only',
+    historyApiFallback: true
   },
 
   module: {
@@ -34,12 +34,12 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: 'ts-loader'
+        loader: 'awesome-typescript-loader'
       },
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
-      },            
+      },
       {
         test: /\.(eot|png|jpg|gif|svg|ttf|woff|woff2)$/,
         loader: 'file-loader'

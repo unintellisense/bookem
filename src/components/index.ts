@@ -1,4 +1,4 @@
-import Book from './book';
+import Browse from './browse';
 import Login from './login';
 import LogOut from './logout';
 
@@ -8,4 +8,4 @@ export interface RouteComponentWrapper {
   component: React.ComponentType
 }
 
-export { Book, Login, LogOut };
+export { Browse, Login, LogOut };

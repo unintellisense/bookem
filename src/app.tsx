@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Navbar, NavItem, Nav } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap";
 import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
-import { RouteComponentWrapper, Book, Login, LogOut } from './components'
+import { RouteComponentWrapper, Browse, Login, LogOut } from './components'
 
-const loggedInComponents: RouteComponentWrapper[] = [Book, LogOut];
+const loggedInComponents: RouteComponentWrapper[] = [Browse, LogOut];
 const loggedOutComponents: RouteComponentWrapper[] = [Login];
 
 export class App extends React.Component {
