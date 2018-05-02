@@ -1,7 +1,7 @@
 import Browse from './browse';
-import Manage from './manage';
 import Login from './login';
 import LogOut from './logout';
+import { Manage } from './management';
 
 export interface RouteComponentWrapper {
   routeLabel: string

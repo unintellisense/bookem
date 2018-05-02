@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Navbar, NavItem, Nav } from 'react-bootstrap'
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer } from 'react-router-bootstrap'
 import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
 import { RouteComponentWrapper, Browse, Manage, Login, LogOut } from './components'
 
@@ -20,7 +20,7 @@ export class App extends React.Component {
           <Navbar fluid collapseOnSelect>
             <Navbar.Header>
               <Navbar.Brand>
-                <a href="#brand">React-Bootstrap</a>
+                <a href="#brand">Bookem!</a>
               </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
