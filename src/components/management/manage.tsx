@@ -16,16 +16,10 @@ type ManageProps = RouteComponentProps<{}>;
 
 class Manage extends React.Component<ManageProps> {
 
-  private pathUrl: string;
-
-  constructor(props: ManageProps) {
-    super(props);
-
-    this.pathUrl = props.match.url;
-    console.log(props);
-  }
-
   render() {
+
+    const matchUrl = this.props.match.url;
+
     return (
       <div>
         <h2 className="text-center">Manage</h2>
@@ -36,7 +30,7 @@ class Manage extends React.Component<ManageProps> {
           <Navbar.Collapse>
             <Nav justified bsStyle="tabs">
               {routeComponents.map((wrap) => // add appropriate linkContainers 
-                <LinkContainer to={`${this.pathUrl}/${wrap.routePath}`}>
+                <LinkContainer to={`${matchUrl}/${wrap.routePath}`}>
                   <NavItem>{wrap.routeLabel}</NavItem>
                 </LinkContainer >
               )}
@@ -45,10 +39,10 @@ class Manage extends React.Component<ManageProps> {
         </Navbar>
         <Switch>
           {routeComponents.map((wrap) => // add appropriate routes 
-            <Route path={`${this.pathUrl}/${wrap.routePath}`} component={wrap.component} />
+            <Route path={`${matchUrl}/${wrap.routePath}`} component={wrap.component} />
           )}
           { // default to the first route in the path when no match
-            <Route exact path="*" render={() => <Redirect to={`${this.pathUrl}/${routeComponents[0].routePath}`} />} />
+            <Route exact path="*" render={() => <Redirect to={`${matchUrl}/${routeComponents[0].routePath}`} />} />
           }
         </Switch>
       </div>
