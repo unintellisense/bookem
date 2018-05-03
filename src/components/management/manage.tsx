@@ -1,4 +1,3 @@
-//import './management.css'
 
 import * as React from 'react'
 import { RouteComponentWrapper } from '../index'
@@ -22,7 +21,6 @@ class Manage extends React.Component<ManageProps> {
 
     return (
       <div>
-        <h2 className="text-center">Manage</h2>
         <Navbar fluid collapseOnSelect className="manage-navbar-nav">
           <Navbar.Header>
             <Navbar.Toggle />
@@ -47,7 +45,6 @@ class Manage extends React.Component<ManageProps> {
         </Switch>
       </div>
     )
-
   }
 }
 
