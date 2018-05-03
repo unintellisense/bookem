@@ -53,5 +53,11 @@ module.exports = {
       template: 'index.html', // Name of template in ./src
       hash: true
     })
-  ]
+  ],
+
+  optimization: {
+    // TODO: need to extract this into a dev config and merge from a common config, so we 
+    // can minimize for production builds
+    minimize: false
+  }
 }
