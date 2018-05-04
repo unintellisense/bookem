@@ -42,7 +42,6 @@ class AddBooks extends React.Component<{}, { isbnValue: string }> {
             value: {this.state.isbnValue}
           </Col>
         </Row>
-        AddBooks
       </Grid>
     )
   }
