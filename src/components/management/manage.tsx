@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { RouteComponentWrapper } from '../index'
 import AddBooks from './addBooks'
@@ -15,13 +14,21 @@ type ManageProps = RouteComponentProps<{}>;
 
 class Manage extends React.Component<ManageProps> {
 
+  // Get the printable name for the current route
+  private getSubRoute() {
+    var strippedPath = this.props.history.location.pathname.replace(`/${wrapper.routePath}/`, '');
+    var matchingComps = routeComponents.filter(comp => comp.routePath === strippedPath);
+    if (matchingComps.length > 0) return matchingComps[0].routeLabel;
+  }
+
   render() {
 
     const matchUrl = this.props.match.url;
 
     return (
       <div>
-        <Navbar fluid collapseOnSelect className="manage-navbar-nav">
+        <Navbar fluid collapseOnSelect>
+          <div>{this.getSubRoute()}</div>
           <Navbar.Header>
             <Navbar.Toggle />
           </Navbar.Header>

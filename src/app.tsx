@@ -25,7 +25,7 @@ export class App extends React.Component {
               <Navbar.Toggle />
             </Navbar.Header>
             <Navbar.Collapse>
-              <Nav pullRight>
+              <Nav>
                 {routeComponents.map((wrap) => // add appropriate linkContainers 
                   <LinkContainer to={`/${wrap.routePath}`}>
                     <NavItem>{wrap.routeLabel}</NavItem>
