@@ -26,21 +26,15 @@ class Manage extends React.Component<ManageProps> {
     const matchUrl = this.props.match.url;
 
     return (
-      <div>
+      <div>     
         <Navbar fluid collapseOnSelect>
-          <div>{this.getSubRoute()}</div>
-          <Navbar.Header>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav justified bsStyle="tabs">
-              {routeComponents.map((wrap) => // add appropriate linkContainers 
-                <LinkContainer to={`${matchUrl}/${wrap.routePath}`}>
-                  <NavItem>{wrap.routeLabel}</NavItem>
-                </LinkContainer >
-              )}
-            </Nav>
-          </Navbar.Collapse>
+          <Nav>
+            {routeComponents.map((wrap) => // add appropriate linkContainers 
+              <LinkContainer to={`${matchUrl}/${wrap.routePath}`}>
+                <NavItem>{wrap.routeLabel}</NavItem>
+              </LinkContainer >
+            )}
+          </Nav>
         </Navbar>
         <Switch>
           {routeComponents.map((wrap) => // add appropriate routes 

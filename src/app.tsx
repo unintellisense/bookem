@@ -17,7 +17,7 @@ export class App extends React.Component {
     return (
       <BrowserRouter>
         <div>
-          <Navbar fluid collapseOnSelect>
+          <Navbar fluid collapseOnSelect className="main-nav">
             <Navbar.Header>
               <Navbar.Brand>
                 <a href="#brand">Bookem!</a>
@@ -43,7 +43,7 @@ export class App extends React.Component {
             }
           </Switch>
         </div>
-      </BrowserRouter>
+      </BrowserRouter >
     )
   }
 }
