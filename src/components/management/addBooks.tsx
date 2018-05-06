@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { RouteComponentWrapper } from '../index'
-import { Grid, Row, Col, FormGroup, ControlLabel, FormControl, FormControlProps, HelpBlock } from 'react-bootstrap'
+import { Button, Grid, Row, Col, FormGroup, ControlLabel, FormControl, FormControlProps, HelpBlock } from 'react-bootstrap'
 class AddBooks extends React.Component<{}, { isbnValue: string }> {
 
   constructor(props: {}) {
@@ -27,16 +27,21 @@ class AddBooks extends React.Component<{}, { isbnValue: string }> {
   render() {
     return (
       <Grid>
-        <Row>
+        <Row className="display-flex">
+          <Col md={12} xs={12}>
+            <ControlLabel>Isbn</ControlLabel>
+          </Col>
+        </Row>
+        <Row className="display-flex">
           <Col md={9} xs={9}>
             <FormGroup controlId="formBasicText" validationState={this.validateIsbnValue()}>
-              <ControlLabel>Isbn</ControlLabel>
               <FormControl type="text" value={this.state.isbnValue} placeholder="Enter isbn" onChange={this.handleIsbnUpdate} />
               {/* commented out till I know if I need it <FormControl.Feedback /> */}
               <HelpBlock>Enter a 10 digit or 13 digit isbn.</HelpBlock>
             </FormGroup>
           </Col>
           <Col md={3} xs={3}>
+            <Button className="align-middle">Search</Button>
           </Col>
           <Col md={12} xs={12}>
             value: {this.state.isbnValue}

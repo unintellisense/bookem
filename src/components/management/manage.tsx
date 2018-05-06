@@ -26,9 +26,9 @@ class Manage extends React.Component<ManageProps> {
     const matchUrl = this.props.match.url;
 
     return (
-      <div>     
-        <Navbar fluid collapseOnSelect>
-          <Nav>
+      <div>
+        <Navbar inverse fluid collapseOnSelect>
+          <Nav pullRight>
             {routeComponents.map((wrap) => // add appropriate linkContainers 
               <LinkContainer to={`${matchUrl}/${wrap.routePath}`}>
                 <NavItem>{wrap.routeLabel}</NavItem>
