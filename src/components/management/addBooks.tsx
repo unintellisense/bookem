@@ -7,13 +7,14 @@ const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 type AddBooksProps = {
   isbn: string
   title: string
+  description: string
 }
 
 class AddBooks extends React.Component<{}, AddBooksProps> {
 
   constructor(props: {}) {
     super(props);
-    this.state = { isbn: '', title: '' };
+    this.state = { isbn: '', title: '', description: '' };
   }
 
   private handleIsbnSearchClick = (e: React.FormEvent<HTMLInputElement>) => {
@@ -46,6 +47,10 @@ class AddBooks extends React.Component<{}, AddBooksProps> {
         <FormGroup>
           <ControlLabel>Title</ControlLabel>
           <FormControl type="text" value={this.state.title} placeholder="Enter title" onChange={this.handleChangeFor('title')} />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Description</ControlLabel>
+          <FormControl componentClass="textarea" value={this.state.description} placeholder="Enter Description" onChange={this.handleChangeFor('description')} />
         </FormGroup>
       </Form >
     )
