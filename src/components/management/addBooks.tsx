@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { RouteComponentWrapper } from '../index'
-import { Button, Grid, Row, Col, FormGroup, ControlLabel, FormControl, FormControlProps, HelpBlock } from 'react-bootstrap'
+import { Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps } from 'react-bootstrap'
+
+const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
 type AddBooksProps = {
   isbn: string
@@ -31,35 +33,21 @@ class AddBooks extends React.Component<{}, AddBooksProps> {
 
   render() {
     return (
-      <Grid>
-        <Row className="display-flex">
-          <Col md={12} xs={12}>
-            <ControlLabel>Isbn</ControlLabel>
-          </Col>
-        </Row>
-        <Row className="display-flex">
-          <Col md={9} xs={9}>
-            <FormGroup controlId="isbnInput" validationState={this.validateIsbnValue()}>
-              <FormControl type="text" value={this.state.isbn} placeholder="Enter isbn" onChange={this.handleChangeFor('isbn')} />
-              {/* commented out till I know if I need it <FormControl.Feedback /> */}
-              <HelpBlock>Enter a 10 digit or 13 digit isbn.</HelpBlock>
-            </FormGroup>
-          </Col>
-          <Col md={3} xs={3}>
-            <Button className="align-middle">Search</Button>
-          </Col>
-        </Row>
-        <Row className="display-flex">
-          <Col md={1} xs={1}>
-            <ControlLabel>Title</ControlLabel>
-          </Col>
-          <Col md={11} xs={11}>
-            <FormGroup controlId="titleInput">
-              <FormControl type="text" value={this.state.title} placeholder="Enter title" onChange={this.handleChangeFor('title')} />
-            </FormGroup>
-          </Col>
-        </Row>
-      </Grid>
+      <Form horizontal className="container-fluid">
+        <FormGroup controlId="isbnInput" validationState={this.validateIsbnValue()}>
+          <InputGroup>
+            <InputGroup.Addon>Isbn</InputGroup.Addon>
+            <FormControl type="text" value={this.state.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeFor('isbn')} />
+            <InputGroup.Button>
+              <Button>Search</Button>
+            </InputGroup.Button>
+          </InputGroup>
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Title</ControlLabel>
+          <FormControl type="text" value={this.state.title} placeholder="Enter title" onChange={this.handleChangeFor('title')} />
+        </FormGroup>
+      </Form >
     )
   }
 }
