@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var basePath = __dirname;
-
+console.log("path is " + basePath);
 module.exports = {
   context: path.join(basePath, "src"),
   resolve: {
