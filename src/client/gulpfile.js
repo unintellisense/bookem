@@ -1,32 +1,36 @@
 const gulp = require('gulp');
-const webpack = require('webpack-stream');
+const wpStream = require('webpack-stream');
 const WebpackDevServer = require("webpack-dev-server");
 const webpackConfig = require("./webpack.config.js");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
 const rimraf = require('rimraf');
-const clientBuildPath = path.resolve('../', 'client_build/');
+
+const dependencyNames = Object.keys(require('../../package.json').dependencies);
+
+const clientBuildPath = path.resolve('../', '../', 'dist', 'client');
 
 /* Base config without watches / devserver / etc */
 const baseWebPackConfig = {
-  context: path.join(__dirname, "src"),
+  context: path.join(__dirname),
   resolve: {
     extensions: ['.js', '.ts', '.tsx']
   },
-  entry: [
-    './main.tsx'
-  ],
+  entry: {
+    app: './main.tsx',
+    vendors: dependencyNames
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: ' [name].bundle.js'
   },
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: 'ts-loader'
+        loader: 'awesome-typescript-loader'
       },
       {
         test: /\.css$/,
@@ -45,7 +49,14 @@ const baseWebPackConfig = {
       template: 'index.html', // Name of template in ./src
       hash: true
     })
-  ]
+  ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: { test: /[\\/]node_modules[\\/]/, name: "vendors", chunks: "all" }
+      }
+    }
+  }
 }
 
 /* base webpack build function which can be augmeneted with additional configs */
@@ -55,8 +66,8 @@ const baseWebPackBuild = (additionalConfig) => {
   if (additionalConfig)
     Object.assign(config, additionalConfig);
 
-  return gulp.src('src/main.tsx')
-    .pipe(webpack(
+  return gulp.src('main.tsx')
+    .pipe(wpStream(
       config
       , require('webpack'/* https://github.com/shama/webpack-stream/issues/180 */)))
     .pipe(gulp.dest(clientBuildPath));

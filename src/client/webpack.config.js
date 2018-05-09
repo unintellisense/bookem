@@ -3,9 +3,9 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var basePath = __dirname;
-console.log("path is " + basePath);
+
 module.exports = {
-  context: path.join(basePath, "src"),
+  context: path.join(basePath),
   resolve: {
     extensions: ['.js', '.ts', '.tsx']
   },
@@ -14,14 +14,14 @@ module.exports = {
     './main.tsx'
   ],
   output: {
-    path: path.join(basePath, 'dist'),
+    path: path.join(basePath, '../', '../', 'dist', 'client'),
     filename: 'bundle.js'
   },
 
   devtool: 'source-map',
 
   devServer: {
-    contentBase: './dist', //Content base
+    contentBase: '../../dist/client', //Content base
     inline: true, //Enable watch and live reload
     host: '0.0.0.0', // available externally!
     port: 8080,
