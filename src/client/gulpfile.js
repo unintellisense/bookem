@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const wpStream = require('webpack-stream');
 const WebpackDevServer = require("webpack-dev-server");
-const webpackConfig = require("./webpack.config.js");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
@@ -9,7 +8,7 @@ const rimraf = require('rimraf');
 
 const dependencyNames = Object.keys(require('../../package.json').dependencies);
 
-const clientBuildPath = path.resolve('../', '../', 'dist', 'client');
+const clientBuildPath = path.resolve(__dirname, '../', '../', 'dist', 'client');
 
 /* Base config without watches / devserver / etc */
 const baseWebPackConfig = {
@@ -18,11 +17,11 @@ const baseWebPackConfig = {
     extensions: ['.js', '.ts', '.tsx']
   },
   entry: {
-    app: './main.tsx',
+    app: path.resolve(__dirname, './main.tsx'),
     vendors: dependencyNames
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: clientBuildPath,
     filename: ' [name].bundle.js'
   },
   module: {
@@ -30,7 +29,7 @@ const baseWebPackConfig = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: 'awesome-typescript-loader'
+        loader: 'ts-loader'
       },
       {
         test: /\.css$/,
@@ -66,7 +65,7 @@ const baseWebPackBuild = (additionalConfig) => {
   if (additionalConfig)
     Object.assign(config, additionalConfig);
 
-  return gulp.src('main.tsx')
+  return gulp.src(path.resolve(__dirname, './main.tsx'))
     .pipe(wpStream(
       config
       , require('webpack'/* https://github.com/shama/webpack-stream/issues/180 */)))
