@@ -17,7 +17,7 @@ const baseWebPackConfig = {
     extensions: ['.js', '.ts', '.tsx']
   },
   entry: {
-    app: path.resolve(__dirname, './main.tsx'),
+    app: path.resolve(__dirname, './client.tsx'),
     vendors: dependencyNames
   },
   output: {
@@ -65,7 +65,7 @@ const baseWebPackBuild = (additionalConfig) => {
   if (additionalConfig)
     Object.assign(config, additionalConfig);
 
-  return gulp.src(path.resolve(__dirname, './main.tsx'))
+  return gulp.src(path.resolve(__dirname, './client.tsx'))
     .pipe(wpStream(
       config
       , require('webpack'/* https://github.com/shama/webpack-stream/issues/180 */)))
