@@ -6,7 +6,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const rimraf = require('rimraf');
 
-const dependencyNames = Object.keys(require('../../package.json').dependencies);
+// list client packages here. cannot infer from package.json as node dependencies will hose it
+const vendorNames = [
+  "bootstrap",
+  "react",
+  "react-bootstrap",
+  "react-dom",
+  "react-redux",
+  "react-router-bootstrap",
+  "react-router-dom",
+  "redux",
+  "redux-thunk"
+];
 
 const clientBuildPath = path.resolve(__dirname, '../', '../', 'dist', 'client');
 
@@ -18,7 +29,7 @@ const baseWebPackConfig = {
   },
   entry: {
     app: path.resolve(__dirname, './client.tsx'),
-    vendors: dependencyNames
+    vendors: vendorNames
   },
   output: {
     path: clientBuildPath,
