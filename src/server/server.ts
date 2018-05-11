@@ -2,7 +2,7 @@ import * as express from 'express';
 //import { apiRouter } from './routes/api-router';
 import { staticsRouter } from './routes/static/static-router';
 import { staticsDevRouter } from './routes/static/static-dev-router';
-import * as config from '../config';
+import * as config from './config';
 
 const app = express();
 
