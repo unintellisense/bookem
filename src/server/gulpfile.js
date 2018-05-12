@@ -15,17 +15,17 @@ gulp.task('server-clean', done => {
   rimraf(`${serverBuildPath}/**/*`, (err) => done(err));
 })
 
-gulp.task('server-build-maps', () => {
+gulp.task('server-build-dev-only', () => {
   return buildSource(true);
 })
 
-gulp.task('server-build-nomaps', () => {
+gulp.task('server-build-prod-only', () => {
   return buildSource(false);
 })
 
-gulp.task('server-build-dev', gulp.series('server-clean', 'server-build-maps'));
+gulp.task('server-build-dev', gulp.series('server-clean', 'server-build-dev-only'));
 
-gulp.task('server-build-production', gulp.series('server-clean', 'server-build-nomaps'));
+gulp.task('server-build-production', gulp.series('server-clean', 'server-build-prod-only'));
 
 
 
@@ -49,10 +49,8 @@ function buildSource(devMode) {
     }));
   }
 
-  out.pipe(envify({
-    BUILD_FLAG: devMode ? 'development' : 'production',
-    BUILD_MODE: 'server'
-  }));
+  out.pipe(envify({ BUILD_FLAG: devMode ? 'development' : 'production' }));
+  
   if (!devMode) {
     out = out.pipe(uglify()).on('error', err => {
       console.log('Failed to uglify...')

@@ -33,7 +33,7 @@ const baseWebPackConfig = {
   },
   output: {
     path: clientBuildPath,
-    filename: ' [name].bundle.js'
+    filename: ' [name].js'
   },
   module: {
     rules: [
@@ -57,7 +57,7 @@ const baseWebPackConfig = {
     new HtmlWebpackPlugin({
       filename: 'index.html', // Name of file in ./dist/
       template: 'index.html', // Name of template in ./src
-      hash: true
+      //hash: true // seems to bust express.static for some reason?
     })
   ],
   optimization: {
