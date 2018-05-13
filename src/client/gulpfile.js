@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const wpStream = require('webpack-stream');
+const webpack = require('webpack');
 const WebpackDevServer = require("webpack-dev-server");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -33,7 +34,7 @@ const baseWebPackConfig = {
   },
   output: {
     path: clientBuildPath,
-    filename: ' [name].js'
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -94,6 +95,25 @@ gulp.task('client-build-only', () => {
 gulp.task('client-watch-only', () => {
   return baseWebPackBuild({ watch: true });
 });
+
+gulp.task('client-build-watch', () => {
+
+  var config = Object.assign({}, baseWebPackConfig);
+  config.devtool = "eval";
+
+  new WebpackDevServer(webpack(config), {
+
+    //publicPath: clientBuildPath,
+    historyApiFallback: {
+      index: 'index.html'
+    },
+    stats: {
+      colors: true
+    }
+  }).listen(8080, 'localhost', err => {
+    if (err) throw new Error(`failed to start webpack-dev-server: ${err}`);
+  });
+})
 
 gulp.task('client-build', gulp.series('client-clean', 'client-build-only'));
 
