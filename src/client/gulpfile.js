@@ -84,7 +84,10 @@ gulp.task('client-webpack-production', () => {
     .pipe(gulp.dest(clientBuildPath));
 });
 
-gulp.task('client-webpack-development', () => {
+gulp.task('client-production', gulp.series('client-clean', 'client-webpack-production'));
+
+/* no need to clean as its all served from memory */
+gulp.task('client-development', () => {
 
   var config = Object.assign({}, baseWebPackConfig);
   config.devtool = "eval";
@@ -102,7 +105,3 @@ gulp.task('client-webpack-development', () => {
     if (err) throw new Error(`failed to start webpack-dev-server: ${err}`);
   });
 })
-
-gulp.task('client-production', gulp.series('client-clean', 'client-webpack-production'));
-
-gulp.task('client-development', gulp.series('client-clean', 'client-webpack-development'));

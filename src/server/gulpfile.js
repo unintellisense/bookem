@@ -11,24 +11,28 @@ const project = ts.createProject(path.join(__dirname, 'tsconfig.json'));
 
 const serverBuildPath = path.resolve(__dirname, '../', '../', 'dist', 'server');
 
-gulp.task('server-clean', done => {
-  rimraf(`${serverBuildPath}/**/*`, (err) => done(err));
+gulp.task('server-clean', done => rimraf(`${serverBuildPath}/**/*`, (err) => done(err)));
+
+gulp.task('server-build-development', () => buildSource(true));
+
+gulp.task('server-build-production', () => buildSource(false));
+
+gulp.task('server-production', gulp.series('server-clean', 'server-build-production'));
+
+gulp.task('server-development-clean-and-build', gulp.series('server-clean', 'server-build-development'));
+
+gulp.task('server-development-nodemon', done => {
+  nodemon({
+    script: path.join(serverBuildPath, 'server.js'),
+    watch: [__dirname],
+    ext: 'ts json',
+    tasks: ['server-development-clean-and-build'],
+    env: { 'NODE_ENV': process.env.NODE_ENV || 'development' }
+  });
+  done();
 })
 
-gulp.task('server-build-dev-only', () => {
-  return buildSource(true);
-})
-
-gulp.task('server-build-prod-only', () => {
-  return buildSource(false);
-})
-
-gulp.task('server-build-dev', gulp.series('server-clean', 'server-build-dev-only'));
-
-gulp.task('server-build-production', gulp.series('server-clean', 'server-build-prod-only'));
-
-
-
+gulp.task('server-development', gulp.series('server-development-clean-and-build', 'server-development-nodemon'));
 
 function buildSource(devMode) {
   // Build source.
@@ -50,7 +54,7 @@ function buildSource(devMode) {
   }
 
   out.pipe(envify({ BUILD_FLAG: devMode ? 'development' : 'production' }));
-  
+
   if (!devMode) {
     out = out.pipe(uglify()).on('error', err => {
       console.log('Failed to uglify...')
