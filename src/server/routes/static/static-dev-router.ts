@@ -4,17 +4,17 @@ import { Router } from 'express';
 export function staticsDevRouter() {
   const router = Router();
 
-// All the assets are hosted by Webpack on localhost:8080 (Webpack-dev-server)
-  router.use('/public', proxy(
+  // All the assets are hosted by Webpack on localhost:8080 (Webpack-dev-server)
+  router.use('/', proxy(
     {
       target: 'http://localhost:8080/'
     }));
 
-// Any route should render the web app html (hosted by by Webpack-dev-server)
+  // Any route should render the web app html (hosted by by Webpack-dev-server)
   router.use('**', proxy(
     {
       target: 'http://localhost:8080/',
-      pathRewrite: path => '/public/index.html',
+      pathRewrite: path => '/index.html',
     }));
 
   return router;

@@ -70,33 +70,21 @@ const baseWebPackConfig = {
   }
 }
 
-/* base webpack build function which can be augmeneted with additional configs */
-const baseWebPackBuild = (additionalConfig) => {
-  var config = Object.assign({}, baseWebPackConfig);
+gulp.task('client-clean', done => {
+  rimraf(`${clientBuildPath}/**/*`, (err) => done(err));
+})
 
-  if (additionalConfig)
-    Object.assign(config, additionalConfig);
+gulp.task('client-webpack-production', () => {
+  var config = Object.assign({}, baseWebPackConfig);
 
   return gulp.src(path.resolve(__dirname, './client.tsx'))
     .pipe(wpStream(
       config
       , require('webpack'/* https://github.com/shama/webpack-stream/issues/180 */)))
     .pipe(gulp.dest(clientBuildPath));
-}
-
-gulp.task('client-clean', done => {
-  rimraf(`${clientBuildPath}/**/*`, (err) => done(err));
-})
-
-gulp.task('client-build-only', () => {
-  return baseWebPackBuild();
 });
 
-gulp.task('client-watch-only', () => {
-  return baseWebPackBuild({ watch: true });
-});
-
-gulp.task('client-build-watch', () => {
+gulp.task('client-webpack-development', () => {
 
   var config = Object.assign({}, baseWebPackConfig);
   config.devtool = "eval";
@@ -115,6 +103,6 @@ gulp.task('client-build-watch', () => {
   });
 })
 
-gulp.task('client-build', gulp.series('client-clean', 'client-build-only'));
+gulp.task('client-production', gulp.series('client-clean', 'client-webpack-production'));
 
-gulp.task('client-watch', gulp.series('client-clean', 'client-watch-only'));
+gulp.task('client-development', gulp.series('client-clean', 'client-webpack-development'));
