@@ -1,18 +1,16 @@
 import * as express from 'express';
-//import { apiRouter } from './routes/api-router';
+import { apiRouter } from './routes/api/api';
 import { staticsRouter } from './routes/static/static-router';
 import { staticsDevRouter } from './routes/static/static-dev-router';
 import * as config from './config';
 
 const app = express();
 
-// app.use(apiRouter());
+app.use('/api', apiRouter);
 
 let staticRouter: express.Router = staticsRouter();
 
-if (process.env.BUILD_FLAG === "development") {
-  staticRouter = staticsDevRouter()
-}
+if (process.env.BUILD_FLAG === "development") { staticRouter = staticsDevRouter() }
 
 app.use(staticRouter);
 

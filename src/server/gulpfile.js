@@ -23,6 +23,9 @@ gulp.task('server-development-clean-and-build', gulp.series('server-clean', 'ser
 
 gulp.task('server-development-nodemon', done => {
   nodemon({
+    execMap: {
+      js: 'node --inspect'
+    },
     script: path.join(serverBuildPath, 'server.js'),
     watch: [__dirname],
     ext: 'ts json',
@@ -43,14 +46,11 @@ function buildSource(devMode) {
 
   out = out.pipe(project());
   if (devMode) {
-    out = out.js.pipe(sourcemaps.write(null, {
-      includeContent: false,
-      mapSources: (path, file) => {
-        // gulp-sourcemaps is stupid, I think because I am including files from two distinct paths?
-        let slashCnt = file.relative.split('\\').length - 1;
-        return '../'.repeat(slashCnt) + path.substring(6);
-      }
-    }));
+    out = out.js.pipe(sourcemaps.mapSources((path, file) => {
+      let slashCnt = file.sourceMap.file.split('/').length - 1;
+      return '../'.repeat(slashCnt) + path;
+    }))
+      .pipe(sourcemaps.write('./'));
   }
 
   out.pipe(envify({ BUILD_FLAG: devMode ? 'development' : 'production' }));
