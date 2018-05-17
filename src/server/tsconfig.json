@@ -6,11 +6,15 @@
     "importHelpers": true,
     "allowJs": true,
     "outDir": "../../dist/server",
-    "lib": ["es6"],
+    "lib": [
+      "es6"
+    ],
     "moduleResolution": "node",
-    "types": ["node"]
-  },
-  "files": [
-    "./server.ts"
-  ]
+    "types": [
+      "node",
+      "reflect-metadata"
+    ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
 }
