@@ -40,8 +40,11 @@
     "webpack-stream": "^4.0.3"
   },
   "dependencies": {
+    "@tsed/ajv": "^4.18.0",
     "@tsed/common": "^4.18.0",
     "@tsed/core": "^4.18.0",
+    "ajv": "^6.5.0",
+    "body-parser": "^1.18.3",
     "bootstrap": "^3.3.7",
     "express": "^4.16.3",
     "knex": "^0.14.6",

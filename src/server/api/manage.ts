@@ -1,10 +1,11 @@
 import {
   Controller, Get, Render, Post,
   Authenticated, Required, BodyParams,
-  Delete
+  Delete, Request
 } from "@tsed/common";
 import * as Express from "express";
 import Book from '../db/book'
+import IBook from '../model/ibook'
 
 @Controller("/manage")
 export class ManageController {
@@ -15,8 +16,9 @@ export class ManageController {
   }
 
   @Post("/book")
-  async postBook(req: Express.Request, res: Express.Response) {
-
+  async postBook(@Required() @BodyParams("book") book: IBook) {
+    console.log(`title: ${book.title}`);
+    console.log(`isFiction: ${book.isFiction}`)
     // let newBook: Book = {
     //   title: req.query.title,
     //   isbn: req.query.isbn
@@ -26,8 +28,8 @@ export class ManageController {
     //   .insert({
     //     isbn: ''
     //   })
+    return '!';
 
-    res.send('POST BOOK');
   }
 
 
