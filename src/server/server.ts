@@ -17,9 +17,6 @@ const clientDir = path.resolve(__dirname, '..', 'client');
   rootDir,
   //acceptMimes: ["application/json"],
   port: process.env.PORT || 3000,
-  serveStatic: {
-    "/": clientDir
-  },
   mount: {
     "/api": `${rootDir}/controllers/**/**.js`
   },
@@ -28,17 +25,17 @@ const clientDir = path.resolve(__dirname, '..', 'client');
 
 class Server extends ServerLoader {
 
-  // $onMountingMiddlewares(): void | Promise<any> {
-  //   /** static route setup */
-  //   let staticRouter: express.Router;
-  //   if (process.env.BUILD_FLAG === "development") { // production builds will reduce this via gulp-uglify
-  //     staticRouter = staticsDevRouter()
-  //   } else {
-  //     staticRouter = staticsRouter();
-  //   }
-  //   this.use("/", staticRouter);
+  $afterRoutesInit(): void | Promise<any> {
+    /** static route setup */
+    let staticRouter: express.Router;
+    if (process.env.BUILD_FLAG === "development") { // production builds will reduce this via gulp-uglify
+      staticRouter = staticsDevRouter()
+    } else {
+      staticRouter = staticsRouter();
+    }
+    this.use("/", staticRouter);
 
-  // }
+  }
 
   public $onReady() {
     console.log('Server started...');
