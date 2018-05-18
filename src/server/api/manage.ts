@@ -5,7 +5,7 @@ import {
 } from "@tsed/common";
 import * as Express from "express";
 import Book from '../db/book'
-import IBook from '../model/ibook'
+//import DtoBook from '../dto/dtoBook'
 
 @Controller("/manage")
 export class ManageController {
@@ -16,7 +16,7 @@ export class ManageController {
   }
 
   @Post("/book")
-  async postBook(@Required() @BodyParams("book") book: IBook) {
+  async postBook(@Required() @BodyParams("book") book: Book) {
     console.log(`title: ${book.title}`);
     console.log(`isFiction: ${book.isFiction}`)
     // let newBook: Book = {

@@ -1,24 +1,36 @@
 import { Model, JsonSchema } from 'objection';
-import IBook from '../model/ibook'
-export default class Book extends Model implements IBook {
+import { Required } from "@tsed/common";
+export default class Book extends Model {
 
+  @Required()
   title: string
-  isFiction: boolean;
+  /** fiction or nonFiction */
+  @Required()
+  isFiction: boolean
+  /** ISBN */
   isbn?: string
+  /** Author */
   authors?: string[]
+  /**description of the book */
   description?: string
-  location?: string;
-  libraryIdentifier?: string;
-  bookNumber?: number;
-  yearPublished?: number;
-  keyWords?: string[];
-  category?: string;
+  /** box #, shelf, etc */
+  location?: string
+  /** local identifier */
+  libraryIdentifier?: string
+  /** order of book in series */
+  bookNumber?: number
+  /** year the book was published */
+  yearPublished?: number
+  /** key word identifiers for this book */
+  keyWords?: string[] | null
+  /**category of this book */
+  category?: string
 
   static get tableName() { return 'book'; }
 
   static jsonSchema: JsonSchema = {
     type: 'object',
-    required: ['title'],
+    required: ['title', 'isFiction'],
     properties: {
       title: { type: 'string' },
       isbn: { type: 'string' },
