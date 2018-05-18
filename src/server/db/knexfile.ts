@@ -1,11 +1,17 @@
+import * as path from 'path';
+
 // Update with your config settings.
-export default {
+module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './dev.sqlite3'
+      filename: path.resolve(__dirname, './dev.sqlite3')
     },
-    useNullAsDefault: true
+    migrations: {
+      directory: path.resolve(__dirname, 'migrations')
+    },
+    useNullAsDefault: true,
+
   },
 
   staging: {},

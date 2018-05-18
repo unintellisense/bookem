@@ -17,18 +17,9 @@ export class ManageController {
 
   @Post("/book")
   async postBook(@Required() @BodyParams("book") book: Book) {
-    console.log(`title: ${book.title}`);
-    console.log(`isFiction: ${book.isFiction}`)
-    // let newBook: Book = {
-    //   title: req.query.title,
-    //   isbn: req.query.isbn
 
-    // }
-    // let book = Book.query()
-    //   .insert({
-    //     isbn: ''
-    //   })
-    return '!';
+    let insertedBook = await Book.query().insert(book);
+    return insertedBook;
 
   }
 
