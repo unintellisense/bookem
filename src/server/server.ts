@@ -1,6 +1,10 @@
 import { ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware } from "@tsed/common";
-import "@tsed/ajv"; // import validations
-import "@tsed/swagger"; // import swagger Ts.ED module
+if (process.env.BUILD_FLAG === "development") {
+  // import swagger Ts.ED module
+  require("@tsed/swagger");
+}
+// import validations. TODO check if this safe to move into development
+require("@tsed/ajv");
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as knex from 'knex';
