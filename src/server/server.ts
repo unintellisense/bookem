@@ -1,5 +1,6 @@
 import { ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware } from "@tsed/common";
-import "@tsed/ajv";
+import "@tsed/ajv"; // import validations
+import "@tsed/swagger"; // import swagger Ts.ED module
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as knex from 'knex';
@@ -22,6 +23,11 @@ const portNumber = process.env.PORT || 3000;
   mount: {
     "/api": `${rootDir}/api/**/**.js`
   },
+  swagger: [
+    {
+      path: "/api-docs"
+    }
+  ],
   exclude: ['**/*.spec.ts', '**/*.spec.js', '**/*.js.map']
 })
 
