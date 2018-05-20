@@ -32,7 +32,11 @@ const portNumber = process.env.PORT || 3000;
       path: "/api-docs"
     }
   ],
-  exclude: ['**/*.spec.ts', '**/*.spec.js', '**/*.js.map']
+  exclude: ['**/*.spec.ts', '**/*.spec.js', '**/*.js.map'],
+  componentsScan: [
+    `${rootDir}/converters/**/**.js`
+  ],
+  validationModelStrict: true
 })
 
 class Server extends ServerLoader {
