@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { RouteComponentWrapper } from '../index'
-import { Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps } from 'react-bootstrap'
+import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps } from 'react-bootstrap'
 
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
 type AddBooksProps = {
+  dialogMessage: string
   isbn: string
   title: string
   description: string
@@ -14,7 +15,7 @@ class AddBooks extends React.Component<{}, AddBooksProps> {
 
   constructor(props: {}) {
     super(props);
-    this.state = { isbn: '', title: '', description: '' };
+    this.state = { isbn: '', title: '', description: '', dialogMessage: '' };
   }
 
   private handleIsbnSearchClick = (e: React.FormEvent<HTMLInputElement>) => {
@@ -35,6 +36,9 @@ class AddBooks extends React.Component<{}, AddBooksProps> {
   render() {
     return (
       <Form horizontal className="container-fluid">
+        <Alert className={this.state.dialogMessage ? '' : 'invisible'} >
+          {this.state.dialogMessage ? this.state.dialogMessage : '&#65279'} /**zero width non breaking space to preserve height */
+        </Alert>
         <FormGroup controlId="isbnInput" validationState={this.validateIsbnValue()}>
           <InputGroup>
             <InputGroup.Addon>Isbn</InputGroup.Addon>
