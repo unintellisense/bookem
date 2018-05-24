@@ -56,6 +56,11 @@ class AddBooks extends React.Component<{}, AddBooksProps> {
           <ControlLabel>Description</ControlLabel>
           <FormControl componentClass="textarea" value={this.state.description} placeholder="Enter Description" onChange={this.handleChangeFor('description')} />
         </FormGroup>
+        <FormGroup>
+          <div className="well">
+            <Button block>Submit</Button>
+          </div>
+        </FormGroup>
       </Form >
     )
   }
