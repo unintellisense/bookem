@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import { userReducer, UserState } from './user';
-
+import { ManageState, manageReducer } from './manage'
 export interface State {
-  userReducer: UserState;
+  user: UserState
+  manage: ManageState
 };
 
 export const reducers = combineReducers<State>({
-  userReducer
+  user: userReducer,
+  manage: manageReducer
 });
