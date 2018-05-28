@@ -1,6 +1,8 @@
 import * as React from 'react'
-import { RouteComponentWrapper } from '../index'
+import { connect } from 'react-redux';
 import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps } from 'react-bootstrap'
+import { RouteComponentWrapper } from '../index'
+import { AppState } from '../../reducers'
 
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
@@ -66,8 +68,10 @@ class AddBooks extends React.Component<{}, AddBooksProps> {
   }
 }
 
+const connectedAddBooks = connect()(AddBooks);
+
 const wrapper: RouteComponentWrapper = {
-  component: AddBooks,
+  component: connectedAddBooks,
   routeLabel: 'Add Books',
   routePath: 'addBooks'
 }
