@@ -1,0 +1,16 @@
+import { Action, Reducer } from 'redux';
+import { IBook } from '../../../shared/dto/ibook';
+export interface AddBookState {
+  book: Partial<IBook>
+}
+
+const defaultAddBookState: () => AddBookState = () => ({ book: {} });
+
+export const addBookReducer: Reducer<AddBookState, Action<string>> = (state = defaultAddBookState(), action) => {
+
+  switch (action.type) { 
+    
+  }
+  // Later on we will have a switch statement to replace state on changes. might want to change action generic type to a enum of actions
+  return state;
+}
