@@ -10,8 +10,6 @@ import { RouteComponentProps } from 'react-router'
 const routeComponents: RouteComponentWrapper[] = [ViewBooks, AddBooks];
 type ManageProps = RouteComponentProps<{}>;
 
-
-
 class Manage extends React.Component<ManageProps> {
 
   // Get the printable name for the current route

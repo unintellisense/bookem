@@ -8,7 +8,7 @@
     ],
     "module": "commonjs",
     "declaration": false,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "jsx": "react",
     "sourceMap": true,
