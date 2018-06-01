@@ -19,7 +19,7 @@ export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaul
 
       return {
         ...state,
-        book: { title: '', isFiction: false },
+        book: { title: '', isFiction: false, description: '' },
         alertMessage: {
           alertText: `Added book ${action.payload}`,
           alertStyle: 'success'

@@ -14,7 +14,6 @@ type AddBooksProps = {
 }
 
 type AddBooksState = {
-  dialogMessage: string
   book: IBook
 }
 
@@ -24,7 +23,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   constructor(props: AddBooksProps) {
     super(props);
-    this.state = { book: props.book, dialogMessage: '' };
+    this.state = { book: props.book };
   }
 
   private handleIsbnSearchClick = (e: React.FormEvent<HTMLInputElement>) => {
@@ -52,6 +51,10 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   public componentWillUnmount() {
     this.props.saveBookFields(this.state.book);
+  }
+
+  public componentWillReceiveProps(nextProps) {
+    this.state = { book: nextProps.book };
   }
 
   render() {
