@@ -3,22 +3,37 @@ import { ActionTypeKeys, ActionType } from '../../actionTypes'
 import { IBook } from '../../../../shared/dto/ibook';
 
 export interface AddBookState {
-  book: Partial<IBook>
+  book: IBook
+  alertMessage: {
+    alertText?: string
+    alertStyle?: "success" | "warning" | "danger" | "info" | undefined
+  }
 }
 
-const defaultAddBookState: () => AddBookState = () => ({ book: {} });
-
-
+const defaultAddBookState: () => AddBookState = () => ({ book: { title: '', isFiction: false }, alertMessage: {} });
 
 export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaultAddBookState(), action) => {
 
   switch (action.type) {
     case ActionTypeKeys.addBookSuccess:
-      console.log(`success: ${action.payload}`)
-      break;
+
+      return {
+        ...state,
+        book: { title: '', isFiction: false },
+        alertMessage: {
+          alertText: `Added book ${action.payload}`,
+          alertStyle: 'success'
+        }
+      }
+
     case ActionTypeKeys.addBookFailure:
-      console.log(`error: ${action.error}`)
-      break;
+      return {
+        ...state,
+        alertMessage: {
+          alertText: `failed to add book:  ${action.error}`,
+          alertStyle: 'danger'
+        }
+      }
     case ActionTypeKeys.addBookSaveFormState:
       return { ...state, book: action.book }
   }
