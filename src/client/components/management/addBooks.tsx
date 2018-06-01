@@ -3,25 +3,28 @@ import * as Redux from 'redux';
 import { connect } from 'react-redux';
 import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps } from 'react-bootstrap'
 import { RouteComponentWrapper } from '../index'
-import { postBookAction } from '../../state/manage/addBook/action'
+import { postBookAction, saveAddBookFieldsAction } from '../../state/manage/addBook/action'
 import { IBook } from '../../../shared/dto/ibook'
-
-const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
+import { AppState } from '../../state'
 
 type AddBooksProps = {
   postBook: (book: IBook) => any
+  saveBookFields: (book: IBook) => any
+  book: IBook
 }
 
 type AddBooksState = {
-  dialogMessage?: string
+  dialogMessage: string
   book: IBook
 }
+
+const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
 class AddBooks extends React.Component<AddBooksProps, AddBooksState> {
 
   constructor(props: AddBooksProps) {
     super(props);
-    this.state = { book: { title: '', isFiction: false } }
+    this.state = { book: props.book, dialogMessage: '' };
   }
 
   private handleIsbnSearchClick = (e: React.FormEvent<HTMLInputElement>) => {
@@ -39,6 +42,10 @@ class AddBooks extends React.Component<AddBooksProps, AddBooksState> {
     if (length == 10 || length == 13) return 'success';
     if (length > 0) return 'error';
     return null;
+  }
+
+  public componentWillUnmount() {
+    this.props.saveBookFields(this.state.book);
   }
 
   render() {
@@ -74,11 +81,16 @@ class AddBooks extends React.Component<AddBooksProps, AddBooksState> {
   }
 }
 
+const mapStateToProps = (state: AppState) => ({
+  book: state.manage.addBook.book
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  postBook: (book: IBook) => dispatch(postBookAction(book))
+  postBook: (book: IBook) => dispatch(postBookAction(book)),
+  saveBookFields: (book: IBook) => dispatch(saveAddBookFieldsAction(book))
 });
 
-const connectedAddBooks = connect(null, mapDispatchToProps)(AddBooks);
+const connectedAddBooks = connect(mapStateToProps, mapDispatchToProps)(AddBooks);
 
 const wrapper: RouteComponentWrapper = {
   component: connectedAddBooks,

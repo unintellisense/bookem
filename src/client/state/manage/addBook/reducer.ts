@@ -8,6 +8,8 @@ export interface AddBookState {
 
 const defaultAddBookState: () => AddBookState = () => ({ book: {} });
 
+
+
 export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaultAddBookState(), action) => {
 
   switch (action.type) {
@@ -17,6 +19,8 @@ export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaul
     case ActionTypeKeys.addBookFailure:
       console.log(`error: ${action.error}`)
       break;
+    case ActionTypeKeys.addBookSaveFormState:
+      return { ...state, book: action.book }
   }
 
   // Later on we will have a switch statement to replace state on changes. might want to change action generic type to a enum of actions

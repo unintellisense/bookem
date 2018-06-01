@@ -4,7 +4,15 @@ import { AppState, ActionTypeKeys } from '../../index'
 import { IBook } from '../../../../shared/dto/ibook';
 import { postBook } from '../../../services/inventoryService';
 
-// Async Redux-Thunk action
+export const saveAddBookFieldsAction = (book: IBook) => {
+  return (dispatch: Dispatch) => {
+    return dispatch({
+      type: ActionTypeKeys.addBookSaveFormState,
+      book
+    })
+  }
+}
+
 export const postBookAction = (book: IBook) => {
   return async (dispatch: Dispatch): Promise<Action> => {
     try {
