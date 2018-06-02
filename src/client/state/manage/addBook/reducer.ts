@@ -34,6 +34,14 @@ export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaul
           alertStyle: 'danger'
         }
       }
+    case ActionTypeKeys.addBookClearAlert:
+      return {
+        ...state,
+        alertMessage: {
+          alertStyle: undefined,
+          alertText: undefined
+        }
+      }
     case ActionTypeKeys.addBookSaveFormState:
       return { ...state, book: action.book }
   }

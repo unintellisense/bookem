@@ -4,6 +4,8 @@ import { AppState, ActionTypeKeys } from '../../index'
 import { IBook } from '../../../../shared/dto/ibook';
 import { postBook } from '../../../services/inventoryService';
 
+const alertMessageLengthMillis = 3000;
+
 export const saveAddBookFieldsAction = (book: IBook) => {
   return (dispatch: Dispatch) => {
     return dispatch({
@@ -12,6 +14,8 @@ export const saveAddBookFieldsAction = (book: IBook) => {
     })
   }
 }
+
+let clearAddBookAlert: NodeJS.Timer; /* not really in NodeJS, but not going to solve typings now */
 
 export const postBookAction = (book: IBook) => {
   return async (dispatch: Dispatch): Promise<Action> => {
@@ -27,6 +31,11 @@ export const postBookAction = (book: IBook) => {
         type: ActionTypeKeys.addBookFailure,
         error: e.response.data
       });
+    } finally { // clear alerts after timeout, cancel any possibly pending timeout 
+      clearTimeout(clearAddBookAlert);
+      clearAddBookAlert = setTimeout(() => {
+        dispatch({ type: ActionTypeKeys.addBookClearAlert });
+      }, alertMessageLengthMillis);
     }
   };
 };
