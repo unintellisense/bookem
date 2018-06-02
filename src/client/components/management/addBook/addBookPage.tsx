@@ -59,7 +59,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   render() {
     return (
-      <Form horizontal className="container-fluid">
+      <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); this.props.postBook(this.state.book) }}>
         <AddBookAlert />
         <FormGroup controlId="isbnInput" validationState={this.validateIsbnValue()}>
           <InputGroup>
@@ -84,7 +84,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
         </FormGroup>
         <FormGroup>
           <div className="well">
-            <Button block onClick={() => { this.props.postBook(this.state.book) }}>Submit</Button>
+            <Button block type="submit">Submit</Button>
           </div>
         </FormGroup>
       </Form >

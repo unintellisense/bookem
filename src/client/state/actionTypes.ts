@@ -7,7 +7,7 @@ export const enum ActionTypeKeys {
 };
 
 export type ActionType =
-  { type: ActionTypeKeys.addBookSuccess, payload: string } |
+  { type: ActionTypeKeys.addBookSuccess, book: IBook } |
   { type: ActionTypeKeys.addBookFailure, error: string } |
   { type: ActionTypeKeys.addBookSaveFormState, book: IBook }
   

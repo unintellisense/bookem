@@ -20,11 +20,12 @@ export const postBookAction = (book: IBook) => {
 
       return dispatch({
         type: ActionTypeKeys.addBookSuccess,
-        payload: something.toString()
+        book: something.data
       });
     } catch (e) {
       return dispatch({
         type: ActionTypeKeys.addBookFailure,
+        error: e.response.data
       });
     }
   };
