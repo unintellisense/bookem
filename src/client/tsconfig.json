@@ -12,7 +12,10 @@
     "strictNullChecks": true,
     "jsx": "react",
     "sourceMap": true,
-    "noLib": false
+    "noLib": false,
+    "types": [
+      
+    ]
     //"suppressImplicitAnyIndexErrors": true
   },
   "compileOnSave": false,

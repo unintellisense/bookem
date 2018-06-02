@@ -15,7 +15,7 @@ export const saveAddBookFieldsAction = (book: IBook) => {
   }
 }
 
-let clearAddBookAlert; // stores setTimeout value
+let clearAddBookAlert: number; // stores setTimeout value
 
 export const postBookAction = (book: IBook) => {
   return async (dispatch: Dispatch): Promise<Action> => {
