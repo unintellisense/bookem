@@ -15,7 +15,7 @@ export const saveAddBookFieldsAction = (book: IBook) => {
   }
 }
 
-let clearAddBookAlert: NodeJS.Timer; /* not really in NodeJS, but not going to solve typings now */
+let clearAddBookAlert; // stores setTimeout value
 
 export const postBookAction = (book: IBook) => {
   return async (dispatch: Dispatch): Promise<Action> => {
