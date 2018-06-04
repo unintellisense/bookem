@@ -1,8 +1,9 @@
-import { ActionCreator, Action, Dispatch } from 'redux';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { ActionCreator, Action, Dispatch } from 'redux'
+import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { AppState, ActionTypeKeys } from '../../index'
-import { IBook } from '../../../../shared/dto/ibook';
-import { postBook } from '../../../services/inventoryService';
+import { IBook } from '../../../../shared/dto/ibook'
+import { postBook } from '../../../services/inventoryService'
+import { toastr } from 'react-redux-toastr'
 
 const alertMessageLengthMillis = 3000;
 
@@ -15,27 +16,17 @@ export const saveAddBookFieldsAction = (book: IBook) => {
   }
 }
 
-let clearAddBookAlert: number; // stores setTimeout value
-
 export const postBookAction = (book: IBook) => {
-  return async (dispatch: Dispatch): Promise<Action> => {
+  return async (dispatch: Dispatch): Promise<Action | void> => {
     try {
       var something = await postBook(book);
-
+      toastr.success('Book added', `'${something.data.title}' has been added.`);
       return dispatch({
         type: ActionTypeKeys.addBookSuccess,
         book: something.data
       });
     } catch (e) {
-      return dispatch({
-        type: ActionTypeKeys.addBookFailure,
-        error: e.response.data
-      });
-    } finally { // clear alerts after timeout, cancel any possibly pending timeout 
-      clearTimeout(clearAddBookAlert);
-      clearAddBookAlert = setTimeout(() => {
-        dispatch({ type: ActionTypeKeys.addBookClearAlert });
-      }, alertMessageLengthMillis);
+      toastr.error('failed to add book', e.response.data);
     }
   };
 };

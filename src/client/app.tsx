@@ -52,8 +52,7 @@ export class App extends React.Component {
             </div>
           </BrowserRouter >
           <ReduxToastr
-            timeOut={4000}
-            preventDuplicates            
+            timeOut={4000}                                    
             transitionIn="fadeIn"
             transitionOut="fadeOut"
             progressBar />

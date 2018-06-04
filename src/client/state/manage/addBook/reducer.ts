@@ -4,10 +4,6 @@ import { IBook } from '../../../../shared/dto/ibook';
 
 export interface AddBookState {
   book: IBook
-  alertMessage: {
-    alertText?: string
-    alertStyle?: "success" | "warning" | "danger" | "info" | undefined
-  }
 }
 
 const defaultAddBookState: () => AddBookState = () => ({ book: { title: '', isFiction: false }, alertMessage: {} });
@@ -19,29 +15,9 @@ export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaul
 
       return {
         ...state,
-        book: { title: '', isFiction: false, description: '' },
-        alertMessage: {
-          alertText: `Added book '${action.book.title}'`,
-          alertStyle: 'success'
-        }
+        book: { title: '', isFiction: false, description: '' }
       }
 
-    case ActionTypeKeys.addBookFailure:
-      return {
-        ...state,
-        alertMessage: {
-          alertText: `failed to add book:  ${action.error}`,
-          alertStyle: 'danger'
-        }
-      }
-    case ActionTypeKeys.addBookClearAlert:
-      return {
-        ...state,
-        alertMessage: {
-          alertStyle: undefined,
-          alertText: undefined
-        }
-      }
     case ActionTypeKeys.addBookSaveFormState:
       return { ...state, book: action.book }
   }

@@ -6,7 +6,6 @@ import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
 import { IBook } from '../../../../shared/dto/ibook'
 import { AppState } from '../../../state'
-import { AddBookAlert } from './addBookAlert'
 type AddBooksProps = {
   postBook: (book: IBook) => any
   saveBookFields: (book: IBook) => any
@@ -60,7 +59,6 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   render() {
     return (
       <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); this.props.postBook(this.state.book) }}>
-        <AddBookAlert />
         <FormGroup controlId="isbnInput" validationState={this.validateIsbnValue()}>
           <InputGroup>
             <InputGroup.Addon>Isbn</InputGroup.Addon>
