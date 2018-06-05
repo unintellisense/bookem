@@ -3,7 +3,8 @@ import * as Redux from 'redux';
 import { connect } from 'react-redux';
 import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from 'react-bootstrap'
 
-import Modal = require('react-responsive-modal');
+declare const require: any;
+const Modal = require('react-responsive-modal').default; // temp till typings are fixed
 
 import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
