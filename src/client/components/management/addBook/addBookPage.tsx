@@ -2,6 +2,9 @@ import * as React from 'react'
 import * as Redux from 'redux';
 import { connect } from 'react-redux';
 import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from 'react-bootstrap'
+
+import Modal = require('react-responsive-modal');
+
 import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
 import { IBook } from '../../../../shared/dto/ibook'
@@ -14,6 +17,7 @@ type AddBooksProps = {
 
 type AddBooksState = {
   book: IBook
+  modalOpen: boolean
 }
 
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
@@ -22,7 +26,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   constructor(props: AddBooksProps) {
     super(props);
-    this.state = { book: props.book };
+    this.state = { book: props.book, modalOpen: false };
   }
 
   private handleIsbnSearchClick = (e: React.FormEvent<HTMLInputElement>) => {
@@ -53,7 +57,15 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   public componentWillReceiveProps(nextProps) {
-    this.state = { book: nextProps.book };
+    this.state = { book: nextProps.book, modalOpen: false };
+  }
+
+  private onOpenModal = () => {
+    this.setState({ ...this.state, modalOpen: true });
+  }
+
+  private onCloseModal = () => {
+    this.setState({ ...this.state, modalOpen: false });
   }
 
   render() {
@@ -64,7 +76,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <InputGroup.Addon>Isbn</InputGroup.Addon>
             <FormControl type="text" value={this.state.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
             <InputGroup.Button>
-              <Button>Search</Button>
+              <Button onClick={this.onOpenModal}>Search</Button>
             </InputGroup.Button>
           </InputGroup>
         </FormGroup>
@@ -85,6 +97,9 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <Button block type="submit">Submit</Button>
           </div>
         </FormGroup>
+        <Modal open={this.state.modalOpen} onClose={this.onCloseModal} center>
+          <h2>Simple centered modal</h2>
+        </Modal>
       </Form >
     )
   }
