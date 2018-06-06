@@ -3,11 +3,10 @@ import * as Redux from 'redux';
 import { connect } from 'react-redux';
 import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from 'react-bootstrap'
 
-declare const require: any;
-const Modal = require('react-responsive-modal').default; // temp till typings are fixed
-
+import { BookLookupModal } from './addBookModal'
 import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
+import { getBooksByIsn } from '../../../services/googleBookService'
 import { IBook } from '../../../../shared/dto/ibook'
 import { AppState } from '../../../state'
 type AddBooksProps = {
@@ -23,6 +22,8 @@ type AddBooksState = {
 
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
+const numberRegex = /^(\d+-?)+\d+$/
+
 class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   constructor(props: AddBooksProps) {
@@ -30,8 +31,15 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     this.state = { book: props.book, modalOpen: false };
   }
 
-  private handleIsbnSearchClick = (e: React.FormEvent<HTMLInputElement>) => {
-    e.currentTarget.value
+
+
+  private handleIsbnSearchClick = async (isbn?: string) => {
+    if (isbn && isbn.match(numberRegex)) {
+      let isbnString = isbn.match(/\d/g)!.join('');
+      let searchResult = await getBooksByIsn(isbnString);
+      console.log(`result size: ${searchResult.data.items ? searchResult.data.items.length : 0}`);
+    }
+
   }
 
   private handleChangeForBook = (propName: keyof IBook) => (e: React.FormEvent<FormControlProps>) => {
@@ -77,7 +85,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <InputGroup.Addon>Isbn</InputGroup.Addon>
             <FormControl type="text" value={this.state.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
             <InputGroup.Button>
-              <Button onClick={this.onOpenModal}>Search</Button>
+              <Button onClick={(e) => { this.handleIsbnSearchClick(this.state.book.isbn) }}>Search</Button>
             </InputGroup.Button>
           </InputGroup>
         </FormGroup>
@@ -98,12 +106,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <Button block type="submit">Submit</Button>
           </div>
         </FormGroup>
-        <Modal open={this.state.modalOpen} onClose={this.onCloseModal} center>
-          <h2>Simple centered modal</h2>
-        </Modal>
+        <BookLookupModal modalOpen={this.state.modalOpen} onClose={this.onCloseModal} searchedBooks={[{ title: 'some book', description: 'really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!' }]} />
       </Form >
     )
   }
+
 }
 
 const mapStateToProps = (state: AppState) => ({
