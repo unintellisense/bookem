@@ -38,6 +38,8 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
       let isbnString = isbn.match(/\d/g)!.join('');
       let searchResult = await getBooksByIsn(isbnString);
       console.log(`result size: ${searchResult.data.items ? searchResult.data.items.length : 0}`);
+    } else {
+      // what are we doing here??
     }
 
   }
@@ -54,12 +56,12 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     this.setState({ ...this.state, [propName]: e.currentTarget.value });
   }
 
-  private validateIsbnValue() {
-    const length = this.state.book && this.state.book.isbn && this.state.book.isbn.length ? this.state.book.isbn.length : 0;
-    if (length == 10 || length == 13) return 'success';
-    if (length > 0) return 'error';
-    return null;
-  }
+  // private validateIsbnValue() {
+  //   const length = this.state.book && this.state.book.isbn && this.state.book.isbn.length ? this.state.book.isbn.length : 0;
+  //   if (length == 10 || length == 13) return 'success';
+  //   if (length > 0) return 'error';
+  //   return null;
+  // }
 
   public componentWillUnmount() {
     this.props.saveBookFields(this.state.book);
@@ -80,7 +82,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   render() {
     return (
       <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); this.props.postBook(this.state.book) }}>
-        <FormGroup controlId="isbnInput" validationState={this.validateIsbnValue()}>
+        <FormGroup controlId="isbnInput" /** validationState={this.validateIsbnValue()} */>
           <InputGroup>
             <InputGroup.Addon>Isbn</InputGroup.Addon>
             <FormControl type="text" value={this.state.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
