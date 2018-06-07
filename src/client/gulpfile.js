@@ -90,7 +90,7 @@ gulp.task('client-production', gulp.series('client-clean', 'client-webpack-produ
 gulp.task('client-development', () => {
 
   var config = Object.assign({}, baseWebPackConfig);
-  config.devtool = "eval";
+  config.devtool = "cheap-module-eval-source-map";
 
   new WebpackDevServer(webpack(config), {
 

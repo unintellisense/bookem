@@ -2,11 +2,12 @@ import * as React from 'react'
 import * as Redux from 'redux';
 import { connect } from 'react-redux';
 import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from 'react-bootstrap'
+import { toastr } from 'react-redux-toastr'
 
 import { BookLookupModal } from './addBookModal'
 import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
-import { getBooksByIsn } from '../../../services/googleBookService'
+import { getBooksByIsbn } from '../../../services/googleBookService'
 import { IBook } from '../../../../shared/dto/ibook'
 import { AppState } from '../../../state'
 type AddBooksProps = {
@@ -17,7 +18,7 @@ type AddBooksProps = {
 
 type AddBooksState = {
   book: IBook
-  modalOpen: boolean
+  isbnSearchModal: boolean
 }
 
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
@@ -28,18 +29,18 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   constructor(props: AddBooksProps) {
     super(props);
-    this.state = { book: props.book, modalOpen: false };
+    this.state = { book: props.book, isbnSearchModal: false };
   }
 
 
 
   private handleIsbnSearchClick = async (isbn?: string) => {
     if (isbn && isbn.match(numberRegex)) {
-      let isbnString = isbn.match(/\d/g)!.join('');
-      let searchResult = await getBooksByIsn(isbnString);
+      let isbnString = isbn.match(/\d/g)!.join(''); // strip out digits and join them back together
+      let searchResult = await getBooksByIsbn(isbnString);
       console.log(`result size: ${searchResult.data.items ? searchResult.data.items.length : 0}`);
     } else {
-      // what are we doing here??
+      toastr.error('ISBN search failed', 'Please enter a ISBN number');
     }
 
   }
@@ -68,15 +69,15 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   public componentWillReceiveProps(nextProps) {
-    this.state = { book: nextProps.book, modalOpen: false };
+    this.state = { book: nextProps.book, isbnSearchModal: false };
   }
 
   private onOpenModal = () => {
-    this.setState({ ...this.state, modalOpen: true });
+    this.setState({ ...this.state, isbnSearchModal: true });
   }
 
   private onCloseModal = () => {
-    this.setState({ ...this.state, modalOpen: false });
+    this.setState({ ...this.state, isbnSearchModal: false });
   }
 
   render() {
@@ -108,7 +109,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <Button block type="submit">Submit</Button>
           </div>
         </FormGroup>
-        <BookLookupModal modalOpen={this.state.modalOpen} onClose={this.onCloseModal} searchedBooks={[{ title: 'some book', description: 'really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!' }]} />
+        <BookLookupModal modalOpen={this.state.isbnSearchModal} onClose={this.onCloseModal} searchedBooks={[{ title: 'some book', description: 'really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!' }]} />
       </Form >
     )
   }
