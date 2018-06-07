@@ -1,8 +1,8 @@
-import * as React from 'react'
+import * as React from 'react';
 import * as Redux from 'redux';
 import { connect } from 'react-redux';
 import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from 'react-bootstrap'
-import { toastr } from 'react-redux-toastr'
+import { toastError, toastSuccess } from '../../../services/toastService';
 
 import { BookLookupModal } from './addBookModal'
 import { RouteComponentWrapper } from '../../index'
@@ -23,7 +23,7 @@ type AddBooksState = {
 
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
-const numberRegex = /^(\d+-?)+\d+$/
+const numberRegex = /^[0-9\-]*$/
 
 class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
@@ -38,9 +38,13 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     if (isbn && isbn.match(numberRegex)) {
       let isbnString = isbn.match(/\d/g)!.join(''); // strip out digits and join them back together
       let searchResult = await getBooksByIsbn(isbnString);
-      console.log(`result size: ${searchResult.data.items ? searchResult.data.items.length : 0}`);
+      if (searchResult.length) {
+        toastSuccess('Got results', `Found ${searchResult.length} results.`); // needs to open modal
+      } else {
+        toastError('ISBN search failed', 'no results found.');
+      }
     } else {
-      toastr.error('ISBN search failed', 'Please enter a ISBN number');
+      toastError('Invalid ISBN number', 'Please enter numbers and dashes only.');
     }
 
   }

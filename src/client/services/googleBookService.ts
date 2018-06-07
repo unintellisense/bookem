@@ -1,9 +1,19 @@
 import axios, { AxiosResponse } from 'axios';
-import { GoogleBooksVolumeSearch } from '../../shared/dto/googleBook'
+import { GoogleBooksVolumeSearch, SearchResultBook } from '../../shared/dto/googleBook'
 
 const baseGoogleBooksUrl = `https://www.googleapis.com/books`;
 
-export async function getBooksByIsbn(isbn: string): Promise<AxiosResponse<GoogleBooksVolumeSearch>> {
+// Promise<AxiosResponse<GoogleBooksVolumeSearch>>
+export async function getBooksByIsbn(isbn: string): Promise<SearchResultBook[]> {
   let queryParams = { q: `isbn:${isbn}` }
-  return axios.get(`${baseGoogleBooksUrl}/v1/volumes`, { params: queryParams })
+  let searchResults = await axios.get<GoogleBooksVolumeSearch>(`${baseGoogleBooksUrl}/v1/volumes`, { params: queryParams });
+  if (searchResults.data.items) {
+    return searchResults.data.items.map(book => {
+      return {
+        title: book.volumeInfo.title,
+        description: book.volumeInfo.description
+      }
+    })
+  }
+  return [];
 }
