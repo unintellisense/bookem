@@ -1,15 +1,14 @@
 import * as React from 'react'
 import { Table, Button } from 'react-bootstrap'
 import { SearchResultBook } from '../../../../shared/dto/googleBook'
+import Modal from 'react-responsive-modal';
 
 declare const require: any;
-const Modal = require('react-responsive-modal').default; // temp till typings are fixed
 
 type BookLookupModalProps = {
-  modalOpen: boolean
-  onClose: Function
-  searchedBooks: SearchResultBook[] | null
-
+  onClose: () => void
+  searchedBooks?: SearchResultBook[]
+  applyBook: (searchedBook: SearchResultBook) => void
 }
 
 export class BookLookupModal extends React.Component<BookLookupModalProps> {
@@ -20,11 +19,12 @@ export class BookLookupModal extends React.Component<BookLookupModalProps> {
 
   render() {
     return (
-      <Modal open={this.props.modalOpen} onClose={this.props.onClose} center>
-        <h2>Select the book to apply, or cancel</h2>
+      <Modal open={!!(this.props.searchedBooks && this.props.searchedBooks.length)} onClose={this.props.onClose} center>
+        <h2>Select the book to apply or return</h2>
         {
+          /** need to modify custom.css if adding more columns */
           <div className="well">
-            <Table responsive>
+            <Table responsive className='books-modal-table'>
               <thead>
                 <tr>
                   <th>#</th>
@@ -39,8 +39,8 @@ export class BookLookupModal extends React.Component<BookLookupModalProps> {
                     <tr>
                       <td>{idx + 1}</td>
                       <td>{book.title}</td>
-                      <td>{book.description && book.description.length > 80 ? book.description.substring(0, 80) : book.description}</td>
-                      <td><Button>Apply</Button></td>
+                      <td>{book.description}</td>
+                      <td><Button onClick={() => { this.props.applyBook(book) }}>Apply</Button></td>
                     </tr>
                   )
                 })

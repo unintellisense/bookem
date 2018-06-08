@@ -19,7 +19,7 @@ interface VolumeInfo {
   authors: string[];
   publisher: string;
   publishedDate: string;
-  description?: string;
+  description: string;
   industryIdentifiers: IndustryIdentifier[];
   pageCount: number;
   printType: string;

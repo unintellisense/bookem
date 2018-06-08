@@ -1,6 +1,6 @@
 export interface IBook {
-  isbn?:string
+  isbn: string
   title: string
   isFiction: boolean
-  description?: string
+  description: string
 } 

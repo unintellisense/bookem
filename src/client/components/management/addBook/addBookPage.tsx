@@ -10,6 +10,8 @@ import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/a
 import { getBooksByIsbn } from '../../../services/googleBookService'
 import { IBook } from '../../../../shared/dto/ibook'
 import { AppState } from '../../../state'
+import { SearchResultBook } from '../../../../shared/dto/googleBook';
+
 type AddBooksProps = {
   postBook: (book: IBook) => any
   saveBookFields: (book: IBook) => any
@@ -18,7 +20,7 @@ type AddBooksProps = {
 
 type AddBooksState = {
   book: IBook
-  isbnSearchModal: boolean
+  searchedBooks?: SearchResultBook[]
 }
 
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
@@ -29,24 +31,22 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   constructor(props: AddBooksProps) {
     super(props);
-    this.state = { book: props.book, isbnSearchModal: false };
+    this.state = { book: props.book };
   }
-
-
 
   private handleIsbnSearchClick = async (isbn?: string) => {
     if (isbn && isbn.match(numberRegex)) {
       let isbnString = isbn.match(/\d/g)!.join(''); // strip out digits and join them back together
       let searchResult = await getBooksByIsbn(isbnString);
       if (searchResult.length) {
-        toastSuccess('Got results', `Found ${searchResult.length} results.`); // needs to open modal
+        // setting searchedBooks will open the modal
+        this.setState({ ...this.state, searchedBooks: searchResult })
       } else {
         toastError('ISBN search failed', 'no results found.');
       }
     } else {
       toastError('Invalid ISBN number', 'Please enter numbers and dashes only.');
     }
-
   }
 
   private handleChangeForBook = (propName: keyof IBook) => (e: React.FormEvent<FormControlProps>) => {
@@ -61,27 +61,26 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     this.setState({ ...this.state, [propName]: e.currentTarget.value });
   }
 
-  // private validateIsbnValue() {
-  //   const length = this.state.book && this.state.book.isbn && this.state.book.isbn.length ? this.state.book.isbn.length : 0;
-  //   if (length == 10 || length == 13) return 'success';
-  //   if (length > 0) return 'error';
-  //   return null;
-  // }
-
   public componentWillUnmount() {
     this.props.saveBookFields(this.state.book);
   }
 
   public componentWillReceiveProps(nextProps) {
-    this.state = { book: nextProps.book, isbnSearchModal: false };
+    this.state = { book: nextProps.book };
   }
 
-  private onOpenModal = () => {
-    this.setState({ ...this.state, isbnSearchModal: true });
+  private clearSearchedBooks = () => {
+    this.setState({ ...this.state, searchedBooks: undefined });
   }
 
-  private onCloseModal = () => {
-    this.setState({ ...this.state, isbnSearchModal: false });
+  private applyBookState = (searchedBook: SearchResultBook) => {
+    let newBook: IBook = {
+      title: searchedBook.title,
+      description: searchedBook.description,
+      isbn: this.state.book.isbn,
+      isFiction: this.state.book.isFiction // not sure how to calculate this from API, preserve
+    }
+    this.setState({ ...this.state, book: newBook, searchedBooks: undefined });
   }
 
   render() {
@@ -113,7 +112,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <Button block type="submit">Submit</Button>
           </div>
         </FormGroup>
-        <BookLookupModal modalOpen={this.state.isbnSearchModal} onClose={this.onCloseModal} searchedBooks={[{ title: 'some book', description: 'really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!really exciting stuff!!!!' }]} />
+        <BookLookupModal onClose={this.clearSearchedBooks} searchedBooks={this.state.searchedBooks} applyBook={this.applyBookState} />
       </Form >
     )
   }

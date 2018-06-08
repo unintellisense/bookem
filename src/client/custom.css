@@ -1,3 +1,25 @@
 .main-nav {
   margin-bottom:0;
 }
+
+.books-modal-table {
+  border-spacing: 5px;
+  border-collapse: unset
+
+}
+
+.books-modal-table tr td:nth-child(1) {
+  width: 5%;
+}
+
+.books-modal-table tr td:nth-child(2) {
+  width: 20%;
+}
+
+.books-modal-table tr td:nth-child(3) {
+  width: 60%;
+}
+
+.books-modal-table tr td:nth-child(4) {
+  width: 15%;
+}

@@ -6,7 +6,7 @@ export interface AddBookState {
   book: IBook
 }
 
-const defaultAddBookState: () => AddBookState = () => ({ book: { title: '', isFiction: false }, alertMessage: {} });
+const defaultAddBookState: () => AddBookState = () => ({ book: { title: '', isFiction: false, isbn: '', description: '' }, alertMessage: {} });
 
 export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaultAddBookState(), action) => {
 
@@ -15,7 +15,7 @@ export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaul
 
       return {
         ...state,
-        book: { title: '', isFiction: false, description: '' }
+        book: defaultAddBookState().book
       }
 
     case ActionTypeKeys.addBookSaveFormState:
