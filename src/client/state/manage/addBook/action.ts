@@ -25,8 +25,8 @@ export const postBookAction = (book: IBook) => {
         type: ActionTypeKeys.addBookSuccess,
         book: something.data
       });
-    } catch (e) {
-      toastError('failed to add book', e.response.data);
+    } catch (e) { // report error from response.data if response was bad, otherwise whatever we caught (timeout?)
+      toastError('failed to add book', (e.response && e.response.data) ? e.response.data : e.message);
     }
   };
 };

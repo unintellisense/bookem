@@ -13,7 +13,7 @@ export default class Book extends Model implements IBook {
 
   /** ISBN */
   @Property()
-  isbn?: string
+  isbn: string
 
   /** Author */
   @Property()
@@ -21,7 +21,7 @@ export default class Book extends Model implements IBook {
 
   /**description of the book */
   @Property()
-  description?: string
+  description: string
 
   /** box #, shelf, etc */
   @Property()
