@@ -13,7 +13,7 @@ export default class Book extends Model implements IBook {
 
   /** ISBN */
   @Property()
-  isbn?: string
+  isbn: string
 
   /** Author */
   @Property()
@@ -21,11 +21,7 @@ export default class Book extends Model implements IBook {
 
   /**description of the book */
   @Property()
-  description?: string
-
-  /** box #, shelf, etc */
-  @Property()
-  location?: string
+  description: string  
 
   /** local identifier */
   @Property()
@@ -33,20 +29,16 @@ export default class Book extends Model implements IBook {
 
   /** order of book in series */
   @Property()
-  bookNumber?: number
+  bookSeriesNumber?: number
 
   /** year the book was published */
   @Property()
   yearPublished?: number
 
-  /** key word identifiers for this book */
-  @Property()
-  @AllowTypes('string')
-  keyWords?: string[] | null
-
   /**category of this book */
   @Property()
-  category?: string
+  @AllowTypes('string')
+  category?: string[]
 
   static get tableName() { return 'book'; }
 
@@ -55,21 +47,24 @@ export default class Book extends Model implements IBook {
     required: ['title', 'isFiction'],
     properties: {
       title: { type: 'string' },
-      isbn: { type: 'string' },
-      authors: { type: 'string' },
-      description: { type: 'string' },
-      location: { type: 'string' },
-      libraryIdentifier: { type: 'string' },
-      bookNumber: { type: 'number' },
-      yearPublished: { type: 'number' },
       isFiction: { type: 'boolean' },
-      keyWords: {
+      isbn: { type: 'string' },
+      authors: {
         type: 'array',
         items: {
           type: 'string'
         }
       },
-      category: { type: 'string' },
+      description: { type: 'string' },
+      libraryIdentifier: { type: 'string' },
+      bookSeriesNumber: { type: 'number' },
+      yearPublished: { type: 'number' },
+      category: {
+        type: 'array',
+        items: {
+          type: 'string'
+        }
+      }
     }
   }
 
