@@ -50,15 +50,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   private handleChangeForBook = (propName: keyof IBook) => (e: React.FormEvent<FormControlProps>) => {
-    var baseState = { ...this.state };
-    baseState.book[propName] = e.currentTarget.value as any;
-    this.setState({ ...this.state, [propName]: e.currentTarget.value });
+    this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } });
   }
 
   private handleCheckboxForBook = (propName: keyof IBook) => (e: React.FormEvent<CheckboxProps>) => {
-    var baseState = { ...this.state };
-    baseState.book[propName] = e.currentTarget.checked as any;
-    this.setState({ ...this.state, [propName]: e.currentTarget.value });
+    this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.checked } });
   }
 
   public componentWillUnmount() {
@@ -71,6 +67,10 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   private clearSearchedBooks = () => {
     this.setState({ ...this.state, searchedBooks: undefined });
+  }
+
+  private clearBookInputs = () => {
+    this.setState({ ...this.state, book: { title: '', description: '', isFiction: false, isbn: '' } });
   }
 
   private applyBookState = (searchedBook: SearchResultBook) => {
@@ -112,7 +112,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <Button block type="submit">Submit</Button>
           </Col>
           <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
-            <Button block type="button">Reset</Button>
+            <Button block type="button" onClick={this.clearBookInputs}>Reset</Button>
           </Col>
         </FormGroup>
         <BookLookupModal onClose={this.clearSearchedBooks} searchedBooks={this.state.searchedBooks} applyBook={this.applyBookState} />
