@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Redux from 'redux';
 import { connect } from 'react-redux';
-import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from 'react-bootstrap'
+import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps, Col } from 'react-bootstrap'
 import { toastError, toastSuccess } from '../../../services/toastService';
 
 import { BookLookupModal } from './addBookModal'
@@ -108,9 +108,12 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
           <FormControl componentClass="textarea" value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
         </FormGroup>
         <FormGroup>
-          <div className="well">
+          <Col mdOffset={1} md={8} className='mobile-vert-spacing' >
             <Button block type="submit">Submit</Button>
-          </div>
+          </Col>
+          <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
+            <Button block type="button">Reset</Button>
+          </Col>
         </FormGroup>
         <BookLookupModal onClose={this.clearSearchedBooks} searchedBooks={this.state.searchedBooks} applyBook={this.applyBookState} />
       </Form >
