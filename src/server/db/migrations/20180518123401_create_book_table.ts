@@ -10,12 +10,10 @@ exports.up = function (knex: Knex): PromiseLike<any> {
     // optional
     table.string('isbn');
     table.json('authors');
-    table.string('description');
-    table.string('location');
+    table.string('description');    
     table.string('libraryIdentifier');
-    table.integer('bookNumber');
-    table.integer('yearPublished');
-    table.json('keyWords');
+    table.integer('bookSeriesNumber');
+    table.integer('yearPublished');    
     table.string('category');
   });
 };
