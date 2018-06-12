@@ -1,7 +1,11 @@
 import * as React from 'react';
 import * as Redux from 'redux';
 import { connect } from 'react-redux';
-import { Alert, Form, FormGroup, Button, InputGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps, Col } from 'react-bootstrap'
+import {
+  Form, FormGroup, Button, InputGroup,
+  ControlLabel, FormControl, FormControlProps,
+  Checkbox, CheckboxProps, Col
+} from 'react-bootstrap'
 import { toastError, toastSuccess } from '../../../services/toastService';
 
 import { BookLookupModal } from './addBookModal'
@@ -53,8 +57,8 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } });
   }
 
-  private handleCheckboxForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
-    this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.checked } });
+  private handleBooleanSelectForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
+    this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } });
   }
 
   public componentWillUnmount() {
@@ -95,14 +99,17 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
         </FormGroup>
         <FormGroup>
           <ControlLabel>Fiction?</ControlLabel>
-          <Checkbox checked={this.state.book.isFiction} onChange={this.handleCheckboxForBook('isFiction')} >Fiction?</Checkbox>
+          <FormControl componentClass="select" value={this.state.book.isFiction ? 'true' : 'false'} onChange={this.handleBooleanSelectForBook('isFiction')}>
+            <option value={'false'}>Non Fiction</option>
+            <option value={'true'}>Fiction</option>
+          </FormControl>
         </FormGroup>
         <FormGroup>
           <ControlLabel>Description</ControlLabel>
           <FormControl componentClass="textarea" value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
         </FormGroup>
         <FormGroup>
-          <Col mdOffset={1} md={8} className='mobile-vert-spacing' >
+          <Col md={9} className='mobile-vert-spacing' >
             <Button block type="submit">Submit</Button>
           </Col>
           <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
