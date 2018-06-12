@@ -1,5 +1,5 @@
 import { Model, JsonSchema } from 'objection';
-import { Required, Property, AllowTypes } from "@tsed/common";
+import { Required, Property, AllowTypes, Allow } from "@tsed/common";
 import { IBook } from '../../shared/dto/ibook'
 
 export default class Book extends Model implements IBook {
@@ -17,7 +17,7 @@ export default class Book extends Model implements IBook {
 
   /** Author */
   @Property()
-  authors?: string[]
+  authors: string
 
   /**description of the book */
   @Property()
@@ -25,20 +25,22 @@ export default class Book extends Model implements IBook {
 
   /** local identifier */
   @Property()
-  libraryIdentifier?: string
+  libraryIdentifier: string
 
   /** order of book in series */
   @Property()
-  bookSeriesNumber?: number
+  @Allow(null)
+  bookSeriesNumber: number | null
 
   /** year the book was published */
   @Property()
-  yearPublished?: number
+  @Allow(null)
+  yearPublished: number | null
 
   /**category of this book */
   @Property()
   @AllowTypes('string')
-  category?: string[]
+  categories: string[]
 
   static get tableName() { return 'book'; }
 
@@ -57,7 +59,7 @@ export default class Book extends Model implements IBook {
       },
       description: { type: 'string' },
       libraryIdentifier: { type: 'string' },
-      bookSeriesNumber: { type: 'number' },
+      bookSeriesNumber: { type: ['number'] },
       yearPublished: { type: 'number' },
       category: {
         type: 'array',

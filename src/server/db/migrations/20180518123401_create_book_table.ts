@@ -9,12 +9,12 @@ exports.up = function (knex: Knex): PromiseLike<any> {
     table.boolean('isFiction').notNullable();
     // optional
     table.string('isbn');
-    table.json('authors');
+    table.string('authors');
     table.string('description');    
     table.string('libraryIdentifier');
     table.integer('bookSeriesNumber');
     table.integer('yearPublished');    
-    table.string('category');
+    table.json('categories');
   });
 };
 

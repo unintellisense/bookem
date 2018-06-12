@@ -1,11 +1,11 @@
-import { Action } from 'redux';
-import { IBook } from '../../shared/dto/ibook'
+import { Action } from 'redux'
+import { Book } from '../models/book'
+
 export const enum ActionTypeKeys {
-  addBookSuccess,  
+  addBookSuccess,
   addBookSaveFormState
 };
 
 export type ActionType =
-  { type: ActionTypeKeys.addBookSuccess, book: IBook } |    
-  { type: ActionTypeKeys.addBookSaveFormState, book: IBook }
-
+  { type: ActionTypeKeys.addBookSuccess, book: Book } |
+  { type: ActionTypeKeys.addBookSaveFormState, book: Book }

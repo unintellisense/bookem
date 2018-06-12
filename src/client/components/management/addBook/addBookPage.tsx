@@ -8,18 +8,18 @@ import { BookLookupModal } from './addBookModal'
 import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
 import { getBooksByIsbn } from '../../../services/googleBookService'
-import { IBook } from '../../../../shared/dto/ibook'
+import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
 
 type AddBooksProps = {
-  postBook: (book: IBook) => any
-  saveBookFields: (book: IBook) => any
-  book: IBook
+  postBook: (book: Book) => any
+  saveBookFields: (book: Book) => any
+  book: Book
 }
 
 type AddBooksState = {
-  book: IBook
+  book: Book
   searchedBooks?: SearchResultBook[]
 }
 
@@ -49,11 +49,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     }
   }
 
-  private handleChangeForBook = (propName: keyof IBook) => (e: React.FormEvent<FormControlProps>) => {
+  private handleChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
     this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } });
   }
 
-  private handleCheckboxForBook = (propName: keyof IBook) => (e: React.FormEvent<CheckboxProps>) => {
+  private handleCheckboxForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
     this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.checked } });
   }
 
@@ -70,17 +70,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   private clearBookInputs = () => {
-    this.setState({ ...this.state, book: { title: '', description: '', isFiction: false, isbn: '' } });
+    this.setState({ ...this.state, book: Book.GetDefaultBook() });
   }
 
   private applyBookState = (searchedBook: SearchResultBook) => {
-    let newBook: IBook = {
-      title: searchedBook.title,
-      description: searchedBook.description,
-      isbn: this.state.book.isbn,
-      isFiction: this.state.book.isFiction // not sure how to calculate this from API, preserve
-    }
-    this.setState({ ...this.state, book: newBook, searchedBooks: undefined });
+    this.setState({ ...this.state, book: Book.GetDefaultBook(), searchedBooks: undefined });
   }
 
   render() {
@@ -127,8 +121,8 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  postBook: (book: IBook) => dispatch(postBookAction(book)),
-  saveBookFields: (book: IBook) => dispatch(saveAddBookFieldsAction(book))
+  postBook: (book: Book) => dispatch(postBookAction(book)),
+  saveBookFields: (book: Book) => dispatch(saveAddBookFieldsAction(book))
 });
 
 const connectedAddBookPage = connect(mapStateToProps, mapDispatchToProps)(AddBookPage);

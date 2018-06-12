@@ -1,6 +1,11 @@
 export interface IBook {
-  isbn: string
   title: string
   isFiction: boolean
+  isbn: string
+  authors: string
   description: string
+  libraryIdentifier: string
+  bookSeriesNumber: number | null
+  yearPublished: number | null
+  categories: string[]
 } 

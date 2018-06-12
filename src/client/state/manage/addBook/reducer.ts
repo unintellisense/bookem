@@ -1,12 +1,12 @@
-import { Action, Reducer } from 'redux';
+import { Action, Reducer } from 'redux'
 import { ActionTypeKeys, ActionType } from '../../actionTypes'
-import { IBook } from '../../../../shared/dto/ibook';
+import { Book } from '../../../models/book'
 
 export interface AddBookState {
-  book: IBook
+  book: Book
 }
 
-const defaultAddBookState: () => AddBookState = () => ({ book: { title: '', isFiction: false, isbn: '', description: '' }, alertMessage: {} });
+const defaultAddBookState: () => AddBookState = () => ({ book: Book.GetDefaultBook(), alertMessage: {} });
 
 export const addBookReducer: Reducer<AddBookState, ActionType> = (state = defaultAddBookState(), action) => {
 

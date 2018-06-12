@@ -1,13 +1,13 @@
 import { ActionCreator, Action, Dispatch } from 'redux'
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { AppState, ActionTypeKeys } from '../../index'
-import { IBook } from '../../../../shared/dto/ibook'
+import { Book } from '../../../models/book'
 import { postBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
 
 const alertMessageLengthMillis = 3000;
 
-export const saveAddBookFieldsAction = (book: IBook) => {
+export const saveAddBookFieldsAction = (book: Book) => {
   return (dispatch: Dispatch) => {
     return dispatch({
       type: ActionTypeKeys.addBookSaveFormState,
@@ -16,7 +16,7 @@ export const saveAddBookFieldsAction = (book: IBook) => {
   }
 }
 
-export const postBookAction = (book: IBook) => {
+export const postBookAction = (book: Book) => {
   return async (dispatch: Dispatch): Promise<Action | void> => {
     try {
       var something = await postBook(book);
