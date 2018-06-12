@@ -57,6 +57,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } });
   }
 
+  private handleNumberChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
+    let value = Number.parseInt(e.currentTarget.value as string);
+    this.setState({ ...this.state, book: { ...this.state.book, [propName]: value } });
+  }
+
   private handleBooleanSelectForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
     this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } });
   }
@@ -98,12 +103,34 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
           <FormControl type="text" value={this.state.book.title} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Fiction?</ControlLabel>
-          <FormControl componentClass="select" value={this.state.book.isFiction ? 'true' : 'false'} onChange={this.handleBooleanSelectForBook('isFiction')}>
-            <option value={'false'}>Non Fiction</option>
-            <option value={'true'}>Fiction</option>
-          </FormControl>
+          <Col sm={2} className='mobile-vert-spacing' >
+            <ControlLabel>Fiction?</ControlLabel>
+            <FormControl componentClass="select" value={this.state.book.isFiction ? 'true' : 'false'} onChange={this.handleBooleanSelectForBook('isFiction')}>
+              <option value={'false'}>Non Fiction</option>
+              <option value={'true'}>Fiction</option>
+            </FormControl>
+          </Col>
+          <Col sm={10} className='mobile-vert-spacing' >
+            <ControlLabel>Authors</ControlLabel>
+            <FormControl type="text" value={this.state.book.authors} onChange={this.handleChangeForBook('authors')} />
+          </Col>
         </FormGroup>
+
+        <FormGroup>
+          <Col sm={5} className='mobile-vert-spacing' >
+            <ControlLabel>Library Id</ControlLabel>
+            <FormControl type="text" value={this.state.book.libraryIdentifier} onChange={this.handleChangeForBook('libraryIdentifier')} />
+          </Col>
+          <Col sm={4} className='mobile-vert-spacing' >
+            <ControlLabel>Year Published</ControlLabel>
+            <FormControl type="number" value={this.state.book.yearPublished as any} onChange={this.handleNumberChangeForBook('yearPublished')} />
+          </Col>
+          <Col sm={3} className='mobile-vert-spacing' >
+            <ControlLabel>Book Series Number</ControlLabel>
+            <FormControl type="number" value={this.state.book.bookSeriesNumber as any} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
+          </Col>
+        </FormGroup>
+
         <FormGroup>
           <ControlLabel>Description</ControlLabel>
           <FormControl componentClass="textarea" value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
