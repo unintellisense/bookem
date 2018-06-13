@@ -54,7 +54,7 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
 
   render() {
     return <div>
-      <ReactTags
+      <ReactTags autofocus={false}
         tags={this.state.tags as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
