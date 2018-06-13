@@ -103,17 +103,21 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     return (
       <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); this.props.postBook(this.state.book) }}>
         <FormGroup controlId="isbnInput" /** validationState={this.validateIsbnValue()} */>
-          <InputGroup>
-            <InputGroup.Addon>Isbn</InputGroup.Addon>
-            <FormControl type="text" value={this.state.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
-            <InputGroup.Button>
-              <Button onClick={(e) => { this.handleIsbnSearchClick(this.state.book.isbn) }}>Search</Button>
-            </InputGroup.Button>
-          </InputGroup>
+          <Col sm={12} >
+            <InputGroup>
+              <InputGroup.Addon>Isbn</InputGroup.Addon>
+              <FormControl type="text" value={this.state.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
+              <InputGroup.Button>
+                <Button onClick={(e) => { this.handleIsbnSearchClick(this.state.book.isbn) }}>Search</Button>
+              </InputGroup.Button>
+            </InputGroup>
+          </Col>
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Title</ControlLabel>
-          <FormControl type="text" value={this.state.book.title} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
+          <Col sm={12} >
+            <ControlLabel>Title</ControlLabel>
+            <FormControl type="text" value={this.state.book.title} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
+          </Col>
         </FormGroup>
         <FormGroup>
           <Col sm={2} className='mobile-vert-spacing' >
@@ -143,8 +147,10 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
           </Col>
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Description</ControlLabel>
-          <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
+          <Col sm={12}>
+            <ControlLabel>Description</ControlLabel>
+            <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
+          </Col>
         </FormGroup>
         <FormGroup>
           <Col md={9} className='mobile-vert-spacing' >
