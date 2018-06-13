@@ -42,4 +42,7 @@ interface IndustryIdentifier {
 export interface SearchResultBook {
   title: VolumeInfo['title']
   description: VolumeInfo['description']
+  authors: string
+  yearPublished: number | null
+  categories: string[]
 }

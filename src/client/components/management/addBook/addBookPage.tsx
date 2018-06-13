@@ -71,7 +71,8 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   public componentWillReceiveProps(nextProps) {
-    this.state = { book: nextProps.book };
+    console.log('got props')
+    this.setState({ ...this.state, book: nextProps.book });
   }
 
   private clearSearchedBooks = () => {
@@ -83,7 +84,18 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   private applyBookState = (searchedBook: SearchResultBook) => {
-    this.setState({ ...this.state, book: Book.GetDefaultBook(), searchedBooks: undefined });
+    let newBook: Book = {
+      title: searchedBook.title,
+      description: searchedBook.description,
+      authors: searchedBook.authors,
+      yearPublished: searchedBook.yearPublished,
+      categories: searchedBook.categories,
+      bookSeriesNumber: this.state.book.bookSeriesNumber, // preserve
+      libraryIdentifier: this.state.book.libraryIdentifier, // preserve
+      isbn: this.state.book.isbn, // preserve
+      isFiction: this.state.book.isFiction // not sure how to calculate this from API, preserve
+    }
+    this.setState({ ...this.state, book: newBook, searchedBooks: undefined });
   }
 
   render() {
@@ -123,11 +135,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
           </Col>
           <Col sm={4} className='mobile-vert-spacing' >
             <ControlLabel>Year Published</ControlLabel>
-            <FormControl type="number" value={this.state.book.yearPublished as any} onChange={this.handleNumberChangeForBook('yearPublished')} />
+            <FormControl type="number" value={this.state.book.yearPublished || ''} onChange={this.handleNumberChangeForBook('yearPublished')} />
           </Col>
           <Col sm={3} className='mobile-vert-spacing' >
             <ControlLabel>Book Series Number</ControlLabel>
-            <FormControl type="number" value={this.state.book.bookSeriesNumber as any} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
+            <FormControl type="number" value={this.state.book.bookSeriesNumber || ''} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
           </Col>
         </FormGroup>
 
