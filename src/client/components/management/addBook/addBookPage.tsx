@@ -1,13 +1,11 @@
 import * as React from 'react';
-import * as Redux from 'redux';
 import { connect } from 'react-redux';
 import {
-  Form, FormGroup, Button, InputGroup,
-  ControlLabel, FormControl, FormControlProps,
-  Checkbox, CheckboxProps, Col
+  Form, FormGroup, Button, InputGroup, ControlLabel,
+  FormControl, FormControlProps, CheckboxProps, Col
 } from 'react-bootstrap'
+import { BookCategoryTags } from './bookCategoryTags'
 import { toastError, toastSuccess } from '../../../services/toastService';
-
 import { BookLookupModal } from './addBookModal'
 import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
@@ -66,12 +64,15 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } });
   }
 
+  private handleCategoriesUpdateForBook = (tags: string[]) => {
+    this.setState({ ...this.state, book: { ...this.state.book, categories: tags } })
+  }
+
   public componentWillUnmount() {
     this.props.saveBookFields(this.state.book);
   }
 
   public componentWillReceiveProps(nextProps) {
-    console.log('got props')
     this.setState({ ...this.state, book: nextProps.book });
   }
 
@@ -127,7 +128,6 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <FormControl type="text" value={this.state.book.authors} onChange={this.handleChangeForBook('authors')} />
           </Col>
         </FormGroup>
-
         <FormGroup>
           <Col sm={5} className='mobile-vert-spacing' >
             <ControlLabel>Library Id</ControlLabel>
@@ -142,10 +142,16 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <FormControl type="number" value={this.state.book.bookSeriesNumber || ''} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
           </Col>
         </FormGroup>
-
         <FormGroup>
           <ControlLabel>Description</ControlLabel>
           <FormControl componentClass="textarea" value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
+        </FormGroup>
+        <FormGroup>
+          <Col md={9} className='mobile-vert-spacing' >
+            <BookCategoryTags
+              tags={this.state.book.categories}
+              updateTags={this.handleCategoriesUpdateForBook} />
+          </Col>
         </FormGroup>
         <FormGroup>
           <Col md={9} className='mobile-vert-spacing' >
