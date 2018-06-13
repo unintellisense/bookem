@@ -61,7 +61,7 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
         tags={this.state.tags as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
-        /** handleDrag={this.handleDrag} */
+        /** handleDrag={this.handleDrag} mobile chrome breaks */
       />
     </div>
   }
