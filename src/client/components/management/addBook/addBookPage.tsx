@@ -144,10 +144,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
         </FormGroup>
         <FormGroup>
           <ControlLabel>Description</ControlLabel>
-          <FormControl componentClass="textarea" value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
+          <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
         </FormGroup>
         <FormGroup>
           <Col md={9} className='mobile-vert-spacing' >
+            <ControlLabel>Categories</ControlLabel>
             <BookCategoryTags
               tags={this.state.book.categories}
               updateTags={this.handleCategoriesUpdateForBook} />

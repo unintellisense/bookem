@@ -3,7 +3,7 @@ import { GoogleBooksVolumeSearch, SearchResultBook } from '../../shared/dto/goog
 
 const baseGoogleBooksUrl = `https://www.googleapis.com/books`;
 
-const isoDateRegex = /(\d{4})-\d{2}(-\d{2})?/g
+const isoDateRegex = /(\d{4})(-\d{2})?(-\d{2})?/
 
 // Promise<AxiosResponse<GoogleBooksVolumeSearch>>
 export async function getBooksByIsbn(isbn: string): Promise<SearchResultBook[]> {

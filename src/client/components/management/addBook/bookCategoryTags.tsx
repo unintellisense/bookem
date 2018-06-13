@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { WithContext as ReactTags, ReactTagsProps } from 'react-tag-input'
 
+import './bookCategoryTags.css'
+
 type BookCategoryTagsProps = {
   tags: string[]
   updateTags: (tags: string[]) => any
@@ -55,10 +57,11 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
   render() {
     return <div>
       <ReactTags autofocus={false}
+        placeholder='Add new category'
         tags={this.state.tags as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
-        handleDrag={this.handleDrag}
+        /** handleDrag={this.handleDrag} */
       />
     </div>
   }
