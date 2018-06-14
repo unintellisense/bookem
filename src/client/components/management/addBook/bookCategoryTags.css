@@ -1,11 +1,12 @@
-/* Example Styles for React Tags*/
+/* Styles for main element */
 div.ReactTags__tags {
   position: relative;
+  margin-bottom: 15px;
 }
 
 /* Styles for the input */
 div.ReactTags__tagInput {
-  width: 200px;
+  width: 175px;
   border-radius: 2px;
   display: inline-block;
 }

@@ -33,4 +33,11 @@
     margin-top: 15px;
     margin-bottom: 15px;    
   }
+
+}
+
+/** vertical padding for all sizes */
+.all-vert-spacing {
+  margin-top: 15px;
+  margin-bottom: 15px;    
 }
