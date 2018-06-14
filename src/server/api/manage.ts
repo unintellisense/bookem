@@ -12,7 +12,7 @@ export class ManageController {
 
   @Get("/book")
   async getBook(req: Express.Request, res: Express.Response) {
-    res.send('GET BOOK');
+    return await Book.query().select();
   }
 
   @Post("/book")
