@@ -18,7 +18,7 @@ export async function getBooksByIsbn(isbn: string): Promise<SearchResultBook[]> 
       return {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
-        authors: book.volumeInfo.authors.join(', '),
+        authors: book.volumeInfo.authors && book.volumeInfo.authors.join(', '),
         yearPublished: publishedYear,
         categories: book.volumeInfo.categories
       }

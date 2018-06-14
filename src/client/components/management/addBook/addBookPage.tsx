@@ -102,7 +102,6 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   render() {
     return (
       <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); this.props.postBook(this.state.book) }}>
-
         <Col sm={12} >
           <InputGroup>
             <InputGroup.Addon>Isbn</InputGroup.Addon>
@@ -112,14 +111,26 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             </InputGroup.Button>
           </InputGroup>
         </Col>
-
-
-        <Col sm={12} >
+        <Col sm={10} >
           <ControlLabel>Title</ControlLabel>
           <FormControl type="text" value={this.state.book.title} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
         </Col>
-
-
+        <Col sm={2} className='mobile-vert-spacing' >
+          <ControlLabel>Year Published</ControlLabel>
+          <FormControl type="number" value={this.state.book.yearPublished || ''} onChange={this.handleNumberChangeForBook('yearPublished')} />
+        </Col>
+        <Col sm={6} className='mobile-vert-spacing' >
+          <ControlLabel>Authors</ControlLabel>
+          <FormControl type="text" value={this.state.book.authors} onChange={this.handleChangeForBook('authors')} />
+        </Col>
+        <Col sm={2} xs={6} className='mobile-vert-spacing' >
+          <ControlLabel>Library Id</ControlLabel>
+          <FormControl type="text" value={this.state.book.libraryIdentifier} onChange={this.handleChangeForBook('libraryIdentifier')} />
+        </Col>
+        <Col sm={2} xs={6} className='mobile-vert-spacing' >
+          <ControlLabel>Book Series Number</ControlLabel>
+          <FormControl type="number" value={this.state.book.bookSeriesNumber || ''} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
+        </Col>
         <Col sm={2} className='mobile-vert-spacing' >
           <ControlLabel>Fiction?</ControlLabel>
           <FormControl componentClass="select" value={this.state.book.isFiction ? 'true' : 'false'} onChange={this.handleBooleanSelectForBook('isFiction')}>
@@ -127,46 +138,22 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
             <option value={'true'}>Fiction</option>
           </FormControl>
         </Col>
-
-        <Col sm={8} className='mobile-vert-spacing' >
-          <ControlLabel>Authors</ControlLabel>
-          <FormControl type="text" value={this.state.book.authors} onChange={this.handleChangeForBook('authors')} />
+        <Col sm={12} className='all-vert-spacing'>
+          <ControlLabel>Description</ControlLabel>
+          <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
         </Col>
-
-        <Col sm={2} className='mobile-vert-spacing' >
-          <ControlLabel>Year Published</ControlLabel>
-          <FormControl type="number" value={this.state.book.yearPublished || ''} onChange={this.handleNumberChangeForBook('yearPublished')} />
-        </Col>
-
-        <Col sm={3} className='mobile-vert-spacing' >
-          <ControlLabel>Library Id</ControlLabel>
-          <FormControl type="text" value={this.state.book.libraryIdentifier} onChange={this.handleChangeForBook('libraryIdentifier')} />
-        </Col>
-
-        <Col sm={3} className='mobile-vert-spacing' >
-          <ControlLabel>Book Series Number</ControlLabel>
-          <FormControl type="number" value={this.state.book.bookSeriesNumber || ''} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
-        </Col>
-
-        <Col md={6} >
+        <Col md={12} className='mobile-vert-spacing' >
           <ControlLabel>Categories</ControlLabel>
           <BookCategoryTags
             tags={this.state.book.categories}
             updateTags={this.handleCategoriesUpdateForBook} />
         </Col>
-
-        <Col sm={12}>
-          <ControlLabel>Description</ControlLabel>
-          <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
-        </Col>
-
         <Col md={9} className='mobile-vert-spacing' >
           <Button block type="submit">Submit</Button>
         </Col>
         <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
           <Button block type="button" onClick={this.clearBookInputs}>Reset</Button>
         </Col>
-
         <BookLookupModal onClose={this.clearSearchedBooks} searchedBooks={this.state.searchedBooks} applyBook={this.applyBookState} />
       </Form >
     )

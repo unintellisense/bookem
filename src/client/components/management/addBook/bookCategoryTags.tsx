@@ -3,13 +3,6 @@ import { WithContext as ReactTags, ReactTagsProps } from 'react-tag-input'
 
 import './bookCategoryTags.css'
 
-declare module 'react-tag-input' {
-  interface ReactTagsProps {
-    classNames: { [name: string]: string }
-  }
-}
-
-
 type BookCategoryTagsProps = {
   tags: string[]
   updateTags: (tags: string[]) => any
@@ -68,17 +61,7 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
         tags={this.state.tags as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
-        /** handleDrag={this.handleDrag} mobile chrome breaks */
-        classNames={{
-          // tags: 'tagsClass',
-          tagInput: '.form-control',
-          // tagInputField: 'tagInputFieldClass',
-          // selected: 'selectedClass',
-          // tag: 'tagClass',
-          // remove: 'removeClass',
-          // suggestions: 'suggestionsClass',
-          // activeSuggestion: 'activeSuggestionClass'
-        }}
+        /** handleDrag={this.handleDrag} mobile chrome breaks */        
       />
     </div>
   }
