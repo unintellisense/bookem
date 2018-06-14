@@ -132,13 +132,13 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
           <ControlLabel>Authors</ControlLabel>
           <FormControl type="text" value={this.state.book.authors} onChange={this.handleChangeForBook('authors')} />
         </Col>
-        
+
         <Col sm={2} className='mobile-vert-spacing' >
           <ControlLabel>Year Published</ControlLabel>
           <FormControl type="number" value={this.state.book.yearPublished || ''} onChange={this.handleNumberChangeForBook('yearPublished')} />
         </Col>
 
-        <Col sm={5} className='mobile-vert-spacing' >
+        <Col sm={3} className='mobile-vert-spacing' >
           <ControlLabel>Library Id</ControlLabel>
           <FormControl type="text" value={this.state.book.libraryIdentifier} onChange={this.handleChangeForBook('libraryIdentifier')} />
         </Col>
@@ -148,19 +148,17 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
           <FormControl type="number" value={this.state.book.bookSeriesNumber || ''} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
         </Col>
 
-        <Col sm={12}>
-          <ControlLabel>Description</ControlLabel>
-          <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
-        </Col>
-
-
-        <Col md={9} className='all-vert-spacing' >
+        <Col md={6} >
           <ControlLabel>Categories</ControlLabel>
           <BookCategoryTags
             tags={this.state.book.categories}
             updateTags={this.handleCategoriesUpdateForBook} />
         </Col>
 
+        <Col sm={12}>
+          <ControlLabel>Description</ControlLabel>
+          <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
+        </Col>
 
         <Col md={9} className='mobile-vert-spacing' >
           <Button block type="submit">Submit</Button>
