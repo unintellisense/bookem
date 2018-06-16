@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { RouteComponentWrapper } from '../index'
-import AddBooks from './addBook/addBookPage'
-import ViewBooks from './viewBooks'
+import AddBook from './addBook/'
+import ViewBooks from './viewBook/viewBookPage'
 import { Navbar, NavItem, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { RouteComponentProps } from 'react-router'
 
-const routeComponents: RouteComponentWrapper[] = [ViewBooks, AddBooks];
+const routeComponents: RouteComponentWrapper[] = [ViewBooks, AddBook];
 type ManageProps = RouteComponentProps<{}>;
 
 class Manage extends React.Component<ManageProps> {
