@@ -32,7 +32,25 @@ class viewBookPage extends React.Component<ViewBookProps> {
   }
 
   render() {
-    return <div>xxx</div>
+    let contents = this.props.searchedBooks.map(book => {
+      return <tr>
+        <td>{book.title}</td>
+        <td>{book.categories}</td>
+        <td>{book.description}</td>
+      </tr>
+    });
+    return <Table striped bordered condensed hover>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Categories</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {contents}
+      </tbody>
+    </Table>
   }
 
 }
