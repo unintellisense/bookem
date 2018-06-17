@@ -1,6 +1,7 @@
 import { IBook } from '../../shared/dto/ibook'
 
 export class Book implements IBook {
+  id?: number
   title: string;
   isFiction: boolean;
   isbn: string;

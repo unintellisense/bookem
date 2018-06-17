@@ -34,7 +34,7 @@ export class App extends React.Component {
                 <Navbar.Collapse>
                   <Nav>
                     {routeComponents.map((wrap) => // add appropriate linkContainers 
-                      <LinkContainer to={`/${wrap.routePath}`}>
+                      <LinkContainer to={`/${wrap.routePath}`} key={wrap.routeLabel}>
                         <NavItem>{wrap.routeLabel}</NavItem>
                       </LinkContainer >
                     )}
@@ -43,7 +43,7 @@ export class App extends React.Component {
               </Navbar>
               <Switch>
                 {routeComponents.map((wrap) => // add appropriate routes 
-                  <Route path={`/${wrap.routePath}`} component={wrap.component} />
+                  <Route path={`/${wrap.routePath}`} component={wrap.component} key={wrap.routeLabel} />
                 )}
                 { // default to the first route in the path when no match
                   <Route exact path="*" render={() => <Redirect to={`/${routeComponents[0].routePath}`} />} />
@@ -52,7 +52,7 @@ export class App extends React.Component {
             </div>
           </BrowserRouter >
           <ReduxToastr
-            timeOut={2500}                                    
+            timeOut={2500}
             transitionIn="fadeIn"
             transitionOut="fadeOut"
             progressBar />

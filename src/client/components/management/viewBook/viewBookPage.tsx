@@ -6,6 +6,8 @@ import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../../index'
 import { getSearchedBooksAction } from '../../../state/manage/viewBook/action'
 
+const TextTruncate = require('react-text-truncate');
+
 type ViewBookProps = {
   searchedBooks: Book[]
   lastRefreshedBooks: number
@@ -33,10 +35,14 @@ class viewBookPage extends React.Component<ViewBookProps> {
 
   render() {
     let contents = this.props.searchedBooks.map(book => {
-      return <tr>
+      return <tr key={book.id}>
         <td>{book.title}</td>
         <td>{book.categories}</td>
-        <td>{book.description}</td>
+        <td><TextTruncate
+          line={3}
+          truncateText="…"
+          text={book.description}
+        /></td>
       </tr>
     });
     return <Table striped bordered condensed hover>

@@ -91,7 +91,7 @@ gulp.task('client-development', () => {
 
   var config = Object.assign({}, baseWebPackConfig);
   config.devtool = "cheap-module-eval-source-map";
-
+  config.mode = "development";
   new WebpackDevServer(webpack(config), {
 
     //publicPath: clientBuildPath,

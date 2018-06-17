@@ -28,7 +28,7 @@ class Manage extends React.Component<ManageProps> {
         <Navbar inverse fluid collapseOnSelect>
           <Nav pullRight>
             {routeComponents.map((wrap) => // add appropriate linkContainers 
-              <LinkContainer to={`${matchUrl}/${wrap.routePath}`}>
+              <LinkContainer to={`${matchUrl}/${wrap.routePath}`} key={wrap.routeLabel}>
                 <NavItem>{wrap.routeLabel}</NavItem>
               </LinkContainer >
             )}
@@ -36,7 +36,7 @@ class Manage extends React.Component<ManageProps> {
         </Navbar>
         <Switch>
           {routeComponents.map((wrap) => // add appropriate routes 
-            <Route path={`${matchUrl}/${wrap.routePath}`} component={wrap.component} />
+            <Route path={`${matchUrl}/${wrap.routePath}`} component={wrap.component} key={wrap.routeLabel} />
           )}
           { // default to the first route in the path when no match
             <Route exact path="*" render={() => <Redirect to={`${matchUrl}/${routeComponents[0].routePath}`} />} />
