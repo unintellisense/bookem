@@ -32,19 +32,19 @@ export class BookLookupModal extends React.Component<BookLookupModalProps> {
                   <th>Description</th>
                   <th></th>
                 </tr>
-              </thead>
-              {
-                this.props.searchedBooks && this.props.searchedBooks.map((book, idx) => {
-                  return (
-                    <tr>
-                      <td>{idx + 1}</td>
-                      <td>{book.title}</td>
-                      <td>{book.description}</td>
-                      <td><Button onClick={() => { this.props.applyBook(book) }}>Apply</Button></td>
-                    </tr>
-                  )
-                })
-              }
+              </thead>              
+                {
+                  this.props.searchedBooks && this.props.searchedBooks.map((book, idx) => {
+                    return (
+                      <tr key={idx}>
+                        <td>{idx + 1}</td>
+                        <td>{book.title}</td>
+                        <td>{book.description}</td>
+                        <td><Button onClick={() => { this.props.applyBook(book) }}>Apply</Button></td>
+                      </tr>
+                    )
+                  })
+                }              
             </Table>
           </div>
         }
