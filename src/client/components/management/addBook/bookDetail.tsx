@@ -71,9 +71,9 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
 
     private applyBookState = (searchedBook: SearchResultBook) => {
         let newBook: Book = {
-            title: searchedBook.title,
-            description: searchedBook.description,
-            authors: searchedBook.authors,
+            title: searchedBook.title || '',
+            description: searchedBook.description || '',
+            authors: searchedBook.authors || '',
             yearPublished: searchedBook.yearPublished,
             categories: searchedBook.categories,
             bookSeriesNumber: this.state.book.bookSeriesNumber, // preserve

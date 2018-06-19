@@ -24,7 +24,9 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
   }
 
   public componentWillReceiveProps(nextProps: BookCategoryTagsProps) {
-    this.setState({ tags: nextProps.tags.map(tag => { return { id: tag, text: tag } }) });
+    this.setState(
+      { tags: nextProps.tags ? nextProps.tags.map(tag => { return { id: tag, text: tag } }) : [] }
+    );
   }
 
   sendNewTags = (newTags: TagType[]) => {
@@ -61,7 +63,7 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
         tags={this.state.tags as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
-        /** handleDrag={this.handleDrag} mobile chrome breaks */        
+      /** handleDrag={this.handleDrag} mobile chrome breaks */
       />
     </div>
   }
