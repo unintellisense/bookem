@@ -22,9 +22,15 @@ const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
 export class BookDetail extends React.Component<BookDetailProps, BookDetailState> {
 
+    private tagReference: React.RefObject<BookCategoryTags> = React.createRef();
+
     constructor(props: BookDetailProps) {
         super(props);
         this.state = { book: props.book };
+    }
+
+    public submitPendingCategories(e: React.FormEvent<any>) {
+        if (this.tagReference.current) this.tagReference.current.submitPendingCategories(e);
     }
 
     public componentWillReceiveProps(nextProps) {
@@ -89,12 +95,12 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
     }
 
     private clearBookInputs = () => {
+        if (this.tagReference.current) this.tagReference.current.clearInput();
         this.setState({ ...this.state, book: Book.GetDefaultBook() }, this.sendBookStateToUpdateProp);
     }
 
     render() {
         return <div>
-
             <Col sm={12} >
                 <InputGroup>
                     <InputGroup.Addon>Isbn</InputGroup.Addon>
@@ -139,7 +145,9 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
                 <ControlLabel>Categories</ControlLabel>
                 <BookCategoryTags
                     tags={this.state.book.categories}
-                    updateTags={this.handleCategoriesUpdateForBook} />
+                    updateTags={this.handleCategoriesUpdateForBook}
+                    ref={this.tagReference}
+                />
             </Col>
             <Col md={9} className='mobile-vert-spacing' >
                 <Button block type="submit">Submit</Button>
@@ -148,7 +156,6 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
                 <Button block type="button" onClick={this.clearBookInputs}>Reset</Button>
             </Col>
             <BookLookupModal onClose={this.clearSearchedBooks} searchedBooks={this.state.searchedBooks} applyBook={this.applyBookState} />
-
         </div>
     }
 

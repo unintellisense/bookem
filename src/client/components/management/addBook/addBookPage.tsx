@@ -22,9 +22,20 @@ const numberRegex = /^[0-9\-]*$/
 
 class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
+  private bookDetailRef: React.RefObject<BookDetail> = React.createRef();
+
   constructor(props: AddBooksProps) {
     super(props);
     this.state = { book: props.book };
+  }
+
+  handleSubmit = (e: React.FormEvent<any>) => {
+    e.preventDefault();
+    if (this.bookDetailRef.current)
+      this.bookDetailRef.current.submitPendingCategories(e);
+    setTimeout(() => {
+      this.props.postBook(this.state.book);
+    }, 0);
   }
 
   public componentWillUnmount() {
@@ -37,10 +48,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   render() {
     return (
-      <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); this.props.postBook(this.state.book) }}>
+      <Form horizontal className="container-fluid" onSubmit={this.handleSubmit}>
         <BookDetail
           book={this.state.book}
           bookUpdated={book => { this.setState({ ...this.state, book }) }}
+          ref={this.bookDetailRef}
         />
       </Form >
     )
