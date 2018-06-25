@@ -9,11 +9,9 @@ declare module 'react-tag-input' {
   }
 }
 
-
-
 type BookCategoryTagsProps = {
   tags: string[]
-  partialTag: string
+  partialCategoryTag: string
   updateTags: (tags: string[]) => any
   updatePartialTag: (partial: string) => any
 }
@@ -73,7 +71,7 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
         tags={this.state.tags as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
-        inputValue={this.props.partialTag}
+        inputValue={this.props.partialCategoryTag}
         handleInputChange={this.props.updatePartialTag}
       /** handleDrag={this.handleDrag} mobile chrome breaks */
       />

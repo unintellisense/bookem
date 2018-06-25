@@ -9,30 +9,29 @@ import { SearchResultBook } from '../../../../shared/dto/googleBook';
 
 type BookDetailProps = {
     book: Book
+    partialCategoryTag: string
     bookUpdated: (book: Book) => any
+    partialCategoryTagUpdated: (partial: string) => any
 }
 
 type BookDetailState = {
     book: Book
+    partialCategoryTag: string
     searchedBooks?: SearchResultBook[]
 }
 
 const numberRegex = /^[0-9\-]*$/
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
-export class BookDetail extends React.Component<BookDetailProps, BookDetailState> {    
+export class BookDetail extends React.Component<BookDetailProps, BookDetailState> {
 
     constructor(props: BookDetailProps) {
         super(props);
-        this.state = { book: props.book };
-    }    
-
-    public componentWillReceiveProps(nextProps) {
-        this.setState({ ...this.state, book: nextProps.book });
+        this.state = { book: props.book, partialCategoryTag: props.partialCategoryTag };
     }
 
-    private sendBookStateToUpdateProp() {
-        this.props.bookUpdated(this.state.book);
+    public componentWillReceiveProps(nextProps) {
+        this.setState({ ...this.state, book: nextProps.book, partialCategoryTag: nextProps.partialCategoryTag });
     }
 
     private handleIsbnSearchClick = async (isbn?: string) => {
@@ -51,22 +50,29 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
     }
 
     private handleChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } }, this.sendBookStateToUpdateProp);
+        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } }, this.props.bookUpdated(this.state.book));
 
     }
 
     private handleNumberChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
         let value = Number.parseInt(e.currentTarget.value as string);
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: value } }, this.sendBookStateToUpdateProp);
+        this.setState({ ...this.state, book: { ...this.state.book, [propName]: value } }, this.props.bookUpdated(this.state.book));
 
     }
 
     private handleBooleanSelectForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } }, this.sendBookStateToUpdateProp);
+        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } }, this.props.bookUpdated(this.state.book));
     }
 
     private handleCategoriesUpdateForBook = (tags: string[]) => {
-        this.setState({ ...this.state, book: { ...this.state.book, categories: tags } }, this.sendBookStateToUpdateProp)
+        this.setState({ ...this.state, book: { ...this.state.book, categories: tags } }, this.props.bookUpdated(this.state.book))
+    }
+
+    private handlePartialCategoryTagUpdate = (partial: string) => {
+        this.setState({ ...this.state, partialCategoryTag: partial },
+            () => {
+                this.props.partialCategoryTagUpdated(this.state.partialCategoryTag);
+            })
     }
 
     private applyBookState = (searchedBook: SearchResultBook) => {
@@ -81,7 +87,7 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
             isbn: this.state.book.isbn, // preserve
             isFiction: this.state.book.isFiction // not sure how to calculate this from API, preserve
         }
-        this.setState({ ...this.state, book: newBook, searchedBooks: undefined }, this.sendBookStateToUpdateProp);
+        this.setState({ ...this.state, book: newBook, searchedBooks: undefined }, this.props.bookUpdated(this.state.book));
     }
 
     private clearSearchedBooks = () => {
@@ -89,7 +95,7 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
     }
 
     private clearBookInputs = () => {
-        this.setState({ ...this.state, book: Book.GetDefaultBook() }, this.sendBookStateToUpdateProp);
+        this.setState({ ...this.state, book: Book.GetDefaultBook() }, this.props.bookUpdated(this.state.book));
     }
 
     render() {
@@ -139,7 +145,8 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
                 <BookCategoryTags
                     tags={this.state.book.categories}
                     updateTags={this.handleCategoriesUpdateForBook}
-                    
+                    partialCategoryTag={this.state.partialCategoryTag}
+                    updatePartialTag={this.handlePartialCategoryTagUpdate}
                 />
             </Col>
             <Col md={9} className='mobile-vert-spacing' >

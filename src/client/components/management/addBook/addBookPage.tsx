@@ -7,14 +7,18 @@ import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
 import { BookDetail } from './bookDetail'
+
 type AddBooksProps = {
   postBook: (book: Book) => any
-  saveBookFields: (book: Book) => any
   book: Book
+  saveBookFields: (book: Book) => any
+  partialCategoryTag: string
+  savePartialCategoryTag: (partial: string) => any
 }
 
 type AddBooksState = {
   book: Book
+  partialCategoryTag: string
   searchedBooks?: SearchResultBook[]
 }
 
@@ -22,20 +26,14 @@ const numberRegex = /^[0-9\-]*$/
 
 class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
-  private bookDetailRef: React.RefObject<BookDetail> = React.createRef();
-
   constructor(props: AddBooksProps) {
     super(props);
-    this.state = { book: props.book };
+    this.state = { book: props.book, partialCategoryTag: props.partialCategoryTag };
   }
 
   handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
-    if (this.bookDetailRef.current)
-      this.bookDetailRef.current.submitPendingCategories(e);
-    setTimeout(() => {
-      this.props.postBook(this.state.book);
-    }, 0);
+    this.props.postBook(this.state.book);;
   }
 
   public componentWillUnmount() {
@@ -43,7 +41,11 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   public componentWillReceiveProps(nextProps) {
-    this.setState({ ...this.state, book: nextProps.book });
+    this.setState({ ...this.state, book: nextProps.book, partialCategoryTag: nextProps.partialCategoryTag });
+  }
+
+  private updatePartialCategoryTag = (partialCategoryTag: string) => {
+    this.setState({ ...this.state, partialCategoryTag });
   }
 
   render() {
@@ -52,7 +54,8 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
         <BookDetail
           book={this.state.book}
           bookUpdated={book => { this.setState({ ...this.state, book }) }}
-          ref={this.bookDetailRef}
+          partialCategoryTag={this.state.partialCategoryTag}
+          partialCategoryTagUpdated={this.updatePartialCategoryTag}
         />
       </Form >
     )
@@ -60,7 +63,8 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  book: state.manage.addBook.book
+  book: state.manage.addBook.book,
+  partialCategoryTag: ''
 })
 
 const mapDispatchToProps = (dispatch) => ({
