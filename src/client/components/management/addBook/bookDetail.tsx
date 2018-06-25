@@ -92,7 +92,10 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
     }
 
     private clearBookInputs = () => {
-        this.setState({ ...this.state, book: Book.GetDefaultBook() }, () => { this.props.bookUpdated(this.state.book) });
+        this.setState({ ...this.state, book: Book.GetDefaultBook(), partialCategoryTag: '' }, () => {
+            this.props.bookUpdated(this.state.book);
+            this.props.partialCategoryTagUpdated(this.state.partialCategoryTag);
+        });
     }
 
     render() {
