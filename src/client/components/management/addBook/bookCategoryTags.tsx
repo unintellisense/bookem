@@ -3,9 +3,19 @@ import { WithContext as ReactTags, ReactTagsProps } from 'react-tag-input'
 
 import './bookCategoryTags.css'
 
+declare module 'react-tag-input' {
+  interface ReactTagsProps {
+    inputValue?: string
+  }
+}
+
+
+
 type BookCategoryTagsProps = {
   tags: string[]
+  partialTag: string
   updateTags: (tags: string[]) => any
+  updatePartialTag: (partial: string) => any
 }
 type TagType = { id: string, text: string };
 
@@ -17,24 +27,10 @@ type BookCategoryTagsState = {
 export class BookCategoryTags extends React.Component<BookCategoryTagsProps, BookCategoryTagsState> {
 
   private tags: string[]
-  private tagsReference: React.RefObject<ReactTags> = React.createRef();
 
   constructor(props: BookCategoryTagsProps) {
     super(props);
     this.state = { tags: props.tags.map(tag => { return { id: tag, text: tag } }) };
-  }
-
-  // invoke to simulate enter key to submit any pending category text
-  public submitPendingCategories(e: React.FormEvent<any>) {
-    if (this.tagsReference.current) {
-      e['keyCode'] = 13;
-      this.tagsReference.current['child'].handleKeyDown(e);
-    }
-  }
-
-  public clearInput() {
-    if (this.tagsReference.current)
-      this.tagsReference.current['child']['textInput']['value'] = '';
   }
 
   public componentWillReceiveProps(nextProps: BookCategoryTagsProps) {
@@ -77,7 +73,8 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
         tags={this.state.tags as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
-        ref={this.tagsReference}
+        inputValue={this.props.partialTag}
+        handleInputChange={this.props.updatePartialTag}
       /** handleDrag={this.handleDrag} mobile chrome breaks */
       />
     </div>
