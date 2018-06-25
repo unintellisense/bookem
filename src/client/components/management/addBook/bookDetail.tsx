@@ -50,29 +50,26 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
     }
 
     private handleChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } }, this.props.bookUpdated(this.state.book));
+        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } }, () => { this.props.bookUpdated(this.state.book) });
 
     }
 
     private handleNumberChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
         let value = Number.parseInt(e.currentTarget.value as string);
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: value } }, this.props.bookUpdated(this.state.book));
+        this.setState({ ...this.state, book: { ...this.state.book, [propName]: value } }, () => { this.props.bookUpdated(this.state.book) });
 
     }
 
     private handleBooleanSelectForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } }, this.props.bookUpdated(this.state.book));
+        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } }, () => { this.props.bookUpdated(this.state.book) });
     }
 
     private handleCategoriesUpdateForBook = (tags: string[]) => {
-        this.setState({ ...this.state, book: { ...this.state.book, categories: tags } }, this.props.bookUpdated(this.state.book))
+        this.setState({ ...this.state, book: { ...this.state.book, categories: tags } }, () => { this.props.bookUpdated(this.state.book) })
     }
 
     private handlePartialCategoryTagUpdate = (partial: string) => {
-        this.setState({ ...this.state, partialCategoryTag: partial },
-            () => {
-                this.props.partialCategoryTagUpdated(this.state.partialCategoryTag);
-            })
+        this.setState({ ...this.state, partialCategoryTag: partial }, () => { this.props.partialCategoryTagUpdated(this.state.partialCategoryTag); })
     }
 
     private applyBookState = (searchedBook: SearchResultBook) => {
@@ -87,7 +84,7 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
             isbn: this.state.book.isbn, // preserve
             isFiction: this.state.book.isFiction // not sure how to calculate this from API, preserve
         }
-        this.setState({ ...this.state, book: newBook, searchedBooks: undefined }, this.props.bookUpdated(this.state.book));
+        this.setState({ ...this.state, book: newBook, searchedBooks: undefined }, () => { this.props.bookUpdated(this.state.book) });
     }
 
     private clearSearchedBooks = () => {
@@ -95,7 +92,7 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
     }
 
     private clearBookInputs = () => {
-        this.setState({ ...this.state, book: Book.GetDefaultBook() }, this.props.bookUpdated(this.state.book));
+        this.setState({ ...this.state, book: Book.GetDefaultBook() }, () => { this.props.bookUpdated(this.state.book) });
     }
 
     render() {
