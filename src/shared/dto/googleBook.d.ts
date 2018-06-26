@@ -44,5 +44,5 @@ export interface SearchResultBook {
   description: VolumeInfo['description']
   authors: string
   yearPublished: number | null
-  categories: string[]
+  categories: string[] | null
 }

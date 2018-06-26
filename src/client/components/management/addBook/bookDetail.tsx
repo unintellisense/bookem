@@ -15,23 +15,17 @@ type BookDetailProps = {
 }
 
 type BookDetailState = {
-    book: Book
-    partialCategoryTag: string
     searchedBooks?: SearchResultBook[]
 }
 
 const numberRegex = /^[0-9\-]*$/
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
-export class BookDetail extends React.Component<BookDetailProps> {
+export class BookDetail extends React.Component<BookDetailProps, BookDetailState> {
 
     constructor(props: BookDetailProps) {
         super(props);
-        this.state = { book: props.book, partialCategoryTag: props.partialCategoryTag };
-    }
-
-    public componentWillReceiveProps(nextProps) {
-        this.setState({ ...this.state, book: nextProps.book, partialCategoryTag: nextProps.partialCategoryTag });
+        this.state = {};
     }
 
     private handleIsbnSearchClick = async (isbn?: string) => {
@@ -50,27 +44,28 @@ export class BookDetail extends React.Component<BookDetailProps> {
     }
 
     private handleChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } }, () => { this.props.bookUpdated(this.state.book) });
+        let book = { ...this.props.book, [propName]: e.currentTarget.value };
+        this.props.bookUpdated(book);
     }
 
     private handleNumberChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
-        let value = Number.parseInt(e.currentTarget.value as string);
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: value } }, () => { this.props.bookUpdated(this.state.book) });
+        let book = { ...this.props.book, [propName]: Number.parseInt(e.currentTarget.value as string) };
+        this.props.bookUpdated(book);
     }
 
     private handleBooleanSelectForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
-        this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value === 'true' } }, () => { this.props.bookUpdated(this.state.book) });
+        let book = { ...this.props.book, [propName]: e.currentTarget.value === 'true' };
+        this.props.bookUpdated(book);
     }
 
     private handleCategoriesUpdateForBook = (tags: string[]) => {
-        this.setState({ ...this.state, book: { ...this.state.book, categories: tags }, partialCategoryTag: '' }, () => {
-            this.props.bookUpdated(this.state.book);
-            this.props.partialCategoryTagUpdated(this.state.partialCategoryTag);
-        })
+        let book = { ...this.props.book, categories: tags };
+        this.props.bookUpdated(book);
+        this.props.partialCategoryTagUpdated('');
     }
 
     private handlePartialCategoryTagUpdate = (partial: string) => {
-        this.setState({ ...this.state, partialCategoryTag: partial }, () => { this.props.partialCategoryTagUpdated(this.state.partialCategoryTag); })
+        this.props.partialCategoryTagUpdated(partial);
     }
 
     private applyBookState = (searchedBook: SearchResultBook) => {
@@ -79,13 +74,14 @@ export class BookDetail extends React.Component<BookDetailProps> {
             description: searchedBook.description || '',
             authors: searchedBook.authors || '',
             yearPublished: searchedBook.yearPublished,
-            categories: searchedBook.categories,
-            bookSeriesNumber: this.state.book.bookSeriesNumber, // preserve
-            libraryIdentifier: this.state.book.libraryIdentifier, // preserve
-            isbn: this.state.book.isbn, // preserve
-            isFiction: this.state.book.isFiction // not sure how to calculate this from API, preserve
+            categories: searchedBook.categories || [],
+            bookSeriesNumber: this.props.book.bookSeriesNumber, // preserve
+            libraryIdentifier: this.props.book.libraryIdentifier, // preserve
+            isbn: this.props.book.isbn, // preserve
+            isFiction: this.props.book.isFiction // not sure how to calculate this from API, preserve
         }
-        this.setState({ ...this.state, book: newBook, searchedBooks: undefined }, () => { this.props.bookUpdated(this.state.book) });
+        this.props.bookUpdated(newBook);
+        this.setState({ searchedBooks: [] });
     }
 
     private clearSearchedBooks = () => {
@@ -93,10 +89,8 @@ export class BookDetail extends React.Component<BookDetailProps> {
     }
 
     private clearBookInputs = () => {
-        this.setState({ ...this.state, book: Book.GetDefaultBook(), partialCategoryTag: '' }, () => {
-            this.props.bookUpdated(this.state.book);
-            this.props.partialCategoryTagUpdated(this.state.partialCategoryTag);
-        });
+        this.props.bookUpdated(Book.GetDefaultBook());
+        this.props.partialCategoryTagUpdated('');
     }
 
     render() {
@@ -104,49 +98,49 @@ export class BookDetail extends React.Component<BookDetailProps> {
             <Col sm={12} >
                 <InputGroup>
                     <InputGroup.Addon>Isbn</InputGroup.Addon>
-                    <FormControl type="text" value={this.state.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
+                    <FormControl type="text" value={this.props.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
                     <InputGroup.Button>
-                        <Button onClick={(e) => { this.handleIsbnSearchClick(this.state.book.isbn) }}>Search</Button>
+                        <Button onClick={(e) => { this.handleIsbnSearchClick(this.props.book.isbn) }}>Search</Button>
                     </InputGroup.Button>
                 </InputGroup>
             </Col>
             <Col sm={10} >
                 <ControlLabel>Title</ControlLabel>
-                <FormControl type="text" value={this.state.book.title} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
+                <FormControl type="text" value={this.props.book.title} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
             </Col>
             <Col sm={2} className='mobile-vert-spacing' >
                 <ControlLabel>Year Published</ControlLabel>
-                <FormControl type="number" value={this.state.book.yearPublished || ''} onChange={this.handleNumberChangeForBook('yearPublished')} />
+                <FormControl type="number" value={this.props.book.yearPublished || ''} onChange={this.handleNumberChangeForBook('yearPublished')} />
             </Col>
             <Col sm={6} className='mobile-vert-spacing' >
                 <ControlLabel>Authors</ControlLabel>
-                <FormControl type="text" value={this.state.book.authors} onChange={this.handleChangeForBook('authors')} />
+                <FormControl type="text" value={this.props.book.authors} onChange={this.handleChangeForBook('authors')} />
             </Col>
             <Col sm={2} xs={6} className='mobile-vert-spacing' >
                 <ControlLabel>Library Id</ControlLabel>
-                <FormControl type="text" value={this.state.book.libraryIdentifier} onChange={this.handleChangeForBook('libraryIdentifier')} />
+                <FormControl type="text" value={this.props.book.libraryIdentifier} onChange={this.handleChangeForBook('libraryIdentifier')} />
             </Col>
             <Col sm={2} xs={6} className='mobile-vert-spacing' >
                 <ControlLabel>Book Series Number</ControlLabel>
-                <FormControl type="number" value={this.state.book.bookSeriesNumber || ''} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
+                <FormControl type="number" value={this.props.book.bookSeriesNumber || ''} onChange={this.handleNumberChangeForBook('bookSeriesNumber')} />
             </Col>
             <Col sm={2} className='mobile-vert-spacing' >
                 <ControlLabel>Fiction?</ControlLabel>
-                <FormControl componentClass="select" value={this.state.book.isFiction ? 'true' : 'false'} onChange={this.handleBooleanSelectForBook('isFiction')}>
+                <FormControl componentClass="select" value={this.props.book.isFiction ? 'true' : 'false'} onChange={this.handleBooleanSelectForBook('isFiction')}>
                     <option value={'false'}>Non Fiction</option>
                     <option value={'true'}>Fiction</option>
                 </FormControl>
             </Col>
             <Col sm={12} className='all-vert-spacing'>
                 <ControlLabel>Description</ControlLabel>
-                <FormControl componentClass="textarea" rows={3} value={this.state.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
+                <FormControl componentClass="textarea" rows={3} value={this.props.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
             </Col>
             <Col md={12} className='mobile-vert-spacing' >
                 <ControlLabel>Categories</ControlLabel>
                 <BookCategoryTags
-                    tags={this.state.book.categories}
+                    tags={this.props.book.categories}
                     updateTags={this.handleCategoriesUpdateForBook}
-                    partialCategoryTag={this.state.partialCategoryTag}
+                    partialCategoryTag={this.props.partialCategoryTag}
                     updatePartialTag={this.handlePartialCategoryTagUpdate}
                 />
             </Col>

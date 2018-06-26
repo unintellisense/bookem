@@ -33,7 +33,13 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
-    this.props.postBook(this.state.book);;
+    this.setState((prevState) => {
+      let categories = prevState.book.categories;
+      // add any pending categories to the existing book categories
+      if (prevState.partialCategoryTag) categories.push(prevState.partialCategoryTag);
+
+      return { ...prevState, book: { ...prevState.book, categories }, partialCategoryTag: '' }
+    }, () => { this.props.postBook(this.state.book) });
   }
 
   public componentWillUnmount() {
@@ -45,7 +51,15 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
   }
 
   private updatePartialCategoryTag = (partialCategoryTag: string) => {
-    this.setState({ ...this.state, partialCategoryTag });
+    this.setState((prevState) => {
+      return { ...prevState, partialCategoryTag }
+    })
+  }
+
+  private updateBook = (book: Book) => {
+    this.setState((prevState) => {
+      return { ...prevState, book }
+    })
   }
 
   render() {
@@ -53,7 +67,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
       <Form horizontal className="container-fluid" onSubmit={this.handleSubmit}>
         <BookDetail
           book={this.state.book}
-          bookUpdated={book => { this.setState({ ...this.state, book }) }}
+          bookUpdated={this.updateBook}
           partialCategoryTag={this.state.partialCategoryTag}
           partialCategoryTagUpdated={this.updatePartialCategoryTag}
         />
