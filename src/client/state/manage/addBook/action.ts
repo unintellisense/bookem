@@ -9,8 +9,17 @@ const alertMessageLengthMillis = 3000;
 export const saveAddBookFieldsAction = (book: Book) => {
   return (dispatch: Dispatch) => {
     return dispatch({
-      type: ActionTypeKeys.addBookSaveFormState,
+      type: ActionTypeKeys.addBookSaveForm,
       book
+    })
+  }
+}
+
+export const saveAddBookPartialTagAction = (partial: string) => {
+  return (dispatch: Dispatch) => {
+    return dispatch({
+      type: ActionTypeKeys.addBookPartialTag,
+      partial
     })
   }
 }

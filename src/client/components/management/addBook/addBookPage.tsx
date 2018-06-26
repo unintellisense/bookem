@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'react-bootstrap'
 import { RouteComponentWrapper } from '../../index'
-import { postBookAction, saveAddBookFieldsAction } from '../../../state/manage/addBook/action'
+import { postBookAction, saveAddBookFieldsAction, saveAddBookPartialTagAction } from '../../../state/manage/addBook/action'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
@@ -44,9 +44,10 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
   public componentWillUnmount() {
     this.props.saveBookFields(this.state.book);
+    this.props.savePartialCategoryTag(this.state.partialCategoryTag);
   }
 
-  public componentWillReceiveProps(nextProps) {
+  public getDerivedStateFromProps(nextProps) {
     this.setState({ ...this.state, book: nextProps.book, partialCategoryTag: nextProps.partialCategoryTag });
   }
 
@@ -78,12 +79,13 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
 const mapStateToProps = (state: AppState) => ({
   book: state.manage.addBook.book,
-  partialCategoryTag: ''
+  partialCategoryTag: state.manage.addBook.partialCategoryTag
 })
 
 const mapDispatchToProps = (dispatch) => ({
   postBook: (book: Book) => dispatch(postBookAction(book)),
-  saveBookFields: (book: Book) => dispatch(saveAddBookFieldsAction(book))
+  saveBookFields: (book: Book) => dispatch(saveAddBookFieldsAction(book)),
+  savePartialCategoryTag: (partial: string) => dispatch(saveAddBookPartialTagAction(partial))
 });
 
 const connectedAddBookPage = connect(mapStateToProps, mapDispatchToProps)(AddBookPage);

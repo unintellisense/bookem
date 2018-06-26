@@ -3,11 +3,13 @@ import { Book } from '../models/book'
 
 export const enum ActionTypeKeys {
   addBookSuccess,
-  addBookSaveFormState,
+  addBookSaveForm,
+  addBookPartialTag,
   viewBookSearchedBooksUpdate
 };
 
 export type ActionType =
   { type: ActionTypeKeys.addBookSuccess, book: Book } |
-  { type: ActionTypeKeys.addBookSaveFormState, book: Book } |
+  { type: ActionTypeKeys.addBookSaveForm, book: Book } |
+  { type: ActionTypeKeys.addBookPartialTag, partial: string } |
   { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number }
