@@ -23,7 +23,7 @@ type BookDetailState = {
 const numberRegex = /^[0-9\-]*$/
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
-export class BookDetail extends React.Component<BookDetailProps, BookDetailState> {
+export class BookDetail extends React.Component<BookDetailProps> {
 
     constructor(props: BookDetailProps) {
         super(props);
@@ -51,13 +51,11 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
 
     private handleChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
         this.setState({ ...this.state, book: { ...this.state.book, [propName]: e.currentTarget.value } }, () => { this.props.bookUpdated(this.state.book) });
-
     }
 
     private handleNumberChangeForBook = (propName: keyof Book) => (e: React.FormEvent<FormControlProps>) => {
         let value = Number.parseInt(e.currentTarget.value as string);
         this.setState({ ...this.state, book: { ...this.state.book, [propName]: value } }, () => { this.props.bookUpdated(this.state.book) });
-
     }
 
     private handleBooleanSelectForBook = (propName: keyof Book) => (e: React.FormEvent<CheckboxProps>) => {
@@ -65,7 +63,10 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
     }
 
     private handleCategoriesUpdateForBook = (tags: string[]) => {
-        this.setState({ ...this.state, book: { ...this.state.book, categories: tags } }, () => { this.props.bookUpdated(this.state.book) })
+        this.setState({ ...this.state, book: { ...this.state.book, categories: tags }, partialCategoryTag: '' }, () => {
+            this.props.bookUpdated(this.state.book);
+            this.props.partialCategoryTagUpdated(this.state.partialCategoryTag);
+        })
     }
 
     private handlePartialCategoryTagUpdate = (partial: string) => {

@@ -15,14 +15,9 @@ type BookCategoryTagsProps = {
   updateTags: (tags: string[]) => any
   updatePartialTag: (partial: string) => any
 }
-type TagType = { id: string, text: string };
+type TagType = { id: number, text: string };
 
-type BookCategoryTagsState = {
-  tags: TagType[]
-}
-
-
-export class BookCategoryTags extends React.Component<BookCategoryTagsProps, BookCategoryTagsState> {
+export class BookCategoryTags extends React.Component<BookCategoryTagsProps> {
 
   private tags: string[]
 
@@ -31,10 +26,8 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
     this.state = { tags: props.tags.map(tag => { return { id: tag, text: tag } }) };
   }
 
-  public componentWillReceiveProps(nextProps: BookCategoryTagsProps) {
-    this.setState(
-      { tags: nextProps.tags ? nextProps.tags.map(tag => { return { id: tag, text: tag } }) : [] }
-    );
+  stringsToTagTypes = (tagStrings: string[]) => {
+    return tagStrings.map((tag) => { return { id: tag, text: tag } })
   }
 
   sendNewTags = (newTags: TagType[]) => {
@@ -42,33 +35,28 @@ export class BookCategoryTags extends React.Component<BookCategoryTagsProps, Boo
   }
 
   handleDelete = (i: number) => {
-    let newTags = this.state.tags.filter((tag, index) => index !== i);
-    this.setState({
-      tags: newTags
-    });
-    this.sendNewTags(newTags);
+    let newTags = this.props.tags.filter((tag, index) => index !== i);
+    this.props.updateTags(newTags);
   }
 
   handleAddition = (tag: TagType) => {
-    let newTags = [...this.state.tags, tag];
-    this.setState({ tags: newTags });
-    this.sendNewTags(newTags);
+    let newTags = [...this.props.tags, tag.text];
+    this.props.updateTags(newTags);
   }
 
 
-  handleDrag = (tag, currPos, newPos) => {
-    const newTags = this.state.tags.slice();
+  handleDrag = (tag: TagType, currPos, newPos) => {
+    const newTags = this.props.tags.slice();
     newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
-    this.setState({ tags: newTags });
-    this.sendNewTags(newTags);
+    newTags.splice(newPos, 0, tag.text);
+    this.props.updateTags(newTags);
   }
 
   render() {
     return <div>
       <ReactTags autofocus={false}
         placeholder='Add new category'
-        tags={this.state.tags as any}
+        tags={this.stringsToTagTypes(this.props.tags) as any}
         handleAddition={this.handleAddition as any}
         handleDelete={this.handleDelete}
         inputValue={this.props.partialCategoryTag}
