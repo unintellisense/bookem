@@ -11,14 +11,12 @@ import { BookDetail } from './bookDetail'
 type AddBooksProps = {
   postBook: (book: Book) => any
   book: Book
-  saveBookFields: (book: Book) => any
+  updateBookFields: (book: Book) => any
   partialCategoryTag: string
-  savePartialCategoryTag: (partial: string) => any
+  updatePartialCategoryTag: (partial: string) => any
 }
 
 type AddBooksState = {
-  book: Book
-  partialCategoryTag: string
   searchedBooks?: SearchResultBook[]
 }
 
@@ -26,50 +24,31 @@ const numberRegex = /^[0-9\-]*$/
 
 class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
 
-  constructor(props: AddBooksProps) {
-    super(props);
-    this.state = { book: props.book, partialCategoryTag: props.partialCategoryTag };
-  }
-
   handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
-    this.setState((prevState) => {
-      let categories = prevState.book.categories;
-      // add any pending categories to the existing book categories
-      if (prevState.partialCategoryTag) categories.push(prevState.partialCategoryTag);
 
-      return { ...prevState, book: { ...prevState.book, categories }, partialCategoryTag: '' }
-    }, () => { this.props.postBook(this.state.book) });
-  }
+    let categories = this.props.book.categories;
+    // add any pending categories to the existing book categories
+    if (this.props.partialCategoryTag) categories.push(this.props.partialCategoryTag);
 
-  public componentWillUnmount() {
-    this.props.saveBookFields(this.state.book);
-    this.props.savePartialCategoryTag(this.state.partialCategoryTag);
-  }
-
-  public getDerivedStateFromProps(nextProps) {
-    this.setState({ ...this.state, book: nextProps.book, partialCategoryTag: nextProps.partialCategoryTag });
+    this.props.postBook({ ...this.props.book, categories });
   }
 
   private updatePartialCategoryTag = (partialCategoryTag: string) => {
-    this.setState((prevState) => {
-      return { ...prevState, partialCategoryTag }
-    })
+    this.props.updatePartialCategoryTag(partialCategoryTag);
   }
 
   private updateBook = (book: Book) => {
-    this.setState((prevState) => {
-      return { ...prevState, book }
-    })
+    this.props.updateBookFields(book);
   }
 
   render() {
     return (
       <Form horizontal className="container-fluid" onSubmit={this.handleSubmit}>
         <BookDetail
-          book={this.state.book}
+          book={this.props.book}
           bookUpdated={this.updateBook}
-          partialCategoryTag={this.state.partialCategoryTag}
+          partialCategoryTag={this.props.partialCategoryTag}
           partialCategoryTagUpdated={this.updatePartialCategoryTag}
         />
       </Form >
@@ -84,8 +63,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   postBook: (book: Book) => dispatch(postBookAction(book)),
-  saveBookFields: (book: Book) => dispatch(saveAddBookFieldsAction(book)),
-  savePartialCategoryTag: (partial: string) => dispatch(saveAddBookPartialTagAction(partial))
+  updateBookFields: (book: Book) => dispatch(saveAddBookFieldsAction(book)),
+  updatePartialCategoryTag: (partial: string) => dispatch(saveAddBookPartialTagAction(partial))
 });
 
 const connectedAddBookPage = connect(mapStateToProps, mapDispatchToProps)(AddBookPage);
