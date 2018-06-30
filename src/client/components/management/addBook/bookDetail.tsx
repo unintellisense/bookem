@@ -4,7 +4,7 @@ import { getBooksByIsbn } from '../../../services/googleBookService'
 import { toastError } from '../../../services/toastService'
 import { FormControlProps, Col, InputGroup, FormControl, Button, ControlLabel, CheckboxProps } from 'react-bootstrap'
 import { BookLookupModal } from './addBookModal'
-import { BookCategoryTags } from './bookCategoryTags'
+import { BookCategoryTags } from '../common/bookCategoryTags'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
 
 type BookDetailProps = {

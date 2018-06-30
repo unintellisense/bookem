@@ -11,11 +11,7 @@ type BookLookupModalProps = {
   applyBook: (searchedBook: SearchResultBook) => void
 }
 
-export class BookLookupModal extends React.Component<BookLookupModalProps> {
-
-  private onCloseModal = () => {
-    this.setState({ ...this.state, modalOpen: false });
-  }
+export class BookLookupModal extends React.Component<BookLookupModalProps> { 
 
   render() {
     return (

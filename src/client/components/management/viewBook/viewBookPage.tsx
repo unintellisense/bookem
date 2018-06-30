@@ -37,7 +37,7 @@ class viewBookPage extends React.Component<ViewBookProps> {
     let contents = this.props.searchedBooks.map(book => {
       return <tr key={book.id}>
         <td>{book.title}</td>
-        <td>{book.categories}</td>
+        <td>{book.categories.join(', ')}</td>
         <td><TextTruncate
           line={3}
           truncateText="…"
@@ -45,18 +45,20 @@ class viewBookPage extends React.Component<ViewBookProps> {
         /></td>
       </tr>
     });
-    return <Table striped bordered condensed hover>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Categories</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {contents}
-      </tbody>
-    </Table>
+    return <div className="container-fluid">
+      <Table striped bordered condensed hover>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Categories</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {contents}
+        </tbody>
+      </Table>
+    </div>
   }
 
 }
