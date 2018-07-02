@@ -8,19 +8,22 @@ import { getSearchedBooksAction } from '../../../state/manage/viewBook/action'
 
 const TextTruncate = require('react-text-truncate');
 
-type ViewBookProps = {
+type ViewStateProps = {
   searchedBooks: Book[]
   lastRefreshedBooks: number
-  getSearchedBooks: () => Book[]
+}
+
+type ViewDispatchProps = {
+  getBookView: () => Book[]
 }
 
 const staleRefreshTimeoutMillis = 1000 * 60; // 1 minute
 
-class viewBookPage extends React.Component<ViewBookProps> {
+class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
 
   refreshStaleBooks() {
     if (Date.now() - this.props.lastRefreshedBooks > staleRefreshTimeoutMillis) {
-      this.props.getSearchedBooks();
+      this.props.getBookView();
     }
   }
 
@@ -60,7 +63,6 @@ class viewBookPage extends React.Component<ViewBookProps> {
       </Table>
     </div>
   }
-
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -69,10 +71,10 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getSearchedBooks: () => dispatch(getSearchedBooksAction())
+  getBookView: () => dispatch(getSearchedBooksAction())
 });
 
-const connectedViewBookPage = connect(mapStateToProps, mapDispatchToProps)(viewBookPage);
+const connectedViewBookPage = connect<ViewStateProps, ViewDispatchProps>(mapStateToProps, mapDispatchToProps)(viewBookPage);
 
 const wrapper: RouteComponentWrapper = {
   component: connectedViewBookPage,
