@@ -3,7 +3,6 @@ import { Book } from '../../../models/book'
 import { getBooksByIsbn } from '../../../services/googleBookService'
 import { toastError } from '../../../services/toastService'
 import { FormControlProps, Col, InputGroup, FormControl, Button, ControlLabel, CheckboxProps } from 'react-bootstrap'
-import { BookLookupModal } from './addBookModal'
 import { BookCategoryTags } from '../common/bookCategoryTags'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
 
@@ -12,16 +11,13 @@ type BookDetailProps = {
     partialCategoryTag: string
     bookUpdated: (book: Book) => any
     partialCategoryTagUpdated: (partial: string) => any
-}
-
-type BookDetailState = {
-    searchedBooks?: SearchResultBook[]
+    updateSearchedBooks: (searchedBooks: SearchResultBook[]) => any
 }
 
 const numberRegex = /^[0-9\-]*$/
 const defaultIsbnText = 'Enter a 10 digit or 13 digit isbn.';
 
-export class BookDetail extends React.Component<BookDetailProps, BookDetailState> {
+export class BookDetail extends React.Component<BookDetailProps> {
 
     constructor(props: BookDetailProps) {
         super(props);
@@ -34,7 +30,7 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
             let searchResult = await getBooksByIsbn(isbnString);
             if (searchResult.length) {
                 // setting searchedBooks will open the modal
-                this.setState({ ...this.state, searchedBooks: searchResult })
+                this.props.updateSearchedBooks(searchResult);
             } else {
                 toastError('ISBN search failed', 'no results found.');
             }
@@ -66,31 +62,6 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
 
     private handlePartialCategoryTagUpdate = (partial: string) => {
         this.props.partialCategoryTagUpdated(partial);
-    }
-
-    private applyBookState = (searchedBook: SearchResultBook) => {
-        let newBook: Book = {
-            title: searchedBook.title || '',
-            description: searchedBook.description || '',
-            authors: searchedBook.authors || '',
-            yearPublished: searchedBook.yearPublished,
-            categories: searchedBook.categories || [],
-            bookSeriesNumber: this.props.book.bookSeriesNumber, // preserve
-            libraryIdentifier: this.props.book.libraryIdentifier, // preserve
-            isbn: this.props.book.isbn, // preserve
-            isFiction: this.props.book.isFiction // not sure how to calculate this from API, preserve
-        }
-        this.props.bookUpdated(newBook);
-        this.setState({ searchedBooks: [] });
-    }
-
-    private clearSearchedBooks = () => {
-        this.setState({ ...this.state, searchedBooks: undefined });
-    }
-
-    private clearBookInputs = () => {
-        this.props.bookUpdated(Book.GetDefaultBook());
-        this.props.partialCategoryTagUpdated('');
     }
 
     render() {
@@ -144,13 +115,6 @@ export class BookDetail extends React.Component<BookDetailProps, BookDetailState
                     updatePartialTag={this.handlePartialCategoryTagUpdate}
                 />
             </Col>
-            <Col md={9} className='mobile-vert-spacing' >
-                <Button block type="submit">Submit</Button>
-            </Col>
-            <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
-                <Button block type="button" onClick={this.clearBookInputs}>Reset</Button>
-            </Col>
-            <BookLookupModal onClose={this.clearSearchedBooks} searchedBooks={this.state.searchedBooks} applyBook={this.applyBookState} />
         </div>
     }
 

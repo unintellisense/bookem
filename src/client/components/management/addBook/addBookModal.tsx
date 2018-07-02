@@ -11,7 +11,7 @@ type BookLookupModalProps = {
   applyBook: (searchedBook: SearchResultBook) => void
 }
 
-export class BookLookupModal extends React.Component<BookLookupModalProps> { 
+export class AddBookModal extends React.Component<BookLookupModalProps> { 
 
   render() {
     return (

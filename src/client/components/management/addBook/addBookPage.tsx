@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Form } from 'react-bootstrap'
+import { Form, Col, Button } from 'react-bootstrap'
 import { RouteComponentWrapper } from '../../index'
 import { postBookAction, saveAddBookFieldsAction, saveAddBookPartialTagAction } from '../../../state/manage/addBook/action'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
-import { BookDetail } from './bookDetail'
+import { BookDetail } from '../common/bookDetail'
+import { AddBookModal } from './addBookModal';
 
 type AddBooksProps = {
   postBook: (book: Book) => any
@@ -20,9 +21,12 @@ type AddBooksState = {
   searchedBooks?: SearchResultBook[]
 }
 
-const numberRegex = /^[0-9\-]*$/
-
 class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
+
+  constructor(props: AddBooksProps) {
+    super(props);
+    this.state = {};
+  }
 
   handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
@@ -42,15 +46,54 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     this.props.updateBookFields(book);
   }
 
+  private clearBookInputs = () => {
+    this.updateBook(Book.GetDefaultBook());
+    this.updatePartialCategoryTag('');
+  }
+
+  private applyBookState = (searchedBook: SearchResultBook) => {
+    let newBook: Book = {
+      title: searchedBook.title || '',
+      description: searchedBook.description || '',
+      authors: searchedBook.authors || '',
+      yearPublished: searchedBook.yearPublished,
+      categories: searchedBook.categories || [],
+      bookSeriesNumber: this.props.book.bookSeriesNumber, // preserve
+      libraryIdentifier: this.props.book.libraryIdentifier, // preserve
+      isbn: this.props.book.isbn, // preserve
+      isFiction: this.props.book.isFiction // not sure how to calculate this from API, preserve
+    }
+    this.updateBook(newBook);
+    this.setState({ searchedBooks: [] });
+  }
+
+  private updateSearchedBooks = (searchedBooks: SearchResultBook[]) => {
+    this.setState({ ...this.state, searchedBooks: searchedBooks })
+  }
+
+  private clearSearchedBooks = () => {
+    this.setState({ ...this.state, searchedBooks: undefined });
+  }
+
   render() {
     return (
       <Form horizontal className="container-fluid" onSubmit={this.handleSubmit}>
         <BookDetail
           book={this.props.book}
-          bookUpdated={this.updateBook}
           partialCategoryTag={this.props.partialCategoryTag}
+          bookUpdated={this.updateBook}
           partialCategoryTagUpdated={this.updatePartialCategoryTag}
+          updateSearchedBooks={this.updateSearchedBooks}
         />
+        <div>
+          <Col md={9} className='mobile-vert-spacing' >
+            <Button block type="submit">Submit</Button>
+          </Col>
+          <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
+            <Button block type="button" onClick={this.clearBookInputs}>Reset</Button>
+          </Col>
+        </div>
+        <AddBookModal onClose={this.clearSearchedBooks} searchedBooks={this.state.searchedBooks} applyBook={this.applyBookState} />
       </Form >
     )
   }
