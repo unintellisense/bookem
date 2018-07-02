@@ -7,9 +7,9 @@ import { BookCategoryTags } from '../common/bookCategoryTags'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
 
 type BookDetailProps = {
-    book: Book
+    book: Partial<Book>
     partialCategoryTag: string
-    bookUpdated: (book: Book) => any
+    bookUpdated: (book: Partial<Book>) => any
     partialCategoryTagUpdated: (partial: string) => any
     updateSearchedBooks: (searchedBooks: SearchResultBook[]) => any
 }
@@ -109,7 +109,7 @@ export class BookDetail extends React.Component<BookDetailProps> {
             <Col md={12} className='mobile-vert-spacing' >
                 <ControlLabel>Categories</ControlLabel>
                 <BookCategoryTags
-                    tags={this.props.book.categories}
+                    tags={this.props.book.categories || []}
                     updateTags={this.handleCategoriesUpdateForBook}
                     partialCategoryTag={this.props.partialCategoryTag}
                     updatePartialTag={this.handlePartialCategoryTagUpdate}

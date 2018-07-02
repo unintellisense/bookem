@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Table, Button } from 'react-bootstrap'
 import { Book } from '../../../models/book'
-
+import { BookDetail } from '../common/bookDetail'
 import Modal from 'react-responsive-modal';
 
 const TextTruncate = require('react-text-truncate');
@@ -20,9 +20,16 @@ export class BookLookupModal extends React.Component<BookLookupModalProps> {
       <Modal open={!!(this.props.book)} onClose={this.props.onClose}>
         <h2>Select the book to apply or return</h2>
         {
-          /** need to modify custom.css if adding more columns */
+
           <div className="well">
-            
+            <BookDetail
+              book={this.props.book || {}}
+              bookUpdated={this.updateBook}
+              updateSearchedBooks={this.updateSearchedBooks}
+              
+              partialCategoryTag={this.props.partialCategoryTag}              
+              partialCategoryTagUpdated={this.updatePartialCategoryTag}              
+            />
           </div>
         }
       </Modal>

@@ -37,17 +37,6 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
   }
 
   render() {
-    let contents = this.props.searchedBooks.map(book => {
-      return <tr key={book.id}>
-        <td>{book.title}</td>
-        <td>{book.categories.join(', ')}</td>
-        <td><TextTruncate
-          line={3}
-          truncateText="…"
-          text={book.description}
-        /></td>
-      </tr>
-    });
     return <div className="container-fluid">
       <Table striped bordered condensed hover>
         <thead>
@@ -58,7 +47,17 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
           </tr>
         </thead>
         <tbody>
-          {contents}
+          {this.props.searchedBooks.map(book => {
+            return <tr key={book.id}>
+              <td>{book.title}</td>
+              <td>{book.categories.join(', ')}</td>
+              <td><TextTruncate
+                line={3}
+                truncateText="…"
+                text={book.description} />
+              </td>
+            </tr>
+          })}
         </tbody>
       </Table>
     </div>
