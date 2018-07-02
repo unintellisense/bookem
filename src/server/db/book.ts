@@ -45,7 +45,7 @@ export default class Book extends Model implements IBook {
   static get tableName() { return 'book'; }
 
   static fromDatabaseJson = (row) => {
-    return { ...row, isFiction: !!row.isFiction, categories: JSON.parse(row.categories) };
+    return { ...row, isFiction: !!row.isFiction, categories: JSON.parse(row.categories) || [] };
   }
 
   static jsonSchema: JsonSchema = {
