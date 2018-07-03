@@ -8,10 +8,10 @@ import { SearchResultBook } from '../../../../shared/dto/googleBook';
 
 type BookDetailProps = {
     book: Partial<Book>
-    partialCategoryTag: string
     bookUpdated: (book: Partial<Book>) => any
-    partialCategoryTagUpdated: (partial: string) => any
     updateSearchedBooks: (searchedBooks: SearchResultBook[]) => any
+    partialCategoryTag?: string
+    partialCategoryTagUpdated?: (partial: string) => any
 }
 
 const numberRegex = /^[0-9\-]*$/
@@ -57,11 +57,13 @@ export class BookDetail extends React.Component<BookDetailProps> {
     private handleCategoriesUpdateForBook = (tags: string[]) => {
         let book = { ...this.props.book, categories: tags };
         this.props.bookUpdated(book);
-        this.props.partialCategoryTagUpdated('');
+        if (this.props.partialCategoryTagUpdated)
+            this.props.partialCategoryTagUpdated('');
     }
 
     private handlePartialCategoryTagUpdate = (partial: string) => {
-        this.props.partialCategoryTagUpdated(partial);
+        if (this.props.partialCategoryTagUpdated)
+            this.props.partialCategoryTagUpdated(partial);
     }
 
     render() {

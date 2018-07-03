@@ -5,6 +5,7 @@ import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../../index'
 import { getSearchedBooksAction } from '../../../state/manage/viewBook/action'
+import { ViewBookModal } from './viewBookModal'
 
 const TextTruncate = require('react-text-truncate');
 
@@ -17,23 +18,35 @@ type ViewDispatchProps = {
   getBookView: () => Book[]
 }
 
+type ViewBookState = {
+  currenteditedBook: Book | null
+}
+
 const staleRefreshTimeoutMillis = 1000 * 60; // 1 minute
 
-class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
+class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, ViewBookState> {
+
+  constructor(props) {
+    super(props);
+    this.state = { currenteditedBook: null };
+  }
+
+  componentDidMount() {
+    this.refreshStaleBooks();
+  }
+
+  setCurrentEditedBook = (book: Book) => {
+    this.setState({ ...this.state, currenteditedBook: book })
+  }
+
+  clearCurrentEditedBook = () => {
+    this.setState({ ...this.state, currenteditedBook: null })
+  }
 
   refreshStaleBooks() {
     if (Date.now() - this.props.lastRefreshedBooks > staleRefreshTimeoutMillis) {
       this.props.getBookView();
     }
-  }
-
-  componentDidMount() {
-    console.log('did mount!!');
-    this.refreshStaleBooks();
-  }
-
-  componentWillUnmount() {
-    console.log('will unmount!!');
   }
 
   render() {
@@ -48,7 +61,10 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
         </thead>
         <tbody>
           {this.props.searchedBooks.map(book => {
-            return <tr key={book.id}>
+            return <tr
+              onClick={() => { this.setCurrentEditedBook(book) }}
+              key={book.id}
+            >
               <td>{book.title}</td>
               <td>{book.categories.join(', ')}</td>
               <td><TextTruncate
@@ -60,6 +76,12 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
           })}
         </tbody>
       </Table>
+      <ViewBookModal
+        onClose={this.clearCurrentEditedBook}
+        updateBook={() => { }}
+        deleteBook={(() => { })}
+        book={this.state.currenteditedBook}
+      />
     </div>
   }
 }

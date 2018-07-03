@@ -8,12 +8,12 @@ const TextTruncate = require('react-text-truncate');
 
 type BookLookupModalProps = {
   onClose: () => void
-  book?: Book
+  book: Book | null
   updateBook: (book: Book) => void
   deleteBook: (book: Book) => void
 }
 
-export class BookLookupModal extends React.Component<BookLookupModalProps> {
+export class ViewBookModal extends React.Component<BookLookupModalProps> {
 
   render() {
     return (
@@ -24,11 +24,8 @@ export class BookLookupModal extends React.Component<BookLookupModalProps> {
           <div className="well">
             <BookDetail
               book={this.props.book || {}}
-              bookUpdated={this.updateBook}
-              updateSearchedBooks={this.updateSearchedBooks}
-              
-              partialCategoryTag={this.props.partialCategoryTag}              
-              partialCategoryTagUpdated={this.updatePartialCategoryTag}              
+              bookUpdated={this.props.updateBook}
+              updateSearchedBooks={() => { }}
             />
           </div>
         }

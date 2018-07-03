@@ -11,9 +11,9 @@ declare module 'react-tag-input' {
 
 type BookCategoryTagsProps = {
   tags: string[]
-  partialCategoryTag: string
+  partialCategoryTag?: string
   updateTags: (tags: string[]) => any
-  updatePartialTag: (partial: string) => any
+  updatePartialTag?: (partial: string) => any
 }
 type TagType = { id: number, text: string };
 
