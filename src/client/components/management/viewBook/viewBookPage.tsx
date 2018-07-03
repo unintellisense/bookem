@@ -35,7 +35,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, V
     this.refreshStaleBooks();
   }
 
-  setCurrentEditedBook = (book: Book) => {
+  updateCurrentEditedBook = (book: Book) => {
     this.setState({ ...this.state, currenteditedBook: book })
   }
 
@@ -62,7 +62,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, V
         <tbody>
           {this.props.searchedBooks.map(book => {
             return <tr
-              onClick={() => { this.setCurrentEditedBook(book) }}
+              onClick={() => { this.updateCurrentEditedBook(book) }}
               key={book.id}
             >
               <td>{book.title}</td>
@@ -78,7 +78,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, V
       </Table>
       <ViewBookModal
         onClose={this.clearCurrentEditedBook}
-        updateBook={() => { }}
+        updateBook={this.updateCurrentEditedBook}
         deleteBook={(() => { })}
         book={this.state.currenteditedBook}
       />
