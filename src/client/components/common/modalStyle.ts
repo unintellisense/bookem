@@ -1,3 +1,3 @@
 export default {
-  modal: { 'max-width': '75%' }
+  modal: { 'maxWidth': '75%' }
 }
