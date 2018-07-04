@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Table, Button } from 'react-bootstrap'
-import { SearchResultBook } from '../../../../shared/dto/googleBook'
 import Modal from 'react-responsive-modal';
+import { SearchResultBook } from '../../../../shared/dto/googleBook'
+import ModalStyle from '../../common/modalStyle'
 
 const TextTruncate = require('react-text-truncate');
 
@@ -11,11 +12,11 @@ type BookLookupModalProps = {
   applyBook: (searchedBook: SearchResultBook) => void
 }
 
-export class AddBookModal extends React.Component<BookLookupModalProps> { 
+export class AddBookModal extends React.Component<BookLookupModalProps> {
 
   render() {
     return (
-      <Modal open={!!(this.props.searchedBooks && this.props.searchedBooks.length)} onClose={this.props.onClose}>
+      <Modal open={!!(this.props.searchedBooks && this.props.searchedBooks.length)} onClose={this.props.onClose} styles={ModalStyle}>
         <h2>Select the book to apply or return</h2>
         {
           /** need to modify custom.css if adding more columns */
@@ -47,7 +48,7 @@ export class AddBookModal extends React.Component<BookLookupModalProps> {
                           /></td>
                         <td>
                           <Button onClick={() => { this.props.applyBook(book) }}>Apply</Button>
-                          </td>
+                        </td>
                       </tr>
                     )
                   })

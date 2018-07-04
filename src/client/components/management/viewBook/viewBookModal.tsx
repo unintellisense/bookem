@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Form, Col } from 'react-bootstrap'
+import Modal from 'react-responsive-modal';
 import { Book } from '../../../models/book'
 import { BookDetail } from '../common/bookDetail'
-import Modal from 'react-responsive-modal';
+import ModalStyle from '../../common/modalStyle'
 
 const TextTruncate = require('react-text-truncate');
 
@@ -17,19 +18,18 @@ export class ViewBookModal extends React.Component<BookLookupModalProps> {
 
   render() {
     return (
-      <Modal open={!!(this.props.book)} onClose={this.props.onClose}>
-        <h2>Select the book to apply or return</h2>
-        {
-
-          <div className="well">
-            <BookDetail
-              book={this.props.book || {}}
-              bookUpdated={this.props.updateBook}
-              updateSearchedBooks={() => { }}
-            />
-          </div>
-        }
-      </Modal>
+      <Modal open={!!(this.props.book)} onClose={this.props.onClose} styles={ModalStyle} >
+        <Form horizontal className="container-fluid" onSubmit={() => { }}>
+          <Col>
+            <h2>Select the book to apply or return</h2>
+          </Col>
+          <BookDetail
+            book={this.props.book || Book.GetDefaultBook()}
+            bookUpdated={this.props.updateBook}
+            updateSearchedBooks={() => { }}
+          />
+        </Form>
+      </Modal >
     )
   }
 }
