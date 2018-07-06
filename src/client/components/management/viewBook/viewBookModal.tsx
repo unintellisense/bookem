@@ -12,6 +12,8 @@ type BookLookupModalProps = {
   book: Book | null
   updateBook: (book: Book) => void
   deleteBook: (book: Book) => void
+  partialCategoryTag: BookDetail['props']['partialCategoryTag']
+  partialCategoryTagUpdated: BookDetail['props']['partialCategoryTagUpdated']
 }
 
 export class ViewBookModal extends React.Component<BookLookupModalProps> {
@@ -19,7 +21,7 @@ export class ViewBookModal extends React.Component<BookLookupModalProps> {
   render() {
     return (
       <Modal open={!!(this.props.book)} onClose={this.props.onClose} styles={ModalStyle} >
-        <Form horizontal className="container-fluid" onSubmit={() => { }}>
+        <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); }}>
           <Col>
             <h2>Select the book to apply or return</h2>
           </Col>
@@ -27,7 +29,15 @@ export class ViewBookModal extends React.Component<BookLookupModalProps> {
             book={this.props.book || Book.GetDefaultBook()}
             bookUpdated={this.props.updateBook}
             updateSearchedBooks={() => { }}
+            partialCategoryTag={this.props.partialCategoryTag}
+            partialCategoryTagUpdated={this.props.partialCategoryTagUpdated}
           />
+          <Col md={9} className='mobile-vert-spacing' >
+            <Button block type="submit">Save</Button>
+          </Col>
+          <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
+            <Button block type="button" onClick={() => { }}>Delete</Button>
+          </Col>
         </Form>
       </Modal >
     )

@@ -20,6 +20,7 @@ type ViewDispatchProps = {
 
 type ViewBookState = {
   currenteditedBook: Book | null
+  currentEditedPartialCategory: string
 }
 
 const staleRefreshTimeoutMillis = 1000 * 60; // 1 minute
@@ -28,7 +29,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, V
 
   constructor(props) {
     super(props);
-    this.state = { currenteditedBook: null };
+    this.state = { currenteditedBook: null, currentEditedPartialCategory: '' };
   }
 
   componentDidMount() {
@@ -39,8 +40,12 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, V
     this.setState({ ...this.state, currenteditedBook: book })
   }
 
+  updateCurrentEditedPartialCategory = (tag: string) => {
+    this.setState({ ...this.state, currentEditedPartialCategory: tag })
+  }
+
   clearCurrentEditedBook = () => {
-    this.setState({ ...this.state, currenteditedBook: null })
+    this.setState({ ...this.state, currenteditedBook: null, currentEditedPartialCategory: '' })
   }
 
   refreshStaleBooks() {
@@ -63,8 +68,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, V
           {this.props.searchedBooks.map(book => {
             return <tr
               onClick={() => { this.updateCurrentEditedBook(book) }}
-              key={book.id}
-            >
+              key={book.id}>
               <td>{book.title}</td>
               <td>{book.categories.join(', ')}</td>
               <td><TextTruncate
@@ -81,6 +85,8 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps, V
         updateBook={this.updateCurrentEditedBook}
         deleteBook={(() => { })}
         book={this.state.currenteditedBook}
+        partialCategoryTag={this.state.currentEditedPartialCategory}
+        partialCategoryTagUpdated={this.updateCurrentEditedPartialCategory}
       />
     </div>
   }
