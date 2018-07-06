@@ -34,7 +34,7 @@
     "gulp-typescript": "^4.0.2",
     "gulp-uglify-es": "^1.0.1",
     "html-webpack-plugin": "^3.2.0",
-    "http-proxy-middleware": "^0.18.0",    
+    "http-proxy-middleware": "^0.18.0",
     "rimraf": "^2.6.2",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.3.0",
@@ -70,6 +70,7 @@
     "redux-thunk": "^2.3.0",
     "serve-static": "^1.13.2",
     "sqlite3": "^4.0.0",
+    "ts-httpexceptions": "^3.1.0",
     "ts-node": "^6.0.3",
     "tslib": "^1.9.1"
   }
