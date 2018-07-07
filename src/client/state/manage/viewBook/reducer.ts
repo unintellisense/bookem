@@ -4,6 +4,7 @@ import { Book } from '../../../models/book'
 
 export interface ViewBookState {
   searchedBooks: Book[]
+  editedBook?: Book
   lastRefreshedBooks: number
 }
 
@@ -13,7 +14,12 @@ export const viewBookReducer: Reducer<ViewBookState, ActionType> = (state = defa
 
   switch (action.type) {
     case ActionTypeKeys.viewBookSearchedBooksUpdate:
-      return { searchedBooks: action.searchedBooks, lastRefreshedBooks: action.lastRefreshedBooks }
+      return { ...state, searchedBooks: action.searchedBooks, lastRefreshedBooks: action.lastRefreshedBooks }
+    case ActionTypeKeys.updateEditedBook:
+      return { ...state, editedBook: action.book }
+    case ActionTypeKeys.deleteBook:
+      // reset searchedBooks and lastRefreshedBooks, the latter will result in the component refreshing the list
+      return { searchedBooks: [], lastRefreshedBooks: -1 }
   }
 
   return state;

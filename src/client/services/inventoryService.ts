@@ -11,3 +11,7 @@ export async function postBook(book: Book): Promise<AxiosResponse<Book>> {
 export async function getBooks(): Promise<AxiosResponse<Book[]>> {
   return axios.get<Book[]>(`${baseApiUrl}/manage/book`, { timeout: 7500 })
 }
+
+export async function deleteBook(id: number): Promise<AxiosResponse<Book[]>> {
+  return axios.delete(`${baseApiUrl}/manage/book${id}`, { timeout: 7500 })
+}
