@@ -4,11 +4,12 @@ import { Book } from '../../../models/book'
 
 export interface ViewBookState {
   searchedBooks: Book[]
-  editedBook?: Book
+  editedBook: Book | null
+  editedBookPartialCategory: string
   lastRefreshedBooks: number
 }
 
-const defaultViewBookState: () => ViewBookState = () => ({ searchedBooks: [], lastRefreshedBooks: -1 })
+const defaultViewBookState: () => ViewBookState = () => ({ searchedBooks: [], lastRefreshedBooks: -1, editedBook: null, editedBookPartialCategory: '' })
 
 export const viewBookReducer: Reducer<ViewBookState, ActionType> = (state = defaultViewBookState(), action) => {
 
@@ -17,9 +18,13 @@ export const viewBookReducer: Reducer<ViewBookState, ActionType> = (state = defa
       return { ...state, searchedBooks: action.searchedBooks, lastRefreshedBooks: action.lastRefreshedBooks }
     case ActionTypeKeys.updateEditedBook:
       return { ...state, editedBook: action.book }
+    case ActionTypeKeys.resetEditedBook:
+      return { ...state, editedBook: null, editedBookPartialCategory: '' }
     case ActionTypeKeys.deleteBook:
       // reset searchedBooks and lastRefreshedBooks, the latter will result in the component refreshing the list
-      return { searchedBooks: [], lastRefreshedBooks: -1 }
+      return { ...state, searchedBooks: [], lastRefreshedBooks: -1, editedBook: null, editedBookPartialCategory: '' }
+    case ActionTypeKeys.updateEditedBookPartialCategory:
+      return { ...state, editedBookPartialCategory: action.tag }
   }
 
   return state;

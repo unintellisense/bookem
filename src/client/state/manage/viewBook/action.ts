@@ -1,6 +1,7 @@
 import { Action, Dispatch } from 'redux'
 import { ActionTypeKeys } from '../../index'
 import { Book } from '../../../models/book'
+import { ActionType } from '../../actionTypes'
 import { getBooks, deleteBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
 
@@ -16,7 +17,7 @@ export const getSearchedBooksAction = () => {
 }
 
 export const updateEditedBookAction = (book: Book) => {
-  return async (dispatch: Dispatch): Promise<Action | void> => {
+  return async (dispatch: Dispatch<ActionType>): Promise<Action | void> => {
     return dispatch({
       type: ActionTypeKeys.updateEditedBook,
       book
@@ -24,8 +25,17 @@ export const updateEditedBookAction = (book: Book) => {
   }
 }
 
+export const updateEditedBookPartialCategory = (tag: string) => {
+  return async (dispatch: Dispatch<ActionType>): Promise<Action | void> => {
+    return dispatch({
+      type: ActionTypeKeys.updateEditedBookPartialCategory,
+      tag
+    })
+  }
+}
+
 export const deleteBookAction = (book: Book) => {
-  return async (dispatch: Dispatch): Promise<Action | void> => {
+  return async (dispatch: Dispatch<ActionType>): Promise<Action | void> => {
     if (!book.id) return;
     try {
       await deleteBook(book.id);
