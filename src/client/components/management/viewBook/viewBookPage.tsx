@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../../index'
-import { getSearchedBooksAction, updateEditedBookAction, updateEditedBookPartialCategory } from '../../../state/manage/viewBook/action'
+import { getSearchedBooksAction, updateEditedBookAction, updateEditedBookPartialCategory, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
 
 const TextTruncate = require('react-text-truncate');
@@ -20,6 +20,7 @@ type ViewDispatchProps = {
   getBookView: () => Book[]
   updateBook: (book: Book | null) => any
   updatePartialCategory: (tag: string) => any
+  deleteBook: (book: Book) => any
 }
 
 const staleRefreshTimeoutMillis = 1000 * 60; // 1 minute
@@ -70,7 +71,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
       <ViewBookModal
         onClose={this.clearCurrentEditedBook}
         updateBook={this.props.updateBook}
-        deleteBook={(() => { })}
+        deleteBook={this.props.deleteBook}
         book={this.props.currentEditedBook}
         partialCategoryTag={this.props.currentEditedPartialCategory}
         partialCategoryTagUpdated={this.props.updatePartialCategory}
@@ -80,17 +81,19 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  searchedBooks: state.manage.viewBook.searchedBooks,
-  lastRefreshedBooks: state.manage.viewBook.lastRefreshedBooks,
-  currentEditedBook: state.manage.viewBook.editedBook,
-  currentEditedPartialCategory: state.manage.viewBook.editedBookPartialCategory
+  searchedBooks: state.manage.viewBook.page.searchedBooks,
+  lastRefreshedBooks: state.manage.viewBook.page.lastRefreshedBooks,
+  currentEditedBook: state.manage.viewBook.modal.editedBook,
+  currentEditedPartialCategory: state.manage.viewBook.modal.editedBookPartialCategory
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  getBookView: () => dispatch(getSearchedBooksAction()),
-  updateBook: (book: Book) => dispatch(updateEditedBookAction(book)),
-  updatePartialCategory: (tag: string) => dispatch(updateEditedBookPartialCategory(tag))
-});
+const mapDispatchToProps: (dispatch: Function) => ViewDispatchProps
+  = (dispatch) => ({
+    getBookView: () => dispatch(getSearchedBooksAction()),
+    updateBook: (book: Book) => dispatch(updateEditedBookAction(book)),
+    updatePartialCategory: (tag: string) => dispatch(updateEditedBookPartialCategory(tag)),
+    deleteBook: (book: Book) => dispatch(deleteBookAction(book))
+  });
 
 const connectedViewBookPage = connect<ViewStateProps, ViewDispatchProps>(mapStateToProps, mapDispatchToProps)(viewBookPage);
 

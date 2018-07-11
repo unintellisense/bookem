@@ -36,7 +36,7 @@ export class ViewBookModal extends React.Component<BookLookupModalProps> {
             <Button block type="submit">Save</Button>
           </Col>
           <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
-            <Button block type="button" onClick={() => { }}>Delete</Button>
+            <Button block type="button" onClick={() => { if (this.props.book) this.props.deleteBook(this.props.book) }}>Delete</Button>
           </Col>
         </Form>
       </Modal >

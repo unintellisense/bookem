@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from 'redux';
+import { combineReducers } from 'redux';
 import { userReducer, UserState } from './user';
 import { ManageState, manageReducers } from './manage'
 export { ActionTypeKeys } from './actionTypes'

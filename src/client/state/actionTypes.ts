@@ -2,14 +2,18 @@ import { Action } from 'redux'
 import { Book } from '../models/book'
 
 export const enum ActionTypeKeys {
+  /** addBook related */
   addBookSuccess,
   addBookSaveForm,
   addBookPartialTag,
+  /** viewBook modal related */
   updateEditedBook,
   updateEditedBookPartialCategory,
   resetEditedBook,
-  deleteBook,
-  viewBookSearchedBooksUpdate
+  /** viewBook page related */
+  viewBookSearchedBooksUpdate,
+  /** related to modal and page, as we clear modal state and reset page */
+  deletedBook
 };
 
 export type ActionType =
@@ -19,5 +23,5 @@ export type ActionType =
   { type: ActionTypeKeys.updateEditedBook, book: Book } |
   { type: ActionTypeKeys.updateEditedBookPartialCategory, tag: string } |
   { type: ActionTypeKeys.resetEditedBook } |
-  { type: ActionTypeKeys.deleteBook } |
+  { type: ActionTypeKeys.deletedBook } |
   { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number }

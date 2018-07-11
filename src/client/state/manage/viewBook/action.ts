@@ -41,11 +41,11 @@ export const deleteBookAction = (book: Book) => {
       await deleteBook(book.id);
       toastSuccess('Book Deleted', `'${book.title}' has been deleted.`);
       return dispatch({
-        type: ActionTypeKeys.deleteBook
+        type: ActionTypeKeys.deletedBook
       })
     } catch (e) {
       // handle nonexistent record
-      toastError('failed to add book', (e.response && e.response.data) ? e.response.data : e.message);
+      toastError('failed to delete book', (e.response && e.response.data) ? e.response.data : e.message);
     }
   }
 }
