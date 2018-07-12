@@ -12,6 +12,8 @@ const defaultViewBookPageState: () => ViewBookPageState = () => ({ searchedBooks
 export const viewBookPageReducer: Reducer<ViewBookPageState, ActionType> = (state = defaultViewBookPageState(), action) => {
 
   switch (action.type) {
+    case ActionTypeKeys.addBookSuccess: // need to refresh books if book is added
+      return { ...state, lastRefreshedBooks: -1 }
     case ActionTypeKeys.viewBookSearchedBooksUpdate:
       return { ...state, searchedBooks: action.searchedBooks, lastRefreshedBooks: action.lastRefreshedBooks }
     case ActionTypeKeys.deletedBook:

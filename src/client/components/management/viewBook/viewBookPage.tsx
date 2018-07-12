@@ -31,6 +31,10 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
     this.refreshStaleBooks();
   }
 
+  componentDidUpdate() {
+    this.refreshStaleBooks();
+  }
+
   clearCurrentEditedBook = () => {
     this.props.updateBook(null);
     this.props.updatePartialCategory('');

@@ -13,5 +13,5 @@ export async function getBooks(): Promise<AxiosResponse<Book[]>> {
 }
 
 export async function deleteBook(id: number): Promise<AxiosResponse<Book[]>> {
-  return axios.delete(`${baseApiUrl}/manage/book${id}`, { timeout: 7500 })
+  return axios.delete(`${baseApiUrl}/manage/book/${id}`, { timeout: 7500 })
 }
