@@ -1,5 +1,4 @@
-import { ServerLoader, ServerSettings, GlobalAcceptMimesMiddleware } from "@tsed/common";
-import './middleware/globalErrorHandler';
+import { ServerLoader, ServerSettings } from "@tsed/common";
 
 if (process.env.BUILD_FLAG === "development") {
   // import swagger Ts.ED module
@@ -36,8 +35,7 @@ const portNumber = process.env.PORT || 3000;
   ],
   exclude: ['**/*.spec.ts', '**/*.spec.js', '**/*.js.map'],
   componentsScan: [
-    `${rootDir}/converters/**/**.js`,
-    `${rootDir}/middleware/**/**.js`
+    `${rootDir}/converters/**/**.js`
   ],
   validationModelStrict: true
 })

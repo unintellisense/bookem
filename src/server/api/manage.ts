@@ -12,7 +12,7 @@ import { NotFound } from 'ts-httpexceptions';
 export class ManageController {
 
   @Get("/book")
-  async getBook(req: Express.Request, res: Express.Response) {
+  async getBook() {
     return await Book.query().select();
   }
 
