@@ -32,9 +32,10 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     e.preventDefault();
 
     let categories = this.props.book.categories;
-    // add any pending categories to the existing book categories
-    if (this.props.partialCategoryTag) categories.push(this.props.partialCategoryTag);
-
+    // add any pending categories to the existing book categories, unless it exists
+    if (this.props.partialCategoryTag && categories.indexOf(this.props.partialCategoryTag) == -1) {
+      if (this.props.partialCategoryTag) categories.push(this.props.partialCategoryTag);
+    }    
     this.props.postBook({ ...this.props.book, categories });
   }
 
