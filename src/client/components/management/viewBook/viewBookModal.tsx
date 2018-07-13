@@ -20,10 +20,17 @@ export class ViewBookModal extends React.Component<BookLookupModalProps> {
 
   updatePostBook = (e: React.FormEvent<Form>) => {
     e.preventDefault();
-    if (this.props.book)
-      this.props.updatePostBook(this.props.book);
+    if (this.props.book) {
+      let payload = { ...this.props.book };
+      if (this.props.partialCategoryTag) {
+        if ((payload.categories.indexOf(this.props.partialCategoryTag) == -1)) {
+          payload.categories.push(this.props.partialCategoryTag);
+        }
+      }
+      this.props.updatePostBook(payload);
+    }
   }
-
+  
   render() {
     return (
       <Modal open={!!(this.props.book)} onClose={this.props.onClose} styles={ModalStyle} >
