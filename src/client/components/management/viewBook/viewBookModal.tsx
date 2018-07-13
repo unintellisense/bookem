@@ -3,6 +3,7 @@ import { Table, Button, Form, Col } from 'react-bootstrap'
 import Modal from 'react-responsive-modal';
 import { Book } from '../../../models/book'
 import { BookDetail } from '../common/bookDetail'
+import { ConfirmButton } from '../../common/confirmButton'
 import ModalStyle from '../../common/modalStyle'
 
 const TextTruncate = require('react-text-truncate');
@@ -35,9 +36,12 @@ export class ViewBookModal extends React.Component<BookLookupModalProps> {
           <Col md={9} className='mobile-vert-spacing' >
             <Button block type="submit">Save</Button>
           </Col>
-          <Col mdOffset={1} md={2} className='mobile-vert-spacing'>
-            <Button block type="button" onClick={() => { if (this.props.book) this.props.deleteBook(this.props.book) }}>Delete</Button>
-          </Col>
+          <ConfirmButton
+            cancelLabel='Cancel'
+            unconfirmedLabel='Delete'
+            confirmedLabel='Confirm Delete'            
+            onConfirm={() => { if (this.props.book) this.props.deleteBook(this.props.book) }}
+          />          
         </Form>
       </Modal >
     )
