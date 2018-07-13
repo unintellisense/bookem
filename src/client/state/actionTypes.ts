@@ -13,7 +13,7 @@ export const enum ActionTypeKeys {
   /** viewBook page related */
   viewBookSearchedBooksUpdate,
   /** related to modal and page, as we clear modal state and reset page */
-  deletedBook
+  resetViewBook
 };
 
 export type ActionType =
@@ -23,5 +23,5 @@ export type ActionType =
   { type: ActionTypeKeys.updateEditedBook, book: Book } |
   { type: ActionTypeKeys.updateEditedBookPartialCategory, tag: string } |
   { type: ActionTypeKeys.resetEditedBook } |
-  { type: ActionTypeKeys.deletedBook } |
+  { type: ActionTypeKeys.resetViewBook } |
   { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number }

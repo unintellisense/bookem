@@ -25,9 +25,8 @@ export class ManageController {
 
   @Post("/book/:id")
   async updateBookById(@PathParams('id') id: string, @Required() @BodyParams("book") book: Book) {
-
-    console.log(`updated this book with id: ${id}`)
-    return 'ok';
+    let updatedBook = await Book.query().updateAndFetchById(id, book);
+    return updatedBook;
   }
 
   @Delete("/book/:id")

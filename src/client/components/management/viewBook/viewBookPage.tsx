@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../../index'
-import { getSearchedBooksAction, updateEditedBookAction, updateEditedBookPartialCategory, deleteBookAction } from '../../../state/manage/viewBook/action'
+import { getSearchedBooksAction, updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
 
 const TextTruncate = require('react-text-truncate');
@@ -18,8 +18,9 @@ type ViewStateProps = {
 
 type ViewDispatchProps = {
   getBookView: () => Book[]
-  updateBook: (book: Book | null) => any
-  updatePartialCategory: (tag: string) => any
+  updateLocalBook: (book: Book | null) => any
+  updateLocalPartialCategory: (tag: string) => any
+  updatePostBook: (book: Book) => any
   deleteBook: (book: Book) => any
 }
 
@@ -36,8 +37,8 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
   }
 
   clearCurrentEditedBook = () => {
-    this.props.updateBook(null);
-    this.props.updatePartialCategory('');
+    this.props.updateLocalBook(null);
+    this.props.updateLocalPartialCategory('');
   }
 
   refreshStaleBooks() {
@@ -59,7 +60,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
         <tbody>
           {this.props.searchedBooks.map(book => {
             return <tr
-              onClick={() => { this.props.updateBook(book) }}
+              onClick={() => { this.props.updateLocalBook(book) }}
               key={book.id}>
               <td>{book.title}</td>
               <td>{book.categories.join(', ')}</td>
@@ -74,11 +75,12 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
       </Table>
       <ViewBookModal
         onClose={this.clearCurrentEditedBook}
-        updateBook={this.props.updateBook}
+        updateLocalBook={this.props.updateLocalBook}
+        updatePostBook={this.props.updatePostBook}
         deleteBook={this.props.deleteBook}
         book={this.props.currentEditedBook}
         partialCategoryTag={this.props.currentEditedPartialCategory}
-        partialCategoryTagUpdated={this.props.updatePartialCategory}
+        partialCategoryTagUpdated={this.props.updateLocalPartialCategory}
       />
     </div>
   }
@@ -94,8 +96,9 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps: (dispatch: Function) => ViewDispatchProps
   = (dispatch) => ({
     getBookView: () => dispatch(getSearchedBooksAction()),
-    updateBook: (book: Book) => dispatch(updateEditedBookAction(book)),
-    updatePartialCategory: (tag: string) => dispatch(updateEditedBookPartialCategory(tag)),
+    updateLocalBook: (book: Book) => dispatch(updateLocalEditedBookAction(book)),
+    updateLocalPartialCategory: (tag: string) => dispatch(updateLocalEditedBookPartialCategory(tag)),
+    updatePostBook: (book: Book) => dispatch(updateBookAction(book)),
     deleteBook: (book: Book) => dispatch(deleteBookAction(book))
   });
 

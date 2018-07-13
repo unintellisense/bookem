@@ -6,12 +6,11 @@ import { BookDetail } from '../common/bookDetail'
 import { ConfirmButton } from '../../common/confirmButton'
 import ModalStyle from '../../common/modalStyle'
 
-const TextTruncate = require('react-text-truncate');
-
 type BookLookupModalProps = {
   onClose: () => void
   book: Book | null
-  updateBook: (book: Book) => void
+  updateLocalBook: (book: Book) => void
+  updatePostBook: (book: Book) => void
   deleteBook: (book: Book) => void
   partialCategoryTag: BookDetail['props']['partialCategoryTag']
   partialCategoryTagUpdated: BookDetail['props']['partialCategoryTagUpdated']
@@ -19,16 +18,22 @@ type BookLookupModalProps = {
 
 export class ViewBookModal extends React.Component<BookLookupModalProps> {
 
+  updatePostBook = (e: React.FormEvent<Form>) => {
+    e.preventDefault();
+    if (this.props.book)
+      this.props.updatePostBook(this.props.book);
+  }
+
   render() {
     return (
       <Modal open={!!(this.props.book)} onClose={this.props.onClose} styles={ModalStyle} >
-        <Form horizontal className="container-fluid" onSubmit={(e) => { e.preventDefault(); }}>
+        <Form horizontal className="container-fluid" onSubmit={this.updatePostBook}>
           <Col>
             <h2>Select the book to apply or return</h2>
           </Col>
           <BookDetail
             book={this.props.book || Book.GetDefaultBook()}
-            bookUpdated={this.props.updateBook}
+            bookUpdated={this.props.updateLocalBook}
             updateSearchedBooks={() => { }}
             partialCategoryTag={this.props.partialCategoryTag}
             partialCategoryTagUpdated={this.props.partialCategoryTagUpdated}
@@ -39,9 +44,9 @@ export class ViewBookModal extends React.Component<BookLookupModalProps> {
           <ConfirmButton
             cancelLabel='Cancel'
             unconfirmedLabel='Delete'
-            confirmedLabel='Confirm Delete'            
+            confirmedLabel='Confirm Delete'
             onConfirm={() => { if (this.props.book) this.props.deleteBook(this.props.book) }}
-          />          
+          />
         </Form>
       </Modal >
     )

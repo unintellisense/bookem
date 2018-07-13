@@ -18,7 +18,7 @@ export const viewBookModalReducer: Reducer<ViewBookModalState, ActionType> = (st
       return { ...state, editedBook: null, editedBookPartialCategory: '' }
     case ActionTypeKeys.updateEditedBookPartialCategory:
       return { ...state, editedBookPartialCategory: action.tag }
-    case ActionTypeKeys.deletedBook:
+    case ActionTypeKeys.resetViewBook:
       // reset searchedBooks and lastRefreshedBooks, the latter will result in the component refreshing the list
       return { ...state, editedBook: null, editedBookPartialCategory: '' }
   }
