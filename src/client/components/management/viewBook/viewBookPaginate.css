@@ -1,0 +1,13 @@
+.viewBook-paginate ul {
+  display: inline-block;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.viewBook-paginate li {
+  display: inline-block;
+}
+
+.viewBook-paginate .break a {
+  cursor: default;
+}

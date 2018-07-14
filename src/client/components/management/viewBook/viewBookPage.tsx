@@ -7,6 +7,8 @@ import { RouteComponentWrapper } from '../../index'
 import { getSearchedBooksAction, updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
 
+import './viewBookPaginate.css';
+import ReactPaginate = require("react-paginate");
 const TextTruncate = require('react-text-truncate');
 
 type ViewStateProps = {
@@ -49,6 +51,12 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
 
   render() {
     return <div className="container-fluid">
+      <ReactPaginate
+        pageCount={100}
+        pageRangeDisplayed={10}
+        marginPagesDisplayed={2}
+        containerClassName={"viewBook-paginate"}
+      />
       <Table striped bordered condensed hover>
         <thead>
           <tr>
