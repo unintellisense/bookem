@@ -51,12 +51,17 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
 
   render() {
     return <div className="container-fluid">
-      <ReactPaginate
-        pageCount={100}
-        pageRangeDisplayed={10}
-        marginPagesDisplayed={2}
-        containerClassName={"viewBook-paginate"}
-      />
+      <div>
+        <ReactPaginate
+          pageCount={20}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          containerClassName={"viewBook-paginate"}
+          activeClassName={"viewBook-paginate-active"}
+          previousLabel={"<"}
+          nextLabel={">"}
+        />
+      </div>
       <Table striped bordered condensed hover>
         <thead>
           <tr>

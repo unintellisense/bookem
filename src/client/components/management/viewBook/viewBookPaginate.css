@@ -1,13 +1,26 @@
-.viewBook-paginate ul {
-  display: inline-block;
+ul.viewBook-paginate {
+  display: flex;
   padding-left: 15px;
   padding-right: 15px;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  align-items: stretch;
 }
 
 .viewBook-paginate li {
-  display: inline-block;
+  display: flex;
+  flex-grow: 1;
+}
+
+.viewBook-paginate li a {
+  border: 1px solid #ddd;        
 }
 
 .viewBook-paginate .break a {
   cursor: default;
+}
+
+.viewBook-paginate-active a {
+  background-color: #337ab7;
+  color: #fff;
 }
