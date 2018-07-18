@@ -6,22 +6,21 @@ import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../../index'
 import { getSearchedBooksAction, updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
+import { ViewBookSearchControl } from './viewBookSearchControl/viewBookSearchControl'
 
-import './viewBookPaginate.css';
-import ReactPaginate = require("react-paginate");
 const TextTruncate = require('react-text-truncate');
 
 type ViewStateProps = {
   searchedBooks: Book[]
-  currentEditedBook: Book | null
-  currentEditedPartialCategory: string
+  currentFocusedBook: Book | null
+  currentFocusedPartialCategory: string
   lastRefreshedBooks: number
 }
 
 type ViewDispatchProps = {
-  getBookView: () => Book[]
-  updateLocalBook: (book: Book | null) => any
-  updateLocalPartialCategory: (tag: string) => any
+  getSearchedBooks: () => Book[]
+  updateFocusedBook: (book: Book | null) => any
+  updateFocusedPartialCategory: (tag: string) => any
   updatePostBook: (book: Book) => any
   deleteBook: (book: Book) => any
 }
@@ -39,28 +38,20 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
   }
 
   clearCurrentEditedBook = () => {
-    this.props.updateLocalBook(null);
-    this.props.updateLocalPartialCategory('');
+    this.props.updateFocusedBook(null);
+    this.props.updateFocusedPartialCategory('');
   }
 
   refreshStaleBooks() {
     if (Date.now() - this.props.lastRefreshedBooks > staleRefreshTimeoutMillis) {
-      this.props.getBookView();
+      this.props.getSearchedBooks();
     }
   }
 
   render() {
     return <div className="container-fluid">
       <div>
-        <ReactPaginate
-          pageCount={20}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          containerClassName={"viewBook-paginate"}
-          activeClassName={"viewBook-paginate-active"}
-          previousLabel={"<"}
-          nextLabel={">"}
-        />
+        <ViewBookSearchControl />
       </div>
       <Table striped bordered condensed hover>
         <thead>
@@ -73,7 +64,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
         <tbody>
           {this.props.searchedBooks.map(book => {
             return <tr
-              onClick={() => { this.props.updateLocalBook(book) }}
+              onClick={() => { this.props.updateFocusedBook(book) }}
               key={book.id}>
               <td>{book.title}</td>
               <td>{book.categories.join(', ')}</td>
@@ -88,12 +79,12 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
       </Table>
       <ViewBookModal
         onClose={this.clearCurrentEditedBook}
-        updateLocalBook={this.props.updateLocalBook}
+        updateLocalBook={this.props.updateFocusedBook}
         updatePostBook={this.props.updatePostBook}
         deleteBook={this.props.deleteBook}
-        book={this.props.currentEditedBook}
-        partialCategoryTag={this.props.currentEditedPartialCategory}
-        partialCategoryTagUpdated={this.props.updateLocalPartialCategory}
+        book={this.props.currentFocusedBook}
+        partialCategoryTag={this.props.currentFocusedPartialCategory}
+        partialCategoryTagUpdated={this.props.updateFocusedPartialCategory}
       />
     </div>
   }
@@ -102,15 +93,15 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
 const mapStateToProps = (state: AppState) => ({
   searchedBooks: state.manage.viewBook.page.searchedBooks,
   lastRefreshedBooks: state.manage.viewBook.page.lastRefreshedBooks,
-  currentEditedBook: state.manage.viewBook.modal.editedBook,
-  currentEditedPartialCategory: state.manage.viewBook.modal.editedBookPartialCategory
+  currentFocusedBook: state.manage.viewBook.modal.editedBook,
+  currentFocusedPartialCategory: state.manage.viewBook.modal.editedBookPartialCategory
 })
 
 const mapDispatchToProps: (dispatch: Function) => ViewDispatchProps
   = (dispatch) => ({
-    getBookView: () => dispatch(getSearchedBooksAction()),
-    updateLocalBook: (book: Book) => dispatch(updateLocalEditedBookAction(book)),
-    updateLocalPartialCategory: (tag: string) => dispatch(updateLocalEditedBookPartialCategory(tag)),
+    getSearchedBooks: () => dispatch(getSearchedBooksAction()),
+    updateFocusedBook: (book: Book) => dispatch(updateLocalEditedBookAction(book)),
+    updateFocusedPartialCategory: (tag: string) => dispatch(updateLocalEditedBookPartialCategory(tag)),
     updatePostBook: (book: Book) => dispatch(updateBookAction(book)),
     deleteBook: (book: Book) => dispatch(deleteBookAction(book))
   });
