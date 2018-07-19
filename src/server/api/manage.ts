@@ -1,7 +1,7 @@
 import {
-  Controller, Get, Render, Post,
-  Authenticated, Required, BodyParams, PathParams,
-  Delete, Request
+  Controller, Get, Post,
+  Required, BodyParams, PathParams,
+  Delete, QueryParams
 } from "@tsed/common";
 import * as Express from "express";
 import Book from '../db/book'
@@ -12,8 +12,10 @@ import { NotFound } from 'ts-httpexceptions';
 export class ManageController {
 
   @Get("/book")
-  async getBook() {
-    return await Book.query().select();
+  async getBook(@QueryParams('page') page = 1, @QueryParams('count') count = 25) {
+    return await Book.query()
+      .page(page, count)
+      .select();
   }
 
   @Post("/book")
