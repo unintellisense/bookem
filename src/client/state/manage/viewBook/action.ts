@@ -1,7 +1,7 @@
-import { Action, Dispatch } from 'redux'
+import { Action, Dispatch, AnyAction } from 'redux'
 import { ActionTypeKeys } from '../../index'
 import { Book } from '../../../models/book'
-import { ActionType } from '../../actionTypes'
+import { ActionType, ViewBookSearchedBooksUpdateAction } from '../../actionTypes'
 import { getBooks, deleteBook, updatePostBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
 
@@ -10,7 +10,7 @@ export const getSearchedBooksAction = () => {
     var searchedBooks = await getBooks();
     return dispatch({
       type: ActionTypeKeys.viewBookSearchedBooksUpdate,
-      searchedBooks: searchedBooks.data,
+      searchedBooks: searchedBooks.data.results,
       lastRefreshedBooks: Date.now()
     })
   }

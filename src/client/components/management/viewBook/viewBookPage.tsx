@@ -62,7 +62,7 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
           </tr>
         </thead>
         <tbody>
-          {this.props.searchedBooks.map(book => {
+          {this.props.searchedBooks.map && this.props.searchedBooks.map(book => {
             return <tr
               onClick={() => { this.props.updateFocusedBook(book) }}
               key={book.id}>

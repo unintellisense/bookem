@@ -16,6 +16,10 @@ export const enum ActionTypeKeys {
   resetViewBook
 };
 
+export type ViewBookSearchedBooksUpdateAction = {
+  type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number
+}
+
 export type ActionType =
   { type: ActionTypeKeys.addBookSuccess, book: Book } |
   { type: ActionTypeKeys.addBookSaveForm, book: Book } |
@@ -24,4 +28,4 @@ export type ActionType =
   { type: ActionTypeKeys.updateEditedBookPartialCategory, tag: string } |
   { type: ActionTypeKeys.resetEditedBook } |
   { type: ActionTypeKeys.resetViewBook } |
-  { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number }
+  ViewBookSearchedBooksUpdateAction

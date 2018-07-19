@@ -1,6 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 import { Book } from '../models/book'
 
+export type GetBookResponse = {
+  results: Book[]
+  total: number
+}
+
 const baseApiUrl = `${window.location.protocol}//${window.location.host}/api`;
 
 export async function postBook(book: Book): Promise<AxiosResponse<Book>> {
@@ -8,8 +13,8 @@ export async function postBook(book: Book): Promise<AxiosResponse<Book>> {
   return axios.post<Book>(`${baseApiUrl}/manage/book`, payload, { timeout: 7500 })
 }
 
-export async function getBooks(): Promise<AxiosResponse<Book[]>> {
-  return axios.get<Book[]>(`${baseApiUrl}/manage/book`, { timeout: 7500 })
+export async function getBooks(): Promise<AxiosResponse<GetBookResponse>> {
+  return axios.get<GetBookResponse>(`${baseApiUrl}/manage/book`, { timeout: 7500 })
 }
 
 export async function deleteBook(id: number): Promise<AxiosResponse<Book[]>> {
