@@ -1,23 +1,24 @@
 import { Action, Dispatch, AnyAction } from 'redux'
 import { ActionTypeKeys } from '../../index'
 import { Book } from '../../../models/book'
-import { ActionType, ViewBookSearchedBooksUpdateAction } from '../../actionTypes'
+import { ActionType } from '../../actionTypes'
 import { getBooks, deleteBook, updatePostBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
 
 export const getSearchedBooksAction = () => {
-  return async (dispatch: Dispatch): Promise<Action | void> => {
+  return async (dispatch: Dispatch): Promise<ActionType | void> => {
     var searchedBooks = await getBooks();
-    return dispatch({
+    let action: ActionType = {
       type: ActionTypeKeys.viewBookSearchedBooksUpdate,
       searchedBooks: searchedBooks.data.results,
       lastRefreshedBooks: Date.now()
-    })
+    };
+    return dispatch(action);
   }
 }
 
 export const updateLocalEditedBookAction = (book: Book) => {
-  return async (dispatch: Dispatch<ActionType>): Promise<Action | void> => {
+  return async (dispatch: Dispatch<ActionType>): Promise<ActionType | void> => {
     return dispatch({
       type: ActionTypeKeys.updateEditedBook,
       book
@@ -26,7 +27,7 @@ export const updateLocalEditedBookAction = (book: Book) => {
 }
 
 export const updateLocalEditedBookPartialCategory = (tag: string) => {
-  return async (dispatch: Dispatch<ActionType>): Promise<Action | void> => {
+  return async (dispatch: Dispatch<ActionType>): Promise<ActionType | void> => {
     return dispatch({
       type: ActionTypeKeys.updateEditedBookPartialCategory,
       tag
@@ -35,7 +36,7 @@ export const updateLocalEditedBookPartialCategory = (tag: string) => {
 }
 
 export const updateBookAction = (book: Book) => {
-  return async (dispatch: Dispatch<ActionType>): Promise<Action | void> => {
+  return async (dispatch: Dispatch<ActionType>): Promise<ActionType | void> => {
     if (!book.id) return;
     try {
       await updatePostBook(book);
@@ -51,7 +52,7 @@ export const updateBookAction = (book: Book) => {
 }
 
 export const deleteBookAction = (book: Book) => {
-  return async (dispatch: Dispatch<ActionType>): Promise<Action | void> => {
+  return async (dispatch: Dispatch<ActionType>): Promise<ActionType | void> => {
     if (!book.id) return;
     try {
       await deleteBook(book.id);
