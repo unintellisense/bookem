@@ -23,5 +23,6 @@ export type ActionType =
   { type: ActionTypeKeys.updateEditedBook, book: Book } |
   { type: ActionTypeKeys.updateEditedBookPartialCategory, tag: string } |
   { type: ActionTypeKeys.resetEditedBook } |
-  { type: ActionTypeKeys.resetViewBook } |
-  { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number }
+  { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number } |
+  { type: ActionTypeKeys.resetViewBook }
+

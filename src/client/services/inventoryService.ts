@@ -13,8 +13,12 @@ export async function postBook(book: Book): Promise<AxiosResponse<Book>> {
   return axios.post<Book>(`${baseApiUrl}/manage/book`, payload, { timeout: 7500 })
 }
 
-export async function getBooks(): Promise<AxiosResponse<GetBookResponse>> {
-  return axios.get<GetBookResponse>(`${baseApiUrl}/manage/book`, { timeout: 7500 })
+export async function getBooks(options: {
+  page?: number
+  count?: number
+}): Promise<AxiosResponse<GetBookResponse>> {
+  let { page, count } = options;
+  return axios.get<GetBookResponse>(`${baseApiUrl}/manage/book`, { timeout: 7500, params: { page, count } });
 }
 
 export async function deleteBook(id: number): Promise<AxiosResponse<Book[]>> {

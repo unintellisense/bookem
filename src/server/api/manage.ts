@@ -12,7 +12,7 @@ import { NotFound } from 'ts-httpexceptions';
 export class ManageController {
 
   @Get("/book")
-  async getBook(@QueryParams('page') page = 1, @QueryParams('count') count = 25) {
+  async getBook(@QueryParams('page') page?: number, @QueryParams('count') count?: number) {
     return await Book.query()
       .page(page, count)
       .select();
