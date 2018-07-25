@@ -1,11 +1,17 @@
 import * as React from 'react';
-import { Grid } from 'react-bootstrap';
+import { Grid, Col } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
+import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
 
 export class ViewBookSearchControl extends React.Component {
   render() {
-    return <Grid >
-      <ViewBookSearchPagination />
-    </Grid>
+    return <div>
+      <Col md={2} mdOffset={4}>
+        <ViewBookSearchPagination />
+      </Col>
+      <Col md={1}>
+        <ViewBookSearchPageCount />
+      </Col>
+    </div>
   }
 }
