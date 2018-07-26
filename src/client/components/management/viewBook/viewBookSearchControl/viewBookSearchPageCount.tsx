@@ -3,7 +3,7 @@ import { DropdownButton, MenuItem } from 'react-bootstrap'
 
 type ViewBookSearchPageCountProps = {
   updatePageCount: (count: number) => void
-  pageCount: number
+  currentPageSize: number
   pageCountOptions: number[]
 }
 
@@ -14,7 +14,7 @@ export class ViewBookSearchPageCount extends React.Component<ViewBookSearchPageC
   }
   render() {
     return <DropdownButton
-      title={this.props.pageCount}
+      title={this.props.currentPageSize}
       id={'viewBooks-pageCount'}
       style={{ marginTop: "20px", marginBottom: "20px" }}
       onSelect={this.onSelect}
