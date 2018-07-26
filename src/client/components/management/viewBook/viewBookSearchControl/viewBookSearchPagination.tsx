@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pagination } from 'react-bootstrap'
+import { Pagination, PaginationItem } from 'react-bootstrap'
 
 
 // how many pages to show lower/higher than current page
@@ -11,17 +11,13 @@ const paginationListSize = (paginationRange * 2) + 1;
 type ViewBookSearchPaginationProps = {
   currentPage: number // current page selected
   currentPageCount: number // total pages available
+  setCurrentPage: (currentPage: number) => void
 }
 
 export class ViewBookSearchPagination extends React.Component<ViewBookSearchPaginationProps> {
 
-  render() {
-    let pageRange = this.calculateCurrentPages();
-    return <Pagination>{
-      pageRange.map(val => <Pagination.Item active={val === this.props.currentPage} key={val}>{val}</Pagination.Item>)
-    }
-      <Pagination.Item>???</Pagination.Item>
-    </Pagination>
+  setCurrentPage = (e) => {
+    console.log(e);
   }
 
   calculateCurrentPages(): number[] {
@@ -41,5 +37,17 @@ export class ViewBookSearchPagination extends React.Component<ViewBookSearchPagi
     }
     return pageRange;
   }
+
+  render() {
+    let pageRange = this.calculateCurrentPages();
+    return <Pagination>
+      {
+        pageRange.map(val => <Pagination.Item active={val === this.props.currentPage} key={val} onClick={this.setCurrentPage} >{val}</Pagination.Item>)
+      }
+      <Pagination.Item>???</Pagination.Item>
+    </Pagination>
+  }
+
+
 
 }
