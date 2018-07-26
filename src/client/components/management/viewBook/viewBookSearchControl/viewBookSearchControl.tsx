@@ -3,14 +3,27 @@ import { Grid, Col } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
 
-export class ViewBookSearchControl extends React.Component {
+type ViewBookSearchControlState = {
+  currentPageCount: number
+}
+
+export class ViewBookSearchControl extends React.Component<{}, ViewBookSearchControlState> {
+
+  constructor(props) {
+    super(props);
+    this.state = { currentPageCount: 10 };
+  }
   render() {
     return <div>
-      <Col md={2} mdOffset={4}>
+      <Col sm={2} smOffset={1} xs={7}>
         <ViewBookSearchPagination />
       </Col>
-      <Col md={1}>
-        <ViewBookSearchPageCount />
+      <Col sm={1} smOffset={8} xsOffset={1} xs={2}>
+        <ViewBookSearchPageCount
+          pageCount={this.state.currentPageCount}
+          updatePageCount={(count) => { this.setState({ ...this.state, currentPageCount: count }) }}
+          pageCountOptions={[10, 25, 50, 100]}
+        />
       </Col>
     </div>
   }

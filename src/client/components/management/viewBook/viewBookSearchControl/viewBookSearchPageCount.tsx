@@ -1,16 +1,27 @@
 import * as React from 'react';
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 
-export class ViewBookSearchPageCount extends React.Component {
+type ViewBookSearchPageCountProps = {
+  updatePageCount: (count: number) => void
+  pageCount: number
+  pageCountOptions: number[]
+}
+
+export class ViewBookSearchPageCount extends React.Component<ViewBookSearchPageCountProps> {
+
+  onSelect = (value) => {
+    this.props.updatePageCount(value);
+  }
   render() {
     return <DropdownButton
-      title={'title?'}
+      title={this.props.pageCount}
       id={'viewBooks-pageCount'}
+      style={{ marginTop: "20px", marginBottom: "20px" }}
+      onSelect={this.onSelect}
     >
-      <MenuItem>10</MenuItem>
-      <MenuItem>25</MenuItem>
-      <MenuItem>50</MenuItem>
-      <MenuItem>100</MenuItem>
+      {
+        this.props.pageCountOptions.map(cnt => <MenuItem eventKey={cnt} key={cnt}>{cnt}</MenuItem>)
+      }
     </DropdownButton>
   }
 }
