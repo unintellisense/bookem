@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { Pagination, PaginationItem } from 'react-bootstrap'
 
-
-// how many pages to show lower/higher than current page
-const paginationRange = 2;
-// number of pages to show besides first/last. 
-// always paginationRange * 2 + 1 so we can keep our current page in center when possible
-const paginationListSize = (paginationRange * 2) + 1;
-
 type ViewBookSearchPaginationProps = {
+  paginationRange: number // how many pages to show lower/higher than current page
   currentPage: number // current page selected
   currentPageCount: number // total pages available
   setCurrentPage: (currentPage: number) => void
@@ -16,16 +10,20 @@ type ViewBookSearchPaginationProps = {
 
 export class ViewBookSearchPagination extends React.Component<ViewBookSearchPaginationProps> {
 
+  get paginationListSize() { // always paginationRange * 2 + 1 so we can keep our current page in center when possible`
+    return (this.props.paginationRange * 2) + 1;
+  }
+
   calculateCurrentPages(): number[] {
     let pageRange: number[] = [];
 
-    let startPage = Math.max((this.props.currentPage - paginationRange), 1);
-    let endPage = Math.min((this.props.currentPage + paginationRange), this.props.currentPageCount);
+    let startPage = Math.max((this.props.currentPage - this.props.paginationRange), 1);
+    let endPage = Math.min((this.props.currentPage + this.props.paginationRange), this.props.currentPageCount);
     // make sure if we are near start/end we show number of values equal to paginationListSize if possible
-    let pageCountDiff = paginationListSize - (endPage - (startPage - 1));
+    let pageCountDiff = this.paginationListSize - (endPage - (startPage - 1));
     startPage = Math.max(Math.min(startPage - pageCountDiff, this.props.currentPageCount), 1);
     //recalculate diff 
-    pageCountDiff = paginationListSize - (endPage - (startPage - 1));
+    pageCountDiff = this.paginationListSize - (endPage - (startPage - 1));
     endPage = Math.min(endPage + pageCountDiff, this.props.currentPageCount);
 
     while (startPage <= endPage) {
@@ -38,17 +36,22 @@ export class ViewBookSearchPagination extends React.Component<ViewBookSearchPagi
   render() {
 
     let pageRange: number[] = this.calculateCurrentPages();
-
+    // use visibility to hide so it still maintains its space (no shuffling of positions)
     return <Pagination>
-      {pageRange[0] > 1 &&
-        <Pagination.First onClick={() => { this.props.setCurrentPage(1) }} />}
+      <Pagination.First style={{ visibility: pageRange[0] > 1 ? 'initial' : 'hidden' }}
+        onClick={() => { this.props.setCurrentPage(1) }} />
+      <Pagination.Prev style={{ visibility: pageRange[0] > 1 ? 'initial' : 'hidden' }}
+        onClick={() => { this.props.setCurrentPage(this.props.currentPage - 1) }} />
       {
         pageRange.map(val => <Pagination.Item active={val === this.props.currentPage} key={val} onClick={() => { this.props.setCurrentPage(val) }} >{val}</Pagination.Item>)
       }
-      {pageRange[pageRange.length - 1] < this.props.currentPageCount &&
-        <Pagination.Last onClick={() => { this.props.setCurrentPage(this.props.currentPageCount) }} />}
+      <Pagination.Next
+        style={{ visibility: pageRange[pageRange.length - 1] < this.props.currentPageCount ? 'initial' : 'hidden' }}
+        onClick={() => { this.props.setCurrentPage(this.props.currentPage + 1) }} />
+      <Pagination.Last
+        style={{ visibility: pageRange[pageRange.length - 1] < this.props.currentPageCount ? 'initial' : 'hidden' }}
+        onClick={() => { this.props.setCurrentPage(this.props.currentPageCount) }} />
     </Pagination>
-
   }
 
 

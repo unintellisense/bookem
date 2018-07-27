@@ -6,24 +6,44 @@ import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
 type ViewBookSearchControlState = {
   currentPageCount: number
   currentSelectedPage: number
+  currentPaginationRange: number
 }
 
 export class ViewBookSearchControl extends React.Component<{}, ViewBookSearchControlState> {
 
   constructor(props) {
     super(props);
-    this.state = { currentPageCount: 10, currentSelectedPage: 1 };
+    this.state = { currentPageCount: 10, currentSelectedPage: 1, currentPaginationRange: this.calculatePaginationRange() };
   }
+
+  calculatePaginationRange() {
+    return window.innerWidth < 576 ? 1 : 2;
+  }
+
+  updatePaginationFromWidth = () => {
+    this.setState({ ...this.state, currentPaginationRange: this.calculatePaginationRange() });
+  }
+
+  componentDidMount() {
+    this.updatePaginationFromWidth()
+    window.addEventListener('resize', this.updatePaginationFromWidth);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updatePaginationFromWidth);
+  }
+
   render() {
     return <div>
-      <Col sm={4} smOffset={1} xs={11} xsOffset={1}>
+      <Col sm={6} xs={10}>
         <ViewBookSearchPagination
+          paginationRange={this.state.currentPaginationRange}
           setCurrentPage={(page) => { this.setState({ ...this.state, currentSelectedPage: page }) }}
           currentPage={this.state.currentSelectedPage}
           currentPageCount={10}
         />
       </Col>
-      <Col sm={1} smOffset={6} xs={3} xsOffset={1}>
+      <Col sm={1} smOffset={5} xs={2} xsOffset={0}>
         <ViewBookSearchPageCount
           currentPageSize={this.state.currentPageCount}
           updatePageCount={(count) => { this.setState({ ...this.state, currentPageCount: count }) }}
