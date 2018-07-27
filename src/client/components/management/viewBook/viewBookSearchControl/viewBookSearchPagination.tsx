@@ -16,10 +16,6 @@ type ViewBookSearchPaginationProps = {
 
 export class ViewBookSearchPagination extends React.Component<ViewBookSearchPaginationProps> {
 
-  setCurrentPage = (e) => {
-    console.log(e);
-  }
-
   calculateCurrentPages(): number[] {
     let pageRange: number[] = [];
 
@@ -31,6 +27,7 @@ export class ViewBookSearchPagination extends React.Component<ViewBookSearchPagi
     //recalculate diff 
     pageCountDiff = paginationListSize - (endPage - (startPage - 1));
     endPage = Math.min(endPage + pageCountDiff, this.props.currentPageCount);
+
     while (startPage <= endPage) {
       pageRange.push(startPage);
       startPage++;
@@ -39,13 +36,19 @@ export class ViewBookSearchPagination extends React.Component<ViewBookSearchPagi
   }
 
   render() {
-    let pageRange = this.calculateCurrentPages();
+
+    let pageRange: number[] = this.calculateCurrentPages();
+
     return <Pagination>
+      {pageRange[0] > 1 &&
+        <Pagination.First onClick={() => { this.props.setCurrentPage(1) }} />}
       {
-        pageRange.map(val => <Pagination.Item active={val === this.props.currentPage} key={val} onClick={this.setCurrentPage} >{val}</Pagination.Item>)
+        pageRange.map(val => <Pagination.Item active={val === this.props.currentPage} key={val} onClick={() => { this.props.setCurrentPage(val) }} >{val}</Pagination.Item>)
       }
-      <Pagination.Item>???</Pagination.Item>
+      {pageRange[pageRange.length - 1] < this.props.currentPageCount &&
+        <Pagination.Last onClick={() => { this.props.setCurrentPage(this.props.currentPageCount) }} />}
     </Pagination>
+
   }
 
 

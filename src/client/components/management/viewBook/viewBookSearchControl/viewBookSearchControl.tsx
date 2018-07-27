@@ -16,14 +16,14 @@ export class ViewBookSearchControl extends React.Component<{}, ViewBookSearchCon
   }
   render() {
     return <div>
-      <Col sm={2} smOffset={1} xs={7}>
+      <Col sm={4} smOffset={1} xs={11} xsOffset={1}>
         <ViewBookSearchPagination
           setCurrentPage={(page) => { this.setState({ ...this.state, currentSelectedPage: page }) }}
           currentPage={this.state.currentSelectedPage}
           currentPageCount={10}
         />
       </Col>
-      <Col sm={1} smOffset={8} xsOffset={1} xs={2}>
+      <Col sm={1} smOffset={6} xs={3} xsOffset={1}>
         <ViewBookSearchPageCount
           currentPageSize={this.state.currentPageCount}
           updatePageCount={(count) => { this.setState({ ...this.state, currentPageCount: count }) }}

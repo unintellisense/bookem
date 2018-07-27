@@ -5,7 +5,7 @@ import { ActionType } from '../../actionTypes'
 import { getBooks, deleteBook, updatePostBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
 
-export const getSearchedBooksAction = (page = 1, count = 3) => {
+export const getSearchedBooksAction = (page = 0, count = 100) => {
   return async (dispatch: Dispatch): Promise<ActionType | void> => {
     var searchedBooks = await getBooks({ page, count });
     let action: ActionType = {
