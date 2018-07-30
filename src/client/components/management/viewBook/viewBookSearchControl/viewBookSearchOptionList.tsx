@@ -2,41 +2,35 @@ import * as React from 'react';
 import { Table, Button } from 'react-bootstrap'
 import { IBook } from '../../../../../shared/dto/ibook'
 
-const BookFieldNames: (keyof IBook)[] = [
-  "authors",
-  "bookSeriesNumber",
-  "categories",
-  "description",
-  "isbn",
-  "isFiction",
-  "libraryIdentifier",
-  "title",
-  "yearPublished"
-]
+enum ViewBookSearchType {
+  String,
+  Number,
+  Bool
+}
 
-const BookFieldDescriptiveNames: { [key in keyof IBook]: string } = {
-  title: 'Title', // str
-  authors: 'Authors', // str
-  bookSeriesNumber: 'Book Series Number', // num
-  categories: 'Categories', // str
-  description: 'Description', // str
-  isbn: 'ISBN', // str
-  isFiction: 'Fiction?', // bool
-  libraryIdentifier: 'Identifier', // str
-  yearPublished: 'Year Published' // num
+const BookFieldDescriptiveNames: { [key in keyof IBook]: { descName: string, type: ViewBookSearchType } } = {
+  title: { descName: 'Title', type: ViewBookSearchType.String }, // str
+  authors: { descName: 'Authors', type: ViewBookSearchType.String }, // str
+  bookSeriesNumber: { descName: 'Book Series Number', type: ViewBookSearchType.String }, // num
+  categories: { descName: 'Categories', type: ViewBookSearchType.String }, // str
+  description: { descName: 'Description', type: ViewBookSearchType.String }, // str
+  isbn: { descName: 'ISBN', type: ViewBookSearchType.String }, // str
+  isFiction: { descName: 'Fiction?', type: ViewBookSearchType.String }, // bool
+  libraryIdentifier: { descName: 'Identifier', type: ViewBookSearchType.String }, // str
+  yearPublished: { descName: 'Year Published', type: ViewBookSearchType.String } // num
+}
+
+const BookFieldNames = Object.keys(BookFieldDescriptiveNames) as (keyof IBook)[];
+
+type ViewBookSearchOptionlistState = {
 
 }
 
-class ViewBookSearchOption extends React.Component {
+export class ViewBookSearchOptionlist extends React.Component<{}, ViewBookSearchOptionlistState> {
 
-}
 
-type ViewBookSearchOptionlistProps = {
 
-}
-
-export class ViewBookSearchOptionlist extends React.Component {
-
+  
   render() {
     return <div>
 
@@ -51,10 +45,10 @@ export class ViewBookSearchOptionlist extends React.Component {
         <tbody>
           <tr>
             <td className={"col-xs-4"}>
-              <select>
+              <select >
                 {
                   BookFieldNames.map(name => {
-                    return <option>{BookFieldDescriptiveNames[name]}</option>
+                    return <option>{BookFieldDescriptiveNames[name].descName}</option>
                   })
                 }
               </select></td>
