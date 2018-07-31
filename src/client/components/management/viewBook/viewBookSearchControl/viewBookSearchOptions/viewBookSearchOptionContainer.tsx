@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Table, Button } from 'react-bootstrap'
 import { IBook } from '../../../../../../shared/dto/ibook'
+import { ViewBookSearchOption } from './viewBookSearchOption'
 
 enum ViewBookSearchType {
   String,
@@ -9,22 +10,22 @@ enum ViewBookSearchType {
 }
 
 type BookSearchDetail = {
-  descName: string, type: ViewBookSearchType
+  shortName: keyof IBook, descName: string, type: ViewBookSearchType
 }
 
-const BookSearchField: { [key in keyof IBook]: BookSearchDetail } = {
-  title: { descName: 'Title', type: ViewBookSearchType.String }, // str
-  authors: { descName: 'Authors', type: ViewBookSearchType.String }, // str
-  bookSeriesNumber: { descName: 'Book Series Number', type: ViewBookSearchType.String }, // num
-  categories: { descName: 'Categories', type: ViewBookSearchType.String }, // str
-  description: { descName: 'Description', type: ViewBookSearchType.String }, // str
-  isbn: { descName: 'ISBN', type: ViewBookSearchType.String }, // str
-  isFiction: { descName: 'Fiction?', type: ViewBookSearchType.String }, // bool
-  libraryIdentifier: { descName: 'Identifier', type: ViewBookSearchType.String }, // str
-  yearPublished: { descName: 'Year Published', type: ViewBookSearchType.String } // num
-}
+const BookSearchField: BookSearchDetail[] = [
+  { shortName: 'title', descName: 'Title', type: ViewBookSearchType.String }, // str
+  { shortName: 'authors', descName: 'Authors', type: ViewBookSearchType.String }, // str
+  { shortName: 'bookSeriesNumber', descName: 'Book Series Number', type: ViewBookSearchType.String }, // num
+  { shortName: 'categories', descName: 'Categories', type: ViewBookSearchType.String }, // str
+  { shortName: 'description', descName: 'Description', type: ViewBookSearchType.String }, // str
+  { shortName: 'isbn', descName: 'ISBN', type: ViewBookSearchType.String }, // str
+  { shortName: 'isFiction', descName: 'Fiction?', type: ViewBookSearchType.String }, // bool
+  { shortName: 'libraryIdentifier', descName: 'Identifier', type: ViewBookSearchType.String }, // str
+  { shortName: 'yearPublished', descName: 'Year Published', type: ViewBookSearchType.String } // num
+]
 
-const BookFieldNames = Object.keys(BookSearchField) as (keyof IBook)[];
+export const BookFieldNames = BookSearchField.map(d => d.shortName);
 
 type ViewBookSearchOptionlistState = {
   bookSearchFieldList: (BookSearchDetail & { curValue: string })[]
@@ -35,6 +36,10 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
   constructor(props) {
     super(props);
     this.state = { bookSearchFieldList: [] }
+  }
+
+  getSearchOptionFields = (currentField: string) => {
+    this.state.bookSearchFieldList
   }
 
 
@@ -50,18 +55,14 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className={"col-xs-4"}>
-              <select >
-                {
-                  BookFieldNames.map(name => {
-                    return <option>{BookSearchField[name].descName}</option>
-                  })
-                }
-              </select></td>
-            <td className={"col-xs-6"}><input /></td>
-            <td className={"col-xs-2"}><Button block>Remove</Button></td>
-          </tr>
+          {
+            this.state.bookSearchFieldList.map(opt => {
+              return <ViewBookSearchOption
+                field={opt.shortName}
+                allFields={[]}
+              />
+            })
+          }
         </tbody>
       </Table>
     </div>
