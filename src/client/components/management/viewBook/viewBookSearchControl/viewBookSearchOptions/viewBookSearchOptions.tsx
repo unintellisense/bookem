@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table, Button } from 'react-bootstrap'
-import { IBook } from '../../../../../shared/dto/ibook'
+import { IBook } from '../../../../../../shared/dto/ibook'
 
 enum ViewBookSearchType {
   String,
@@ -8,7 +8,11 @@ enum ViewBookSearchType {
   Bool
 }
 
-const BookFieldDescriptiveNames: { [key in keyof IBook]: { descName: string, type: ViewBookSearchType } } = {
+type BookSearchDetail = {
+  descName: string, type: ViewBookSearchType
+}
+
+const BookSearchField: { [key in keyof IBook]: BookSearchDetail } = {
   title: { descName: 'Title', type: ViewBookSearchType.String }, // str
   authors: { descName: 'Authors', type: ViewBookSearchType.String }, // str
   bookSeriesNumber: { descName: 'Book Series Number', type: ViewBookSearchType.String }, // num
@@ -20,17 +24,20 @@ const BookFieldDescriptiveNames: { [key in keyof IBook]: { descName: string, typ
   yearPublished: { descName: 'Year Published', type: ViewBookSearchType.String } // num
 }
 
-const BookFieldNames = Object.keys(BookFieldDescriptiveNames) as (keyof IBook)[];
+const BookFieldNames = Object.keys(BookSearchField) as (keyof IBook)[];
 
 type ViewBookSearchOptionlistState = {
-
+  bookSearchFieldList: (BookSearchDetail & { curValue: string })[]
 }
 
-export class ViewBookSearchOptionlist extends React.Component<{}, ViewBookSearchOptionlistState> {
+export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOptionlistState> {
+
+  constructor(props) {
+    super(props);
+    this.state = { bookSearchFieldList: [] }
+  }
 
 
-
-  
   render() {
     return <div>
 
@@ -48,7 +55,7 @@ export class ViewBookSearchOptionlist extends React.Component<{}, ViewBookSearch
               <select >
                 {
                   BookFieldNames.map(name => {
-                    return <option>{BookFieldDescriptiveNames[name].descName}</option>
+                    return <option>{BookSearchField[name].descName}</option>
                   })
                 }
               </select></td>

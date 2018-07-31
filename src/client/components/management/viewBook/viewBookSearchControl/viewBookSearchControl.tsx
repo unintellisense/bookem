@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid, Col } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
-import { ViewBookSearchOptionlist } from './viewBookSearchOptionList';
+import { ViewBookSearchOptions } from './viewBookSearchOptions/viewBookSearchOptions';
 
 type ViewBookSearchControlState = {
   currentPageCount: number
@@ -42,7 +42,7 @@ export class ViewBookSearchControl extends React.Component<{}, ViewBookSearchCon
   render() {
     return <div>
       <div>
-        <ViewBookSearchOptionlist />
+        <ViewBookSearchOptions />
       </div>
       <div>
         <Col sm={6} xs={10}>
