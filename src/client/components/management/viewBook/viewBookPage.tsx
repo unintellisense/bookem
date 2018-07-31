@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
-import { RouteComponentWrapper } from '../../index'
+import { RouteComponentWrapper } from '../..'
 import { getSearchedBooksAction, updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
 import { ViewBookSearchControl } from './viewBookSearchControl/viewBookSearchControl'

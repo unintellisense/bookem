@@ -59,7 +59,7 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
                   })
                 }
               </select></td>
-            <td className={"col-xs-6"}><text /></td>
+            <td className={"col-xs-6"}><input /></td>
             <td className={"col-xs-2"}><Button block>Remove</Button></td>
           </tr>
         </tbody>

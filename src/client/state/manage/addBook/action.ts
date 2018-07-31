@@ -1,5 +1,5 @@
 import { Action, Dispatch } from 'redux'
-import { ActionTypeKeys } from '../../index'
+import { ActionTypeKeys } from '../..'
 import { Book } from '../../../models/book'
 import { postBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'

@@ -1,5 +1,5 @@
 import { Action, Dispatch, AnyAction } from 'redux'
-import { ActionTypeKeys } from '../../index'
+import { ActionTypeKeys } from '../..'
 import { Book } from '../../../models/book'
 import { ActionType } from '../../actionTypes'
 import { getBooks, deleteBook, updatePostBook } from '../../../services/inventoryService'

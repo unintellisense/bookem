@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { RouteComponentWrapper } from '../index'
-import AddBook from './addBook/'
+import { RouteComponentWrapper } from '..'
+import AddBook from './addBook'
 import ViewBooks from './viewBook/viewBookPage'
 import { Navbar, NavItem, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'

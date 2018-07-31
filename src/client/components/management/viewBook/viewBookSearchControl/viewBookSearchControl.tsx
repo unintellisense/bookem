@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid, Col } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
-import { ViewBookSearchOptions } from './viewBookSearchOptions/viewBookSearchOptions';
+import { ViewBookSearchOptions } from './viewBookSearchOptions/viewBookSearchOptionContainer';
 
 type ViewBookSearchControlState = {
   currentPageCount: number

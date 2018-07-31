@@ -3,7 +3,7 @@ import { Book } from '../../../models/book'
 import { getBooksByIsbn } from '../../../services/googleBookService'
 import { toastError } from '../../../services/toastService'
 import { FormControlProps, Col, InputGroup, FormControl, Button, ControlLabel, CheckboxProps } from 'react-bootstrap'
-import { BookCategoryTags } from '../common/bookCategoryTags'
+import { BookCategoryTags } from './bookCategoryTags'
 import { SearchResultBook } from '../../../../shared/dto/googleBook';
 
 type BookDetailProps = {

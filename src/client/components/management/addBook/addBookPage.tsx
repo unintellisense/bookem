@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Form, Col, Button } from 'react-bootstrap'
-import { RouteComponentWrapper } from '../../index'
+import { RouteComponentWrapper } from '../..'
 import { postBookAction, saveAddBookFieldsAction, saveAddBookPartialTagAction } from '../../../state/manage/addBook/action'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'

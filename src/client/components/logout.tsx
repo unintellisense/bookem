@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteComponentWrapper } from './index'
+import { RouteComponentWrapper } from '.'
 
 class LogOut extends React.Component {
 

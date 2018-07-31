@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RouteComponentWrapper } from './index'
+import { RouteComponentWrapper } from '.'
 
 class Browse extends React.Component {
 
