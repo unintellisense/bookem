@@ -9,11 +9,13 @@ enum ViewBookSearchType {
   Bool
 }
 
-type BookSearchDetail = {
+export type BookSearchDetail = {
   shortName: keyof IBook, descName: string, type: ViewBookSearchType
 }
 
-const BookSearchField: BookSearchDetail[] = [
+type BookSearchDetailOption = BookSearchDetail & { curValue: string }
+
+const BookSearchFields: BookSearchDetail[] = [
   { shortName: 'title', descName: 'Title', type: ViewBookSearchType.String }, // str
   { shortName: 'authors', descName: 'Authors', type: ViewBookSearchType.String }, // str
   { shortName: 'bookSeriesNumber', descName: 'Book Series Number', type: ViewBookSearchType.String }, // num
@@ -25,10 +27,8 @@ const BookSearchField: BookSearchDetail[] = [
   { shortName: 'yearPublished', descName: 'Year Published', type: ViewBookSearchType.String } // num
 ]
 
-export const BookFieldNames = BookSearchField.map(d => d.shortName);
-
 type ViewBookSearchOptionlistState = {
-  bookSearchFieldList: (BookSearchDetail & { curValue: string })[]
+  bookSearchFieldList: BookSearchDetailOption[]
 }
 
 export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOptionlistState> {
@@ -38,10 +38,27 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
     this.state = { bookSearchFieldList: [] }
   }
 
-  getSearchOptionFields = (currentField: string) => {
-    this.state.bookSearchFieldList
+  addSearchOption = () => {
+    // get first available field
+    var newOption = { ...this.getSearchOptionFields()[0], curValue: '' };
+    let newList = this.state.bookSearchFieldList.concat([newOption]);
+    this.setState({ ...this.state, bookSearchFieldList: newList });
   }
 
+  changeSearchOptionField = (newFieldName: string, idx: number) => {
+    var newSearchList = [...this.state.bookSearchFieldList];
+    var newOpt = BookSearchFields.find(field => field.shortName === newFieldName);
+    if (!newOpt) return;
+    newSearchList[idx] = { ...newOpt, curValue: '' };
+    this.setState({ ...this.state, bookSearchFieldList: newSearchList })
+  }
+
+  getSearchOptionFields = (currentFieldName?: string) => {
+    return BookSearchFields.filter(field => {
+      return field.shortName === currentFieldName || // always return current field
+        !this.state.bookSearchFieldList.some(listField => listField.shortName === field.shortName) // and any fields not being used
+    })
+  }
 
   render() {
     return <div>
@@ -51,15 +68,18 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
           <tr>
             <th className={"col-xs-4"}>Field</th>
             <th className={"col-xs-6"}>Value</th>
-            <th className={"col-xs-2"}><Button block>Add</Button></th>
+            <th className={"col-xs-2"}><Button block onClick={this.addSearchOption}>Add</Button></th>
           </tr>
         </thead>
         <tbody>
           {
-            this.state.bookSearchFieldList.map(opt => {
+            this.state.bookSearchFieldList.map((opt, idx) => {
               return <ViewBookSearchOption
+                key={opt.shortName}
                 field={opt.shortName}
-                allFields={[]}
+                allFields={this.getSearchOptionFields(opt.shortName)}
+                onChangeValue={this.changeSearchOptionField}
+                idx={idx}
               />
             })
           }

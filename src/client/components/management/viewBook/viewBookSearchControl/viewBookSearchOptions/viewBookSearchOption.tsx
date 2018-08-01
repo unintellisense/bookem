@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap'
-
+import { BookSearchDetail } from './viewBookSearchOptionContainer'
 type ViewBookSearchOptionProps = {
   field: string
-  allFields: { shortName: string, longName: string }[]
+  allFields: BookSearchDetail[]
+  idx: number
+  onChangeValue: (val: string, idx: number) => void
 }
 
 export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionProps> {
@@ -12,12 +14,10 @@ export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionPr
 
     return <tr>
       <td className={"col-xs-4"}>
-        <select >
+        <select value={this.props.field} onChange={(e) => this.props.onChangeValue(e.target.value, this.props.idx)} >
           {
             this.props.allFields.map(field => {
-              return <option key={field.shortName}
-                selected={field.shortName === this.props.field}>{field.longName}
-              </option>
+              return <option value={field.shortName} key={field.shortName}>{field.descName}</option>
             })
           }
         </select>
