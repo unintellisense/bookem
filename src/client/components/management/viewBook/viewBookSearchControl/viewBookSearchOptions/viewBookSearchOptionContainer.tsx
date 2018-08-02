@@ -74,7 +74,7 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
           <tr>
             <th className={"col-xs-4"}>Field</th>
             <th className={"col-xs-6"}>Value</th>
-            <th className={"col-xs-2"}><Button block onClick={this.addSearchOption}>Add</Button></th>
+            <th className={"col-xs-2"}><Button block onClick={this.addSearchOption} disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>Add</Button></th>
           </tr>
         </thead>
         <tbody>
