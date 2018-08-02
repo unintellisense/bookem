@@ -18,7 +18,7 @@ type BookSearchDetailOption = BookSearchDetail & { curValue: string }
 const BookSearchFields: BookSearchDetail[] = [
   { shortName: 'title', descName: 'Title', type: ViewBookSearchType.String }, // str
   { shortName: 'authors', descName: 'Authors', type: ViewBookSearchType.String }, // str
-  { shortName: 'bookSeriesNumber', descName: 'Book Series Number', type: ViewBookSearchType.String }, // num
+  { shortName: 'bookSeriesNumber', descName: 'Book Series #', type: ViewBookSearchType.String }, // num
   { shortName: 'categories', descName: 'Categories', type: ViewBookSearchType.String }, // str
   { shortName: 'description', descName: 'Description', type: ViewBookSearchType.String }, // str
   { shortName: 'isbn', descName: 'ISBN', type: ViewBookSearchType.String }, // str

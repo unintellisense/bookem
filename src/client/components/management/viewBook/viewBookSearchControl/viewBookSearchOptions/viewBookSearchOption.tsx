@@ -15,7 +15,7 @@ export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionPr
 
     return <tr>
       <td className={"col-xs-4"}>
-        <select value={this.props.field} onChange={(e) => this.props.onChangeValue(e.target.value, this.props.idx)} >
+        <select style={{ width: "12rem" }} value={this.props.field} onChange={(e) => this.props.onChangeValue(e.target.value, this.props.idx)} >
           {
             this.props.allFields.map(field => {
               return <option value={field.shortName} key={field.shortName}>{field.descName}</option>
