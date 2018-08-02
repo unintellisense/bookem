@@ -45,6 +45,12 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
     this.setState({ ...this.state, bookSearchFieldList: newList });
   }
 
+  removeSearchOption = (idx: number) => {
+    let newList = [...this.state.bookSearchFieldList];
+    newList.splice(idx, 1);
+    this.setState({ ...this.state, bookSearchFieldList: newList });
+  }
+
   changeSearchOptionField = (newFieldName: string, idx: number) => {
     var newSearchList = [...this.state.bookSearchFieldList];
     var newOpt = BookSearchFields.find(field => field.shortName === newFieldName);
@@ -79,6 +85,7 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
                 field={opt.shortName}
                 allFields={this.getSearchOptionFields(opt.shortName)}
                 onChangeValue={this.changeSearchOptionField}
+                onRemove={this.removeSearchOption}
                 idx={idx}
               />
             })

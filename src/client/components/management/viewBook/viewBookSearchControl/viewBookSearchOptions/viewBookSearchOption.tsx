@@ -6,6 +6,7 @@ type ViewBookSearchOptionProps = {
   allFields: BookSearchDetail[]
   idx: number
   onChangeValue: (val: string, idx: number) => void
+  onRemove: (idx: number) => void
 }
 
 export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionProps> {
@@ -23,7 +24,7 @@ export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionPr
         </select>
       </td>
       <td className={"col-xs-6"}><input /></td>
-      <td className={"col-xs-2"}><Button block>Remove</Button></td>
+      <td className={"col-xs-2"}><Button block onClick={() => { this.props.onRemove(this.props.idx) }}>Remove</Button></td>
     </tr>
   }
 }
