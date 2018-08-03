@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Panel, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { IBook } from '../../../../../../shared/dto/ibook'
 import { ViewBookSearchOption } from './viewBookSearchOption'
 
@@ -67,32 +67,36 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
   }
 
   render() {
-    return <div>
-
-      <Table condensed bordered striped>
-        <thead>
-          <tr>
-            <th className={"col-xs-4"}>Field</th>
-            <th className={"col-xs-6"}>Value</th>
-            <th className={"col-xs-2"}><Button block onClick={this.addSearchOption} disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>Add</Button></th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            this.state.bookSearchFieldList.map((opt, idx) => {
-              return <ViewBookSearchOption
-                key={idx}
-                field={opt.shortName}
-                allFields={this.getSearchOptionFields(opt.shortName)}
-                onChangeValue={this.changeSearchOptionField}
-                onRemove={this.removeSearchOption}
-                idx={idx}
-              />
-            })
-          }
-        </tbody>
-      </Table>
-    </div>
-
+    return <Panel>
+      <Panel.Heading>
+        <span>&#9658;</span> {/** triangle */}
+        <span> Search Options</span>
+      </Panel.Heading>
+      <Panel.Body>
+        <Row>
+          <Col xs={4}>Field</Col>
+          <Col xs={6}>Value</Col>
+          <Col xs={2}>
+            <Button block onClick={this.addSearchOption}
+              disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>
+              Add</Button>
+          </Col>
+        </Row>
+      </Panel.Body>
+      <ListGroup>
+        {
+          this.state.bookSearchFieldList.map((opt, idx) => {
+            return <ViewBookSearchOption
+              key={idx}
+              field={opt.shortName}
+              allFields={this.getSearchOptionFields(opt.shortName)}
+              onChangeValue={this.changeSearchOptionField}
+              onRemove={this.removeSearchOption}
+              idx={idx}
+            />
+          })
+        }
+      </ListGroup>
+    </Panel>
   }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button } from 'react-bootstrap'
+import { Button, ListGroupItem, Row, Col } from 'react-bootstrap'
 import { BookSearchDetail } from './viewBookSearchOptionContainer'
 type ViewBookSearchOptionProps = {
   field: string
@@ -13,18 +13,26 @@ export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionPr
 
   render() {
 
-    return <tr>
-      <td className={"col-xs-4"}>
-        <select style={{ width: "12rem" }} value={this.props.field} onChange={(e) => this.props.onChangeValue(e.target.value, this.props.idx)} >
-          {
-            this.props.allFields.map(field => {
-              return <option value={field.shortName} key={field.shortName}>{field.descName}</option>
-            })
-          }
-        </select>
-      </td>
-      <td className={"col-xs-6"}><input /></td>
-      <td className={"col-xs-2"}><Button block onClick={() => { this.props.onRemove(this.props.idx) }}>Remove</Button></td>
-    </tr>
+    return <ListGroupItem>
+      <Row>
+        <Col>
+          <Col xs={4}>
+            <select style={{ width: "12rem" }} value={this.props.field} onChange={(e) => this.props.onChangeValue(e.target.value, this.props.idx)} >
+              {
+                this.props.allFields.map(field => {
+                  return <option value={field.shortName} key={field.shortName}>{field.descName}</option>
+                })
+              }
+            </select>
+          </Col>
+          <Col xs={6}>
+            <input type="text" />
+          </Col>
+          <Col xs={2}>
+            <Button block onClick={() => { this.props.onRemove(this.props.idx) }}>Remove</Button>
+          </Col>
+        </Col>
+      </Row>
+    </ListGroupItem>
   }
 }
