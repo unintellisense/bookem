@@ -81,7 +81,7 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
           {
             this.state.bookSearchFieldList.map((opt, idx) => {
               return <ViewBookSearchOption
-                key={opt.shortName}
+                key={idx}
                 field={opt.shortName}
                 allFields={this.getSearchOptionFields(opt.shortName)}
                 onChangeValue={this.changeSearchOptionField}
