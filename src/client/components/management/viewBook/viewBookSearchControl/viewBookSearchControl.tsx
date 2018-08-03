@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
 import { ViewBookSearchOptions } from './viewBookSearchOptions/viewBookSearchOptionContainer';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Table, Button, Panel, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { Button, Panel, Row, Col, ListGroup } from 'react-bootstrap'
 import { IBook } from '../../../../../../shared/dto/ibook'
 import { ViewBookSearchOption } from './viewBookSearchOption'
 
