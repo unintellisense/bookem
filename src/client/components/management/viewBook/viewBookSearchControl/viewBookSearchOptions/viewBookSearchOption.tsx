@@ -6,7 +6,7 @@ import { BookSearchDetail } from './viewBookSearchOptionContainer'
 const cssClass = style({
   $nest: {
     '&>div>div': {
-      margin: "25px 5px"
+      margin: "25px 0px"
     },
     '&>div>div>select': {
       width: "12rem"
