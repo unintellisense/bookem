@@ -1,6 +1,19 @@
 import * as React from 'react';
+import { style } from 'typestyle';
 import { Button, ListGroupItem, Row, Col } from 'react-bootstrap'
 import { BookSearchDetail } from './viewBookSearchOptionContainer'
+
+const cssClass = style({
+  $nest: {
+    '&>div>div': {
+      margin: "25px 5px"
+    },
+    '&>div>div>select': {
+      width: "12rem"
+    }
+  }
+});
+
 type ViewBookSearchOptionProps = {
   field: string
   allFields: BookSearchDetail[]
@@ -13,10 +26,10 @@ export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionPr
 
   render() {
 
-    return <ListGroupItem>
+    return <ListGroupItem className={cssClass}>
       <Row>
         <Col xs={4} md={4}>
-          <select style={{ width: "12rem" }} value={this.props.field} onChange={(e) => this.props.onChangeValue(e.target.value, this.props.idx)} >
+          <select value={this.props.field} onChange={(e) => this.props.onChangeValue(e.target.value, this.props.idx)} >
             {
               this.props.allFields.map(field => {
                 return <option value={field.shortName} key={field.shortName}>{field.descName}</option>
@@ -27,7 +40,7 @@ export class ViewBookSearchOption extends React.Component<ViewBookSearchOptionPr
         <Col xs={6} xsOffset={2} md={2} mdOffset={0} mdPush={5}>
           <Button block onClick={() => { this.props.onRemove(this.props.idx) }}>&#9587;</Button>
         </Col>
-        <Col xs={10} md={6}>
+        <Col xs={12} md={6}>
           <input type="text" />
         </Col>
 

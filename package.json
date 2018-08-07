@@ -72,6 +72,7 @@
     "sqlite3": "^4.0.0",
     "ts-httpexceptions": "^3.1.0",
     "ts-node": "^6.0.3",
-    "tslib": "^1.9.1"
+    "tslib": "^1.9.1",
+    "typestyle": "^2.0.1"
   }
 }
