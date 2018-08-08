@@ -1,7 +1,22 @@
 import * as React from 'react';
+import { style, media } from 'typestyle';
 import { Button, Panel, Row, Col, ListGroup } from 'react-bootstrap'
 import { IBook } from '../../../../../../shared/dto/ibook'
 import { ViewBookSearchOption } from './viewBookSearchOption'
+
+const cssClass = style({
+  $nest: {
+    '&>div>div>div': {
+      textAlign: "center",
+      verticalAlign: "middle",
+      height: "34px",
+      lineHeight: "34px" // necessary for vertical centering
+    },
+    '&>div>div>button': {
+      width: "100%"
+    }
+  }
+});
 
 enum ViewBookSearchType {
   String,
@@ -67,16 +82,16 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
   }
 
   render() {
-    return <Panel>
+    return <Panel className={cssClass}>
       <Panel.Heading>
         <span>&#9658;</span> {/** triangle */}
         <span> Search Options</span>
       </Panel.Heading>
       <Panel.Body>
         <Row>
-          <Col xs={4}>Field</Col>
-          <Col xs={6}>Value</Col>
-          <Col xs={2}>
+          <Col xs={6} md={4}>Field</Col>
+          <Col xsHidden md={6}>Value</Col>
+          <Col xs={6} md={2}>
             <Button block onClick={this.addSearchOption}
               disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>
               Add</Button>
