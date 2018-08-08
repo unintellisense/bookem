@@ -45,21 +45,18 @@ export class ViewBookSearchControl extends React.Component<{}, ViewBookSearchCon
         <ViewBookSearchOptions />
       </div>
       <div>
-        <Col sm={6} xs={10}>
+        <Col sm={5} xs={10}>
           <ViewBookSearchPagination
             paginationRange={this.state.currentPaginationRange}
             setCurrentPage={(page) => { this.setState({ ...this.state, currentSelectedPage: page }) }}
             currentPage={this.state.currentSelectedPage}
-            currentPageCount={10}
-          />
+            currentPageCount={10} />
         </Col>
-        <Col sm={1} smOffset={5} xs={2} xsOffset={0}>
-
+        <Col sm={1} xs={2} >
           <ViewBookSearchPageCount
             currentPageSize={this.state.currentPageCount}
             updatePageCount={(count) => { this.setState({ ...this.state, currentPageCount: count }) }}
-            pageCountOptions={[10, 25, 50, 100]}
-          />
+            pageCountOptions={[10, 25, 50, 100]} />
         </Col>
       </div>
     </div>
