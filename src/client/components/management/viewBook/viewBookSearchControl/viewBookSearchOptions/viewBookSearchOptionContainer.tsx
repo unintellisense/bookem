@@ -90,7 +90,7 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
       <Panel.Body>
         <Row>
           <Col xs={6} md={4}>Field</Col>
-          <Col xsHidden md={6}>Value</Col>
+          <Col xsHidden smHidden lgHidden={false} md={6}>Value</Col>
           <Col xs={6} md={2}>
             <Button block onClick={this.addSearchOption}
               disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>
