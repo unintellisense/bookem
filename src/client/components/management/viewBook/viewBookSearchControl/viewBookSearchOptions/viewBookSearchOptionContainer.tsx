@@ -44,13 +44,17 @@ const BookSearchFields: BookSearchDetail[] = [
 
 type ViewBookSearchOptionlistState = {
   bookSearchFieldList: BookSearchDetailOption[]
+  panelExpanded: boolean
 }
+
+const triangleRight = '\u25BA';
+const triangleDown = '\u25BC';
 
 export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOptionlistState> {
 
   constructor(props) {
     super(props);
-    this.state = { bookSearchFieldList: [] }
+    this.state = { bookSearchFieldList: [], panelExpanded: true }
   }
 
   addSearchOption = () => {
@@ -82,36 +86,38 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
   }
 
   render() {
-    return <Panel className={cssClass}>
-      <Panel.Heading>
-        <span>&#9658;</span> {/** triangle */}
+    return <Panel className={cssClass} expanded={this.state.panelExpanded}>
+      <Panel.Heading onClick={() => { this.setState({ ...this.state, panelExpanded: !this.state.panelExpanded }) }}>
+        <span>{this.state.panelExpanded ? triangleDown : triangleRight}</span> {/** triangle */}
         <span> Search Options</span>
       </Panel.Heading>
-      <Panel.Body>
-        <Row>
-          <Col xs={6} md={4}>Field</Col>
-          <Col xsHidden smHidden lgHidden={false} md={6}>Value</Col>
-          <Col xs={6} md={2}>
-            <Button block onClick={this.addSearchOption}
-              disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>
-              Add</Button>
-          </Col>
-        </Row>
-      </Panel.Body>
-      <ListGroup>
-        {
-          this.state.bookSearchFieldList.map((opt, idx) => {
-            return <ViewBookSearchOption
-              key={idx}
-              field={opt.shortName}
-              allFields={this.getSearchOptionFields(opt.shortName)}
-              onChangeValue={this.changeSearchOptionField}
-              onRemove={this.removeSearchOption}
-              idx={idx}
-            />
-          })
-        }
-      </ListGroup>
+      <Panel.Collapse>
+        <Panel.Body>
+          <Row>
+            <Col xs={6} md={4}>Field</Col>
+            <Col xsHidden smHidden lgHidden={false} md={6}>Value</Col>
+            <Col xs={6} md={2}>
+              <Button block onClick={this.addSearchOption}
+                disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>
+                Add</Button>
+            </Col>
+          </Row>
+        </Panel.Body>
+        <ListGroup>
+          {
+            this.state.bookSearchFieldList.map((opt, idx) => {
+              return <ViewBookSearchOption
+                key={idx}
+                field={opt.shortName}
+                allFields={this.getSearchOptionFields(opt.shortName)}
+                onChangeValue={this.changeSearchOptionField}
+                onRemove={this.removeSearchOption}
+                idx={idx}
+              />
+            })
+          }
+        </ListGroup>
+      </Panel.Collapse>
     </Panel>
   }
 }
