@@ -66,3 +66,13 @@ export const deleteBookAction = (book: Book) => {
     }
   }
 }
+
+export const updateviewBookSearchPageSettings = (selectedPage: number, selectedPageCount: number) => {
+  return (dispatch: Dispatch<ActionType>) => {
+    dispatch({
+      type: ActionTypeKeys.viewBookSearchControlUpdate,
+      pageCount: selectedPageCount,
+      selectedPage: selectedPage
+    })
+  }
+}

@@ -1,20 +1,30 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { AppState } from '../../../../state'
+import { updateviewBookSearchPageSettings } from '../../../../state/manage/viewBook/action'
 import { Col } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
 import { ViewBookSearchOptions } from './viewBookSearchOptions/viewBookSearchOptionContainer';
 
-type ViewBookSearchControlState = {
+type ViewBookSearchControlProps = {
   currentPageCount: number
   currentSelectedPage: number
+}
+
+type ViewBookSearchControlDispatch = {
+  updateSearchSettings: (pageCount: number, selectedPage: number) => any
+}
+
+type ViewBookSearchControlState = {
   currentPaginationRange: number
 }
 
-export class ViewBookSearchControl extends React.Component<{}, ViewBookSearchControlState> {
+class ViewBookSearchControl extends React.Component<ViewBookSearchControlProps & ViewBookSearchControlDispatch, ViewBookSearchControlState> {
 
   constructor(props) {
     super(props);
-    this.state = { currentPageCount: 10, currentSelectedPage: 1, currentPaginationRange: this.calculatePaginationRange() };
+    this.state = { currentPaginationRange: this.calculatePaginationRange() };
   }
 
   calculatePaginationRange() {
@@ -48,17 +58,32 @@ export class ViewBookSearchControl extends React.Component<{}, ViewBookSearchCon
         <Col sm={5} xs={10}>
           <ViewBookSearchPagination
             paginationRange={this.state.currentPaginationRange}
-            setCurrentPage={(page) => { this.setState({ ...this.state, currentSelectedPage: page }) }}
-            currentPage={this.state.currentSelectedPage}
+            setCurrentPage={(page) => { this.props.updateSearchSettings(this.props.currentPageCount, page) }}
+            currentPage={this.props.currentSelectedPage}
             currentPageCount={10} />
         </Col>
         <Col sm={1} xs={2} >
           <ViewBookSearchPageCount
-            currentPageSize={this.state.currentPageCount}
-            updatePageCount={(count) => { this.setState({ ...this.state, currentPageCount: count }) }}
+            currentPageSize={this.props.currentPageCount}
+            updatePageCount={(count) => { this.props.updateSearchSettings(count, this.props.currentSelectedPage) }}
             pageCountOptions={[10, 25, 50, 100]} />
         </Col>
       </div>
     </div>
   }
 }
+
+const mapStateToProps: (state: AppState) => ViewBookSearchControlProps
+  = (state) => ({
+    currentPageCount: state.manage.viewBook.search.currentPageCount,
+    currentSelectedPage: state.manage.viewBook.search.currentSelectedPage
+  })
+
+const mapDispatchToProps: (dispatch: Function) => ViewBookSearchControlDispatch
+  = (dispatch) => ({
+    updateSearchSettings: (pageCount: number, selectedPage: number) => dispatch(updateviewBookSearchPageSettings(selectedPage, pageCount))
+  })
+
+const connectedViewBookSearchControl = connect(mapStateToProps, mapDispatchToProps)(ViewBookSearchControl);
+
+export default connectedViewBookSearchControl;

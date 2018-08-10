@@ -85,9 +85,19 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
     })
   }
 
+  toggleClick = () => {
+    console.log('toggle click')
+    this.setState({ ...this.state, panelExpanded: !this.state.panelExpanded })
+  }
+
+  afterToggle = () => {
+    // this doesn't get called by onToggle?
+    console.log('toggle done')
+  }
+
   render() {
-    return <Panel className={cssClass} expanded={this.state.panelExpanded}>
-      <Panel.Heading onClick={() => { this.setState({ ...this.state, panelExpanded: !this.state.panelExpanded }) }}>
+    return <Panel className={cssClass} expanded={this.state.panelExpanded} onToggle={this.afterToggle}>
+      <Panel.Heading onClick={this.toggleClick}>
         <span>{this.state.panelExpanded ? triangleDown : triangleRight}</span> {/** triangle */}
         <span> Search Options</span>
       </Panel.Heading>

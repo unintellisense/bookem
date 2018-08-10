@@ -6,18 +6,18 @@ import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../..'
 import { getSearchedBooksAction, updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
-import { ViewBookSearchControl } from './viewBookSearchControl/viewBookSearchControl'
+import ViewBookSearchControl from './viewBookSearchControl/viewBookSearchControl'
 
 const TextTruncate = require('react-text-truncate');
 
-type ViewStateProps = {
+type ViewBookProps = {
   searchedBooks: Book[]
   currentFocusedBook: Book | null
   currentFocusedPartialCategory: string
   lastRefreshedBooks: number
 }
 
-type ViewDispatchProps = {
+type ViewBookDispatch = {
   getSearchedBooks: () => Book[]
   updateFocusedBook: (book: Book | null) => any
   updateFocusedPartialCategory: (tag: string) => any
@@ -27,7 +27,7 @@ type ViewDispatchProps = {
 
 const staleRefreshTimeoutMillis = 1000 * 60; // 1 minute
 
-class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
+class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
 
   componentDidMount() {
     this.refreshStaleBooks();
@@ -90,14 +90,15 @@ class viewBookPage extends React.Component<ViewStateProps & ViewDispatchProps> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
-  searchedBooks: state.manage.viewBook.page.searchedBooks,
-  lastRefreshedBooks: state.manage.viewBook.page.lastRefreshedBooks,
-  currentFocusedBook: state.manage.viewBook.modal.editedBook,
-  currentFocusedPartialCategory: state.manage.viewBook.modal.editedBookPartialCategory
-})
+const mapStateToProps: (state: AppState) => ViewBookProps
+  = (state) => ({
+    searchedBooks: state.manage.viewBook.page.searchedBooks,
+    lastRefreshedBooks: state.manage.viewBook.page.lastRefreshedBooks,
+    currentFocusedBook: state.manage.viewBook.modal.editedBook,
+    currentFocusedPartialCategory: state.manage.viewBook.modal.editedBookPartialCategory
+  })
 
-const mapDispatchToProps: (dispatch: Function) => ViewDispatchProps
+const mapDispatchToProps: (dispatch: Function) => ViewBookDispatch
   = (dispatch) => ({
     getSearchedBooks: () => dispatch(getSearchedBooksAction()),
     updateFocusedBook: (book: Book) => dispatch(updateLocalEditedBookAction(book)),
@@ -106,7 +107,7 @@ const mapDispatchToProps: (dispatch: Function) => ViewDispatchProps
     deleteBook: (book: Book) => dispatch(deleteBookAction(book))
   });
 
-const connectedViewBookPage = connect<ViewStateProps, ViewDispatchProps>(mapStateToProps, mapDispatchToProps)(viewBookPage);
+const connectedViewBookPage = connect<ViewBookProps, ViewBookDispatch>(mapStateToProps, mapDispatchToProps)(viewBookPage);
 
 const wrapper: RouteComponentWrapper = {
   component: connectedViewBookPage,
