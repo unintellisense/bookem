@@ -5,7 +5,7 @@ import { updateviewBookSearchPageSettings } from '../../../../state/manage/viewB
 import { Col } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
-import { ViewBookSearchOptions } from './viewBookSearchOptions/viewBookSearchOptionContainer';
+import ViewBookSearchOptionContainer from './viewBookSearchOptions/viewBookSearchOptionContainer';
 
 type ViewBookSearchControlProps = {
   currentPageCount: number
@@ -52,7 +52,7 @@ class ViewBookSearchControl extends React.Component<ViewBookSearchControlProps &
   render() {
     return <div>
       <div>
-        <ViewBookSearchOptions />
+        <ViewBookSearchOptionContainer />
       </div>
       <div>
         <Col sm={5} xs={10}>

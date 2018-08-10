@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { style, media } from 'typestyle';
+import { connect } from 'react-redux';
+import { AppState } from '../../../../../state'
+import { updateviewBookSearchPanelExpanded, updateviewBookSearchOptions } from '../../../../../state/manage/viewBook/action'
+import { style } from 'typestyle';
 import { Button, Panel, Row, Col, ListGroup } from 'react-bootstrap'
-import { IBook } from '../../../../../../shared/dto/ibook'
+import { BookSearchDetail, ViewBookSearchType, BookSearchDetailOption } from '../../../../../models/manageBookSearchOption'
 import { ViewBookSearchOption } from './viewBookSearchOption'
 
 const cssClass = style({
@@ -18,18 +21,6 @@ const cssClass = style({
   }
 });
 
-enum ViewBookSearchType {
-  String,
-  Number,
-  Bool
-}
-
-export type BookSearchDetail = {
-  shortName: keyof IBook, descName: string, type: ViewBookSearchType
-}
-
-type BookSearchDetailOption = BookSearchDetail & { curValue: string }
-
 const BookSearchFields: BookSearchDetail[] = [
   { shortName: 'title', descName: 'Title', type: ViewBookSearchType.String }, // str
   { shortName: 'authors', descName: 'Authors', type: ViewBookSearchType.String }, // str
@@ -42,15 +33,20 @@ const BookSearchFields: BookSearchDetail[] = [
   { shortName: 'yearPublished', descName: 'Year Published', type: ViewBookSearchType.String } // num
 ]
 
-type ViewBookSearchOptionlistState = {
-  bookSearchFieldList: BookSearchDetailOption[]
+type ViewBookSearchOptionContainerProps = {
+  bookSearchOptions: BookSearchDetailOption[]
   panelExpanded: boolean
+}
+
+type ViewBookSearchOptionContainerDispatch = {
+  updateBookSearchOptions: (books: BookSearchDetailOption[]) => void
+  updatePanelExpanded: (expanded: boolean) => void
 }
 
 const triangleRight = '\u25BA';
 const triangleDown = '\u25BC';
 
-export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOptionlistState> {
+export class ViewBookSearchOptionContainer extends React.Component<ViewBookSearchOptionContainerProps & ViewBookSearchOptionContainerDispatch> {
 
   constructor(props) {
     super(props);
@@ -60,34 +56,33 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
   addSearchOption = () => {
     // get first available field
     var newOption = { ...this.getSearchOptionFields()[0], curValue: '' };
-    let newList = this.state.bookSearchFieldList.concat([newOption]);
-    this.setState({ ...this.state, bookSearchFieldList: newList });
+    let newList = this.props.bookSearchOptions.concat([newOption]);
+    this.props.updateBookSearchOptions(newList);
   }
 
   removeSearchOption = (idx: number) => {
-    let newList = [...this.state.bookSearchFieldList];
+    let newList = [...this.props.bookSearchOptions];
     newList.splice(idx, 1);
-    this.setState({ ...this.state, bookSearchFieldList: newList });
+    this.props.updateBookSearchOptions(newList);
   }
 
   changeSearchOptionField = (newFieldName: string, idx: number) => {
-    var newSearchList = [...this.state.bookSearchFieldList];
+    var newSearchList = [...this.props.bookSearchOptions];
     var newOpt = BookSearchFields.find(field => field.shortName === newFieldName);
     if (!newOpt) return;
     newSearchList[idx] = { ...newOpt, curValue: '' };
-    this.setState({ ...this.state, bookSearchFieldList: newSearchList })
+    this.props.updateBookSearchOptions(newSearchList);
   }
 
   getSearchOptionFields = (currentFieldName?: string) => {
     return BookSearchFields.filter(field => {
       return field.shortName === currentFieldName || // always return current field
-        !this.state.bookSearchFieldList.some(listField => listField.shortName === field.shortName) // and any fields not being used
+        !this.props.bookSearchOptions.some(listField => listField.shortName === field.shortName) // and any fields not being used
     })
   }
 
-  toggleClick = () => {
-    console.log('toggle click')
-    this.setState({ ...this.state, panelExpanded: !this.state.panelExpanded })
+  togglePanel = () => {
+    this.props.updatePanelExpanded(!this.props.panelExpanded);
   }
 
   afterToggle = () => {
@@ -96,9 +91,9 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
   }
 
   render() {
-    return <Panel className={cssClass} expanded={this.state.panelExpanded} onToggle={this.afterToggle}>
-      <Panel.Heading onClick={this.toggleClick}>
-        <span>{this.state.panelExpanded ? triangleDown : triangleRight}</span> {/** triangle */}
+    return <Panel className={cssClass} expanded={this.props.panelExpanded} onToggle={this.afterToggle}>
+      <Panel.Heading onClick={(this.togglePanel)}>
+        <span>{this.props.panelExpanded ? triangleDown : triangleRight}</span> {/** triangle */}
         <span> Search Options</span>
       </Panel.Heading>
       <Panel.Collapse>
@@ -108,14 +103,14 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
             <Col xsHidden smHidden lgHidden={false} md={6}>Value</Col>
             <Col xs={6} md={2}>
               <Button block onClick={this.addSearchOption}
-                disabled={this.state.bookSearchFieldList.length === BookSearchFields.length}>
+                disabled={this.props.bookSearchOptions.length === BookSearchFields.length}>
                 Add</Button>
             </Col>
           </Row>
         </Panel.Body>
         <ListGroup>
           {
-            this.state.bookSearchFieldList.map((opt, idx) => {
+            this.props.bookSearchOptions.map((opt, idx) => {
               return <ViewBookSearchOption
                 key={idx}
                 field={opt.shortName}
@@ -131,3 +126,18 @@ export class ViewBookSearchOptions extends React.Component<{}, ViewBookSearchOpt
     </Panel>
   }
 }
+
+const mapStateToProps: (state: AppState) => ViewBookSearchOptionContainerProps
+  = (state) => ({
+    bookSearchOptions: state.manage.viewBook.search.searchOptions,
+    panelExpanded: state.manage.viewBook.search.searchPanelExpanded
+  })
+
+const mapDispatchToProps: (dispatch: Function) => ViewBookSearchOptionContainerDispatch
+  = (dispatch) => ({
+    updatePanelExpanded: (expanded: boolean) => dispatch(updateviewBookSearchPanelExpanded(expanded)),
+    updateBookSearchOptions: (options: BookSearchDetailOption[]) => dispatch(updateviewBookSearchOptions(options))
+  })
+
+const connectedViewBookSearchOptionContainer = connect(mapStateToProps, mapDispatchToProps)(ViewBookSearchOptionContainer);
+export default connectedViewBookSearchOptionContainer;

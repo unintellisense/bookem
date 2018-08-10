@@ -1,6 +1,7 @@
-import { Action, Dispatch, AnyAction } from 'redux'
+import { Dispatch } from 'redux'
 import { ActionTypeKeys } from '../..'
 import { Book } from '../../../models/book'
+import { BookSearchDetailOption } from '../../../models/manageBookSearchOption'
 import { ActionType } from '../../actionTypes'
 import { getBooks, deleteBook, updatePostBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
@@ -73,6 +74,24 @@ export const updateviewBookSearchPageSettings = (selectedPage: number, selectedP
       type: ActionTypeKeys.viewBookSearchControlUpdate,
       pageCount: selectedPageCount,
       selectedPage: selectedPage
+    })
+  }
+}
+
+export const updateviewBookSearchPanelExpanded = (expanded: boolean) => {
+  return (dispatch: Dispatch<ActionType>) => {
+    dispatch({
+      type: ActionTypeKeys.viewBookSearchPanelExpanded,
+      panelExpanded: expanded
+    })
+  }
+}
+
+export const updateviewBookSearchOptions = (options: BookSearchDetailOption[]) => {
+  return (dispatch: Dispatch<ActionType>) => {
+    dispatch({
+      type: ActionTypeKeys.viewBookSearchOptionsUpdate,
+      searchOptions: options
     })
   }
 }

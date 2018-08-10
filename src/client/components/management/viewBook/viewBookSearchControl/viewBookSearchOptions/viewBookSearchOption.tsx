@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { style, media } from 'typestyle';
 import { Button, ListGroupItem, Row, Col } from 'react-bootstrap'
-import { BookSearchDetail } from './viewBookSearchOptionContainer'
+import { BookSearchDetail } from '../../../../../models/manageBookSearchOption'
 
 const cssClass = style({
   $nest: {

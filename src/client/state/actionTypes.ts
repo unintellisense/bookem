@@ -1,4 +1,4 @@
-import { Action } from 'redux'
+import { BookSearchDetailOption } from '../models/manageBookSearchOption'
 import { Book } from '../models/book'
 
 export const enum ActionTypeKeys {
@@ -14,7 +14,9 @@ export const enum ActionTypeKeys {
   viewBookSearchedBooksUpdate,
   /** related to modal and page, as we clear modal state and reset page */
   resetViewBook,
-  viewBookSearchControlUpdate
+  viewBookSearchControlUpdate,
+  viewBookSearchPanelExpanded,
+  viewBookSearchOptionsUpdate
 };
 
 export type ActionType =
@@ -26,5 +28,7 @@ export type ActionType =
   { type: ActionTypeKeys.resetEditedBook } |
   { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number } |
   { type: ActionTypeKeys.resetViewBook } |
-  { type: ActionTypeKeys.viewBookSearchControlUpdate, pageCount: number, selectedPage: number }
+  { type: ActionTypeKeys.viewBookSearchControlUpdate, pageCount: number, selectedPage: number } |
+  { type: ActionTypeKeys.viewBookSearchPanelExpanded, panelExpanded: boolean } |
+  { type: ActionTypeKeys.viewBookSearchOptionsUpdate, searchOptions: BookSearchDetailOption[] }
 
