@@ -24,13 +24,13 @@ const cssClass = style({
 const BookSearchFields: BookSearchDetail[] = [
   { shortName: 'title', descName: 'Title', type: ViewBookSearchType.String }, // str
   { shortName: 'authors', descName: 'Authors', type: ViewBookSearchType.String }, // str
-  { shortName: 'bookSeriesNumber', descName: 'Book Series #', type: ViewBookSearchType.String }, // num
+  { shortName: 'bookSeriesNumber', descName: 'Book Series #', type: ViewBookSearchType.Number }, // num
   { shortName: 'categories', descName: 'Categories', type: ViewBookSearchType.String }, // str
   { shortName: 'description', descName: 'Description', type: ViewBookSearchType.String }, // str
   { shortName: 'isbn', descName: 'ISBN', type: ViewBookSearchType.String }, // str
-  { shortName: 'isFiction', descName: 'Fiction?', type: ViewBookSearchType.String }, // bool
+  { shortName: 'isFiction', descName: 'Fiction?', type: ViewBookSearchType.Bool }, // bool
   { shortName: 'libraryIdentifier', descName: 'Identifier', type: ViewBookSearchType.String }, // str
-  { shortName: 'yearPublished', descName: 'Year Published', type: ViewBookSearchType.String } // num
+  { shortName: 'yearPublished', descName: 'Year Published', type: ViewBookSearchType.Number } // num
 ]
 
 type ViewBookSearchOptionContainerProps = {
@@ -55,8 +55,14 @@ export class ViewBookSearchOptionContainer extends React.Component<ViewBookSearc
 
   addSearchOption = () => {
     // get first available field
-    var newOption = { ...this.getSearchOptionFields()[0], curValue: '' };
-    let newList = this.props.bookSearchOptions.concat([newOption]);
+    let newField: BookSearchDetail = this.getSearchOptionFields()[0]
+    let newOpt: BookSearchDetailOption;
+    if (newField.type == ViewBookSearchType.Bool) {
+      newOpt = { ...newField, curValue: false }
+    } else {
+      newOpt = { ...newField, curValue: '' }
+    }
+    let newList = this.props.bookSearchOptions.concat([newOpt]);
     this.props.updateBookSearchOptions(newList);
   }
 
@@ -67,10 +73,29 @@ export class ViewBookSearchOptionContainer extends React.Component<ViewBookSearc
   }
 
   changeSearchOptionField = (newFieldName: string, idx: number) => {
+    let searchListCopy = [...this.props.bookSearchOptions];
+    let newField = BookSearchFields.find(field => field.shortName === newFieldName);
+    if (!newField) return;
+    let oldOption = searchListCopy[idx];
+    let newOption: BookSearchDetailOption;
+    if (newField.type === oldOption.type) {
+      newOption = {
+        ...newField, curValue: oldOption.curValue
+      } as BookSearchDetailOption; // cast needed as TS cant tell this means the curValue types are same
+    } else {
+      if (newField.type === ViewBookSearchType.Bool) {
+        newOption = { ...newField, curValue: false }
+      } else {
+        newOption = { ...newField, curValue: '' }
+      }
+    }
+    searchListCopy[idx] = newOption;
+    this.props.updateBookSearchOptions(searchListCopy);
+  }
+
+  changeSearchOptionValue = (newValue: string | boolean, idx: number) => {
     var newSearchList = [...this.props.bookSearchOptions];
-    var newOpt = BookSearchFields.find(field => field.shortName === newFieldName);
-    if (!newOpt) return;
-    newSearchList[idx] = { ...newOpt, curValue: '' };
+    newSearchList[idx].curValue = newValue;
     this.props.updateBookSearchOptions(newSearchList);
   }
 
@@ -113,9 +138,10 @@ export class ViewBookSearchOptionContainer extends React.Component<ViewBookSearc
             this.props.bookSearchOptions.map((opt, idx) => {
               return <ViewBookSearchOption
                 key={idx}
-                field={opt.shortName}
+                option={opt}
                 allFields={this.getSearchOptionFields(opt.shortName)}
-                onChangeValue={this.changeSearchOptionField}
+                onChangeField={this.changeSearchOptionField}
+                onChangeValue={this.changeSearchOptionValue}
                 onRemove={this.removeSearchOption}
                 idx={idx}
               />
