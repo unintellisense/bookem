@@ -5,10 +5,14 @@ import { BookSearchDetailOption } from '../../../models/manageBookSearchOption'
 import { ActionType } from '../../actionTypes'
 import { getBooks, deleteBook, updatePostBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
+import { store } from '../../../app'
 
-export const getSearchedBooksAction = (page = 0, count = 100) => {
+
+export const getSearchedBooksAction = () => {
   return async (dispatch: Dispatch): Promise<ActionType | void> => {
-    var searchedBooks = await getBooks({ page, count });
+    let { currentPageCount, currentSelectedPage, searchOptions } = store.getState().manage.viewBook.search;
+
+    var searchedBooks = await getBooks({ page: currentSelectedPage, count: currentPageCount, searchOptions: searchOptions });
     let action: ActionType = {
       type: ActionTypeKeys.viewBookSearchedBooksUpdate,
       searchedBooks: searchedBooks.data.results,

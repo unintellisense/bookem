@@ -3,7 +3,7 @@ import {
   Required, BodyParams, PathParams,
   Delete, QueryParams
 } from "@tsed/common";
-import * as Express from "express";
+import * as qs from 'qs';
 import Book from '../db/book'
 import { NotFound } from 'ts-httpexceptions';
 //import DtoBook from '../dto/dtoBook'
@@ -12,8 +12,19 @@ import { NotFound } from 'ts-httpexceptions';
 export class ManageController {
 
   @Get("/book")
-  async getBook(@QueryParams('page') page?: number, @QueryParams('count') count?: number) {
-    return await Book.query()
+  async getBook(@QueryParams('page') page?: number, @QueryParams('count') count?: number, @QueryParams('qry') qryStr?: string) {
+
+    let qry = Book.query();
+    if (qryStr) {
+      let qryObj = qs.parse(qryStr);
+      for (let field in qryObj) {
+        let val = qryObj[field];
+        if (field === 'isFiction') // convert isFiction to boolean
+          val = (val === 'true');
+        qry = qry.where(field, 'like', val);
+      }
+    }
+    return await qry
       .page(page, count)
       .select();
   }
