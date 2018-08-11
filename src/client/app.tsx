@@ -10,7 +10,7 @@ import { configureStore } from './configureStore'
 const loggedInComponents: RouteComponentWrapper[] = [Browse, Manage, LogOut];
 const loggedOutComponents: RouteComponentWrapper[] = [Login];
 
-const store = configureStore();
+export const store = configureStore();
 
 export class App extends React.Component {
 
