@@ -25,7 +25,7 @@ type ViewBookDispatch = {
   deleteBook: (book: Book) => any
 }
 
-const staleRefreshTimeoutMillis = 1000 * 60; // 1 minute
+const staleRefreshTimeoutMillis = 1000 * 1; // 1 minute
 
 class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
 

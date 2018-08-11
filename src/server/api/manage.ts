@@ -21,7 +21,7 @@ export class ManageController {
         let val = qryObj[field];
         if (field === 'isFiction') // convert isFiction to boolean
           val = (val === 'true');
-        qry = qry.where(field, 'like', val);
+        qry = qry.where(field, 'like', `%${val}%`);
       }
     }
     return await qry
