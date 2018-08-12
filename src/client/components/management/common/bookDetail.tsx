@@ -71,7 +71,7 @@ export class BookDetail extends React.Component<BookDetailProps> {
             <Col sm={12} >
                 <InputGroup>
                     <InputGroup.Addon>Isbn</InputGroup.Addon>
-                    <FormControl type="text" value={this.props.book.isbn} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
+                    <FormControl type="text" value={this.props.book.isbn || ''} placeholder={defaultIsbnText} onChange={this.handleChangeForBook('isbn')} />
                     <InputGroup.Button>
                         <Button onClick={(e) => { this.handleIsbnSearchClick(this.props.book.isbn) }}>Search</Button>
                     </InputGroup.Button>
@@ -79,7 +79,7 @@ export class BookDetail extends React.Component<BookDetailProps> {
             </Col>
             <Col sm={10} >
                 <ControlLabel>Title</ControlLabel>
-                <FormControl type="text" value={this.props.book.title} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
+                <FormControl type="text" value={this.props.book.title || ''} placeholder="Enter title" onChange={this.handleChangeForBook('title')} />
             </Col>
             <Col sm={2} className='mobile-vert-spacing' >
                 <ControlLabel>Year Published</ControlLabel>
@@ -87,11 +87,11 @@ export class BookDetail extends React.Component<BookDetailProps> {
             </Col>
             <Col sm={6} className='mobile-vert-spacing' >
                 <ControlLabel>Authors</ControlLabel>
-                <FormControl type="text" value={this.props.book.authors} onChange={this.handleChangeForBook('authors')} />
+                <FormControl type="text" value={this.props.book.authors || ''} onChange={this.handleChangeForBook('authors')} />
             </Col>
             <Col sm={2} xs={6} className='mobile-vert-spacing' >
                 <ControlLabel>Library Id</ControlLabel>
-                <FormControl type="text" value={this.props.book.libraryIdentifier} onChange={this.handleChangeForBook('libraryIdentifier')} />
+                <FormControl type="text" value={this.props.book.libraryIdentifier || ''} onChange={this.handleChangeForBook('libraryIdentifier')} />
             </Col>
             <Col sm={2} xs={6} className='mobile-vert-spacing' >
                 <ControlLabel>Book Series Number</ControlLabel>
@@ -106,7 +106,7 @@ export class BookDetail extends React.Component<BookDetailProps> {
             </Col>
             <Col sm={12} className='all-vert-spacing'>
                 <ControlLabel>Description</ControlLabel>
-                <FormControl componentClass="textarea" rows={3} value={this.props.book.description} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
+                <FormControl componentClass="textarea" rows={3} value={this.props.book.description || ''} placeholder="Enter Description" onChange={this.handleChangeForBook('description')} />
             </Col>
             <Col md={12} className='mobile-vert-spacing' >
                 <ControlLabel>Categories</ControlLabel>
