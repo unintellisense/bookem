@@ -1,11 +1,20 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { style } from 'typestyle';
 import { AppState } from '../../../../state'
 import { updateviewBookSearchPageSettings } from '../../../../state/manage/viewBook/action'
-import { Col } from 'react-bootstrap';
+import { Col, Button } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
 import ViewBookSearchOptionContainer from './viewBookSearchOptions/viewBookSearchOptionContainer';
+
+const cssClass = style({
+  $nest: {
+    '&>div>div>button': {
+      margin: '20px 0px'
+    }
+  }
+})
 
 type ViewBookSearchControlProps = {
   currentPageCount: number
@@ -50,7 +59,7 @@ class ViewBookSearchControl extends React.Component<ViewBookSearchControlProps &
   }
 
   render() {
-    return <div>
+    return <div className={cssClass}>
       <div>
         <ViewBookSearchOptionContainer />
       </div>
@@ -68,6 +77,15 @@ class ViewBookSearchControl extends React.Component<ViewBookSearchControlProps &
             updatePageCount={(count) => { this.props.updateSearchSettings(count, this.props.currentSelectedPage) }}
             pageCountOptions={[10, 25, 50, 100]} />
         </Col>
+
+        <Col sm={3} xs={6}>
+          <Button block>Search</Button>
+        </Col>
+
+        <Col sm={3} xs={6}>
+          <Button block>Reset</Button>
+        </Col>
+
       </div>
     </div>
   }

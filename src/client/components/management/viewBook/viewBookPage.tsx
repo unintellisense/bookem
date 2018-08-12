@@ -69,7 +69,7 @@ class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
               <td>{book.title}</td>
               <td>{book.categories.join(', ')}</td>
               <td><TextTruncate
-                line={2}
+                line={1}
                 truncateText="…"
                 text={book.description} />
               </td>
