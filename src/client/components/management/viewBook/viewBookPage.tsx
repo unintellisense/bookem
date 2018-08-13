@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../..'
-import { getSearchedBooksAction, updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
+import { updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
 import ViewBookSearchControl from './viewBookSearchControl/viewBookSearchControl'
 
@@ -18,35 +18,18 @@ type ViewBookProps = {
 }
 
 type ViewBookDispatch = {
-  getSearchedBooks: () => Book[]
   updateFocusedBook: (book: Book | null) => any
   updateFocusedPartialCategory: (tag: string) => any
   updatePostBook: (book: Book) => any
   deleteBook: (book: Book) => any
 }
 
-const staleRefreshTimeoutMillis = 1000 * 1; // 1 minute
-
-class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
-
-  componentDidMount() {
-    this.refreshStaleBooks();
-  }
-
-  componentDidUpdate() {
-    this.refreshStaleBooks();
-  }
+class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {  
 
   clearCurrentEditedBook = () => {
     this.props.updateFocusedBook(null);
     this.props.updateFocusedPartialCategory('');
-  }
-
-  refreshStaleBooks() {
-    if (Date.now() - this.props.lastRefreshedBooks > staleRefreshTimeoutMillis) {
-      this.props.getSearchedBooks();
-    }
-  }
+  }  
 
   render() {
     return <div className="container-fluid">
@@ -100,7 +83,6 @@ const mapStateToProps: (state: AppState) => ViewBookProps
 
 const mapDispatchToProps: (dispatch: Function) => ViewBookDispatch
   = (dispatch) => ({
-    getSearchedBooks: () => dispatch(getSearchedBooksAction()),
     updateFocusedBook: (book: Book) => dispatch(updateLocalEditedBookAction(book)),
     updateFocusedPartialCategory: (tag: string) => dispatch(updateLocalEditedBookPartialCategory(tag)),
     updatePostBook: (book: Book) => dispatch(updateBookAction(book)),

@@ -2,11 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { style } from 'typestyle';
 import { AppState } from '../../../../state'
-import { updateviewBookSearchPageSettings } from '../../../../state/manage/viewBook/action'
+import { updateviewBookSearchPageSettings, getSearchedBooksAction } from '../../../../state/manage/viewBook/action'
 import { Col, Button } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
 import ViewBookSearchOptionContainer from './viewBookSearchOptions/viewBookSearchOptionContainer';
+import { Book } from '../../../../models/book';
 
 const cssClass = style({
   $nest: {
@@ -22,6 +23,7 @@ type ViewBookSearchControlProps = {
 }
 
 type ViewBookSearchControlDispatch = {
+  getSearchedBooks: () => Book[]
   updateSearchSettings: (pageCount: number, selectedPage: number) => any
 }
 
@@ -79,7 +81,7 @@ class ViewBookSearchControl extends React.Component<ViewBookSearchControlProps &
         </Col>
 
         <Col sm={3} xs={6}>
-          <Button block>Search</Button>
+          <Button block onClick={this.props.getSearchedBooks}>Search</Button>
         </Col>
 
         <Col sm={3} xs={6}>
@@ -99,6 +101,7 @@ const mapStateToProps: (state: AppState) => ViewBookSearchControlProps
 
 const mapDispatchToProps: (dispatch: Function) => ViewBookSearchControlDispatch
   = (dispatch) => ({
+    getSearchedBooks: () => dispatch(getSearchedBooksAction()),
     updateSearchSettings: (pageCount: number, selectedPage: number) => dispatch(updateviewBookSearchPageSettings(selectedPage, pageCount))
   })
 
