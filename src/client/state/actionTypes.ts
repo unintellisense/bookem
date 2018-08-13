@@ -26,9 +26,9 @@ export type ActionType =
   { type: ActionTypeKeys.updateEditedBook, book: Book } |
   { type: ActionTypeKeys.updateEditedBookPartialCategory, tag: string } |
   { type: ActionTypeKeys.resetEditedBook } |
-  { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], lastRefreshedBooks: number } |
+  { type: ActionTypeKeys.viewBookSearchedBooksUpdate, searchedBooks: Book[], searchedBooksCount: number } |
   { type: ActionTypeKeys.resetViewBook } |
-  { type: ActionTypeKeys.viewBookSearchControlUpdate, pageCount: number, selectedPage: number } |
+  { type: ActionTypeKeys.viewBookSearchControlUpdate, rowsPerPage: number, selectedPage: number } |
   { type: ActionTypeKeys.viewBookSearchPanelExpanded, panelExpanded: boolean } |
   { type: ActionTypeKeys.viewBookSearchOptionsUpdate, searchOptions: BookSearchDetailOption[] }
 

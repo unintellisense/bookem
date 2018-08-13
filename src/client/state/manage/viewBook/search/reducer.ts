@@ -3,16 +3,16 @@ import { ActionTypeKeys, ActionType } from '../../../actionTypes'
 import { BookSearchDetailOption } from '../../../../models/manageBookSearchOption'
 
 export interface ViewBookSearchState {
-  currentPageCount: number
-  currentSelectedPage: number
+  rowsPerPage: number
+  selectedPage: number
   searchOptions: BookSearchDetailOption[]
   searchPanelExpanded: boolean
 }
 
 const defaultViewBookSearchState: () => ViewBookSearchState = () => (
   {
-    currentPageCount: 10,
-    currentSelectedPage: 1,
+    rowsPerPage: 10,
+    selectedPage: 1,
     searchOptions: [],
     searchPanelExpanded: true
   })
@@ -21,7 +21,7 @@ export const viewBookSearchControlReducer: Reducer<ViewBookSearchState, ActionTy
 
   switch (action.type) {
     case ActionTypeKeys.viewBookSearchControlUpdate:
-      return { ...state, currentPageCount: action.pageCount, currentSelectedPage: action.selectedPage }
+      return { ...state, rowsPerPage: action.rowsPerPage, selectedPage: action.selectedPage }
     case ActionTypeKeys.viewBookSearchPanelExpanded:
       return { ...state, searchPanelExpanded: action.panelExpanded }
     case ActionTypeKeys.viewBookSearchOptionsUpdate:

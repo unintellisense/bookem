@@ -11,13 +11,13 @@ type Dispatch = ThunkDispatch<AppState, void, ActionType>
 
 export const getSearchedBooksAction = () => {
   return async (dispatch: Dispatch): Promise<ActionType | void> => {
-    let { currentPageCount, currentSelectedPage, searchOptions } = store.getState().manage.viewBook.search;
+    let { rowsPerPage, selectedPage, searchOptions } = store.getState().manage.viewBook.search;
 
-    var searchedBooks = await getBooks({ page: currentSelectedPage, count: currentPageCount, searchOptions: searchOptions });
+    var searchedBooks = await getBooks({ page: selectedPage, count: rowsPerPage, searchOptions: searchOptions });
     let action: ActionType = {
       type: ActionTypeKeys.viewBookSearchedBooksUpdate,
       searchedBooks: searchedBooks.data.results,
-      lastRefreshedBooks: Date.now()
+      searchedBooksCount: searchedBooks.data.total
     };
     return dispatch(action);
   }
@@ -73,11 +73,11 @@ export const deleteBookAction = (book: Book) => {
   }
 }
 
-export const updateviewBookSearchPageSettings = (selectedPage: number, selectedPageCount: number) => {
+export const updateviewBookSearchPageSettings = (selectedPage: number, rowsPerPage: number) => {
   return (dispatch: Dispatch) => {
     dispatch({ // tell store about current count/page
       type: ActionTypeKeys.viewBookSearchControlUpdate,
-      pageCount: selectedPageCount,
+      rowsPerPage: rowsPerPage,
       selectedPage: selectedPage
     });
     dispatch(getSearchedBooksAction()); // update searched book collection
