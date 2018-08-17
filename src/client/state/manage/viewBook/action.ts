@@ -78,7 +78,7 @@ export const updateviewBookSearchPageSettings = (selectedPage: number, rowsPerPa
     dispatch({ // tell store about current count/page
       type: ActionTypeKeys.viewBookSearchControlUpdate,
       rowsPerPage: rowsPerPage,
-      selectedPage: selectedPage
+      selectedPage: selectedPage || 1 // use JS's loosey goosey assertion to default to 1 if 0 or false provided
     });
     dispatch(getSearchedBooksAction()); // update searched book collection
   }

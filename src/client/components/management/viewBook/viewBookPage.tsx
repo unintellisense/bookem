@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap'
+import { style } from 'typestyle';
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../..'
@@ -8,7 +9,21 @@ import { updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, upda
 import { ViewBookModal } from './viewBookModal'
 import ViewBookSearchControl from './viewBookSearchControl/viewBookSearchControl'
 
-const TextTruncate = require('react-text-truncate');
+const tableCss = style({
+  tableLayout: "fixed",
+  wordWrap: "break-word",
+  $nest: {
+    '&>thead>tr>th': {
+      width: "33%"
+    },
+    '&>tbody>tr>td': {
+      width: "33%",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }
+});
 
 type ViewBookProps = {
   searchedBooks: Book[]
@@ -24,19 +39,19 @@ type ViewBookDispatch = {
   deleteBook: (book: Book) => any
 }
 
-class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {  
+class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
 
   clearCurrentEditedBook = () => {
     this.props.updateFocusedBook(null);
     this.props.updateFocusedPartialCategory('');
-  }  
+  }
 
   render() {
     return <div className="container-fluid">
       <div>
         <ViewBookSearchControl />
       </div>
-      <Table striped bordered condensed hover>
+      <Table striped bordered condensed hover className={tableCss}>
         <thead>
           <tr>
             <th>Title</th>
@@ -51,11 +66,7 @@ class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
               key={book.id}>
               <td>{book.title}</td>
               <td>{book.categories.join(', ')}</td>
-              <td><TextTruncate
-                line={1}
-                truncateText="…"
-                text={book.description} />
-              </td>
+              <td>{book.description}</td>
             </tr>
           })}
         </tbody>
