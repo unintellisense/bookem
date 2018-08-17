@@ -41,7 +41,7 @@ class ViewBookSearchControl extends React.Component<ViewBookSearchControlProps &
   }
 
   calculatePageCount() {
-    let pageCnt = Math.floor(this.props.searchedBooksCount / this.props.rowsPerPage);
+    let pageCnt = Math.ceil(this.props.searchedBooksCount / this.props.rowsPerPage);
     return isFinite(pageCnt) ? pageCnt : 0;
   }
 
