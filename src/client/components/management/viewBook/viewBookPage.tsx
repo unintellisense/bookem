@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap'
-import { style } from 'typestyle';
+import { style, media } from 'typestyle';
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
 import { RouteComponentWrapper } from '../..'
@@ -14,16 +14,34 @@ const tableCss = style({
   wordWrap: "break-word",
   $nest: {
     '&>thead>tr>th': {
-      width: "33%"
+      textAlign: "center"
     },
     '&>tbody>tr>td': {
-      width: "33%",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap"
     }
   }
 });
+
+const categoryColCss = style(
+  media({ maxWidth: 1023 }, {
+    display: "none"
+  }),
+  media({ minWidth: 1024 }, {
+    width: "20%"
+  })
+);
+
+const otherColCss = style(
+  media({ maxWidth: 1023 }, {
+    width: "50%"
+  }),
+  media({ minWidth: 1024 }, {
+    width: "40%"
+  })
+);
+
 
 type ViewBookProps = {
   searchedBooks: Book[]
@@ -54,9 +72,9 @@ class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
       <Table striped bordered condensed hover className={tableCss}>
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Categories</th>
-            <th>Description</th>
+            <th className={otherColCss} >Title</th>
+            <th className={categoryColCss} >Categories</th>
+            <th className={otherColCss} >Description</th>
           </tr>
         </thead>
         <tbody>
@@ -64,9 +82,9 @@ class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
             return <tr
               onClick={() => { this.props.updateFocusedBook(book) }}
               key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.categories.join(', ')}</td>
-              <td>{book.description}</td>
+              <td className={otherColCss}>{book.title}</td>
+              <td className={categoryColCss}>{book.categories.join(', ')}</td>
+              <td className={otherColCss} >{book.description}</td>
             </tr>
           })}
         </tbody>
