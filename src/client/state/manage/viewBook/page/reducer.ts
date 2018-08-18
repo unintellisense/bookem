@@ -18,6 +18,7 @@ export const viewBookPageReducer: Reducer<ViewBookPageState, ActionType> = (stat
     case ActionTypeKeys.viewBookSearchedBooksUpdate:
       return { ...state, searchedBooks: action.searchedBooks, searchBooksCount: action.searchedBooksCount }
     case ActionTypeKeys.resetViewBook:
+    case ActionTypeKeys.viewBookSearchResetOptions:
       // reset searchedBooks and lastRefreshedBooks, the latter will result in the component refreshing the list
       return { ...state, searchedBooks: [], lastRefreshedBooks: -1, searchBooksCount: 0 }
   }
