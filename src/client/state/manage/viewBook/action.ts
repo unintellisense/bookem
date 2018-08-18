@@ -101,3 +101,12 @@ export const updateviewBookSearchOptions = (options: BookSearchDetailOption[]) =
     })
   }
 }
+
+export const resetViewBookSearchOptions = () => {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: ActionTypeKeys.viewBookSearchResetOptions
+    });
+    dispatch(getSearchedBooksAction()); // update searched book collection
+  }
+}

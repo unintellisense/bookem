@@ -13,18 +13,22 @@ export default class Book extends Model implements IBook {
 
   /** ISBN */
   @Property()
+  @Allow(null)
   isbn: string
 
   /** Author */
   @Property()
+  @Allow(null)
   authors: string
 
   /**description of the book */
   @Property()
+  @Allow(null)
   description: string
 
   /** local identifier */
   @Property()
+  @Allow(null)
   libraryIdentifier: string
 
   /** order of book in series */

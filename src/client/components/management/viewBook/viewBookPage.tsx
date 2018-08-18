@@ -46,8 +46,7 @@ const otherColCss = style(
 type ViewBookProps = {
   searchedBooks: Book[]
   currentFocusedBook: Book | null
-  currentFocusedPartialCategory: string
-  lastRefreshedBooks: number
+  currentFocusedPartialCategory: string  
 }
 
 type ViewBookDispatch = {

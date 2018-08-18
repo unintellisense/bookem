@@ -26,6 +26,8 @@ export const viewBookSearchControlReducer: Reducer<ViewBookSearchState, ActionTy
       return { ...state, searchPanelExpanded: action.panelExpanded }
     case ActionTypeKeys.viewBookSearchOptionsUpdate:
       return { ...state, searchOptions: action.searchOptions }
+    case ActionTypeKeys.viewBookSearchResetOptions:
+      return { ...defaultViewBookSearchState(), searchPanelExpanded: state.searchPanelExpanded } // dont reset expanded state
   }
 
   return state;

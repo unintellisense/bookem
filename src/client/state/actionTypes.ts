@@ -16,7 +16,8 @@ export const enum ActionTypeKeys {
   resetViewBook,
   viewBookSearchControlUpdate,
   viewBookSearchPanelExpanded,
-  viewBookSearchOptionsUpdate
+  viewBookSearchOptionsUpdate,
+  viewBookSearchResetOptions
 };
 
 export type ActionType =
@@ -30,5 +31,6 @@ export type ActionType =
   { type: ActionTypeKeys.resetViewBook } |
   { type: ActionTypeKeys.viewBookSearchControlUpdate, rowsPerPage: number, selectedPage: number } |
   { type: ActionTypeKeys.viewBookSearchPanelExpanded, panelExpanded: boolean } |
-  { type: ActionTypeKeys.viewBookSearchOptionsUpdate, searchOptions: BookSearchDetailOption[] }
+  { type: ActionTypeKeys.viewBookSearchOptionsUpdate, searchOptions: BookSearchDetailOption[] } |
+  { type: ActionTypeKeys.viewBookSearchResetOptions }
 

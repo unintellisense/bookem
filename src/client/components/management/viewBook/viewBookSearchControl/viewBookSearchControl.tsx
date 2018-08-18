@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { style } from 'typestyle';
 import { AppState } from '../../../../state'
-import { updateviewBookSearchPageSettings, getSearchedBooksAction } from '../../../../state/manage/viewBook/action'
+import { updateviewBookSearchPageSettings, getSearchedBooksAction, resetViewBookSearchOptions } from '../../../../state/manage/viewBook/action'
 import { Col, Button } from 'react-bootstrap';
 import { ViewBookSearchPagination } from './viewBookSearchPagination'
 import { ViewBookSearchPageCount } from './viewBookSearchPageCount'
@@ -26,6 +26,7 @@ type ViewBookSearchControlProps = {
 type ViewBookSearchControlDispatch = {
   getSearchedBooks: () => Book[]
   updateSearchSettings: (pageCount: number, selectedPage: number) => any
+  resetSearchSettings: () => any
 }
 
 type ViewBookSearchControlState = {
@@ -99,15 +100,12 @@ class ViewBookSearchControl extends React.Component<ViewBookSearchControlProps &
             updatePageCount={(count) => { this.props.updateSearchSettings(count, this.props.selectedPage) }}
             pageCountOptions={[10, 25, 50, 100]} />
         </Col>
-
         <Col sm={3} xs={6}>
           <Button block onClick={this.props.getSearchedBooks}>Search</Button>
         </Col>
-
         <Col sm={3} xs={6}>
-          <Button block>Reset</Button>
+          <Button block onClick={this.props.resetSearchSettings}>Reset</Button>
         </Col>
-
       </div>
     </div>
   }
@@ -123,7 +121,8 @@ const mapStateToProps: (state: AppState) => ViewBookSearchControlProps
 const mapDispatchToProps: (dispatch: Function) => ViewBookSearchControlDispatch
   = (dispatch) => ({
     getSearchedBooks: () => dispatch(getSearchedBooksAction()),
-    updateSearchSettings: (pageCount: number, selectedPage: number) => dispatch(updateviewBookSearchPageSettings(selectedPage, pageCount))
+    updateSearchSettings: (pageCount: number, selectedPage: number) => dispatch(updateviewBookSearchPageSettings(selectedPage, pageCount)),
+    resetSearchSettings: () => dispatch(resetViewBookSearchOptions())
   })
 
 const connectedViewBookSearchControl = connect(mapStateToProps, mapDispatchToProps)(ViewBookSearchControl);
