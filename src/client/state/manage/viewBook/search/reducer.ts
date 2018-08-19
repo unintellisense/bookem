@@ -12,7 +12,7 @@ export interface ViewBookSearchState {
 const defaultViewBookSearchState: () => ViewBookSearchState = () => (
   {
     rowsPerPage: 10,
-    selectedPage: 1,
+    selectedPage: 0,
     searchOptions: [],
     searchPanelExpanded: true
   })

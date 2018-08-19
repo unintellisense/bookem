@@ -21,7 +21,7 @@ export const enum ActionTypeKeys {
 };
 
 export type ActionType =
-  { type: ActionTypeKeys.addBookSuccess, book: Book } |
+  { type: ActionTypeKeys.addBookSuccess } |
   { type: ActionTypeKeys.addBookSaveForm, book: Book } |
   { type: ActionTypeKeys.addBookPartialTag, partial: string } |
   { type: ActionTypeKeys.updateEditedBook, book: Book } |
