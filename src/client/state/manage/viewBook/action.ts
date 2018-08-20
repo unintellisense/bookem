@@ -47,9 +47,8 @@ export const updateBookAction = (book: Book) => {
     try {
       await updatePostBook(book);
       toastSuccess('Book Updated', `'${book.title}' has been updated.`);
-      return dispatch({
-        type: ActionTypeKeys.resetViewBook
-      })
+      dispatch({ type: ActionTypeKeys.resetViewBook });
+      return dispatch(await getSearchedBooksAction());
     } catch (e) {
       // handle nonexistent record
       toastError('failed to update book', (e.response && e.response.data) ? e.response.data : e.message);
@@ -63,9 +62,8 @@ export const deleteBookAction = (book: Book) => {
     try {
       await deleteBook(book.id);
       toastSuccess('Book Deleted', `'${book.title}' has been deleted.`);
-      return dispatch({
-        type: ActionTypeKeys.resetViewBook
-      })
+      dispatch({ type: ActionTypeKeys.resetViewBook });
+      return dispatch(await getSearchedBooksAction())
     } catch (e) {
       // handle nonexistent record
       toastError('failed to delete book', (e.response && e.response.data) ? e.response.data : e.message);
