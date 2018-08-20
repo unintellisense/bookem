@@ -115,11 +115,20 @@ export class ViewBookSearchOptionContainer extends React.Component<ViewBookSearc
     console.log('toggle done')
   }
 
+  searchOptionsToDescription = () => {
+    let desc: string = this.props.bookSearchOptions.reduce((prevDesc, opt, i) => {
+      if (i != 0) prevDesc += ', '
+      prevDesc += `${opt.descName} has '${opt.curValue}'`
+      return prevDesc
+    }, ': ')
+    return desc;
+  }
+
   render() {
     return <Panel className={cssClass} expanded={this.props.panelExpanded} onToggle={this.afterToggle}>
       <Panel.Heading onClick={(this.togglePanel)}>
         <span>{this.props.panelExpanded ? triangleDown : triangleRight}</span> {/** triangle */}
-        <span> Search Options</span>
+        <span> Search Options {this.props.panelExpanded ? null : this.searchOptionsToDescription()}</span>
       </Panel.Heading>
       <Panel.Collapse>
         <Panel.Body>
