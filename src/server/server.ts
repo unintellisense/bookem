@@ -35,7 +35,8 @@ const portNumber = process.env.PORT || 3000;
   ],
   exclude: ['**/*.spec.ts', '**/*.spec.js', '**/*.js.map'],
   componentsScan: [
-    `${rootDir}/converters/**/**.js`
+    `${rootDir}/converters/**/**.js`,
+    `${rootDir}/auth/**/**.js`
   ],
   validationModelStrict: true
 })
