@@ -13,18 +13,16 @@ import * as path from 'path';
 import { Model } from 'objection';
 import { staticsRouter } from './static/static-router';
 import { staticsDevRouter } from './static/static-dev-router';
-
+import { PORT } from './config'
 const dbConfig = require('./db/knexfile');
 
 const rootDir = path.resolve(__dirname);
 const clientDir = path.resolve(__dirname, '..', 'client');
 
-const portNumber = process.env.PORT || 3000;
-
 @ServerSettings({
   rootDir,
   acceptMimes: ["application/json"],
-  port: portNumber,
+  port: PORT,
   mount: {
     "/api": `${rootDir}/api/**/**.js`
   },
@@ -69,7 +67,7 @@ class Server extends ServerLoader {
   }
 
   public $onReady() {
-    console.log(`App listening on port ${portNumber}.`);
+    console.log(`App listening on port ${PORT}.`);
   }
 
   public $onServerInitError(err) {

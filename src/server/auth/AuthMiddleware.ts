@@ -1,6 +1,7 @@
+import { Request } from 'express';
 import { OverrideMiddleware, AuthenticatedMiddleware, IMiddleware, EndpointInfo, EndpointMetadata, Next, Request as Req } from "@tsed/common";
 import { Forbidden } from "ts-httpexceptions";
-import { Request } from 'passport';
+import * as Passport from 'passport';
 
 @OverrideMiddleware(AuthenticatedMiddleware)
 export class AuthMiddleWare implements IMiddleware {
