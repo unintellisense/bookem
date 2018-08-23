@@ -19,11 +19,18 @@ export class AuthService implements BeforeRoutesInit, AfterRoutesInit {
       callbackURL: HOST + '/auth/google/callback'
     },
       function (accessToken, refreshToken, profile, done) {
-        process.nextTick(function () {
-          return done(null, profile);
+        process.nextTick(function () {          
+          return done(null, profile.id);
         });
       }));
 
+      Passport.serializeUser(function(user, done) {
+        done(null, user);
+      });
+      
+      Passport.deserializeUser(function(user, done) {
+        done(null, user);
+      });
 
     this.app.use(Passport.initialize());
     this.app.use(Passport.session());
@@ -50,12 +57,12 @@ export class AuthService implements BeforeRoutesInit, AfterRoutesInit {
 
   authCallbackHandler = (req: Request, res: Response) => {
     // write out the user profile into a cookie for the app
-    
+
     //var user = _.omit(req.user, ['_raw', '_json']);
     //res.cookie('sheetuser', JSON.stringify(user));
-    
+
     // redirect to app's home
     //res.redirect(appFolder); MYSTERIOUS BUG
-    res.redirect('/redirect.html'); // hacky workaround
+    res.redirect('/'); // hacky workaround
   }
 }

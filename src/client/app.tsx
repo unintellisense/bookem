@@ -8,13 +8,13 @@ import { RouteComponentWrapper, Browse, Manage, Login, LogOut } from './componen
 import { configureStore } from './configureStore'
 
 const loggedInComponents: RouteComponentWrapper[] = [Browse, Manage, LogOut];
-const loggedOutComponents: RouteComponentWrapper[] = [Login];
+const loggedOutComponents: RouteComponentWrapper[] = [Browse, Login];
 
 export const store = configureStore();
 
 export class App extends React.Component {
 
-  loggedIn: boolean = true;
+  loggedIn: boolean = false;
 
   render() {
     let routeComponents = this.loggedIn ? loggedInComponents : loggedOutComponents;
