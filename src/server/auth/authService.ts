@@ -1,5 +1,6 @@
 import * as Passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import * as session from 'express-session';
 import { Service, BeforeRoutesInit, AfterRoutesInit, ServerSettingsService, Inject, ExpressApplication } from "@tsed/common";
 import { Request, Response } from 'express'
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST } from '../config'
@@ -19,19 +20,19 @@ export class AuthService implements BeforeRoutesInit, AfterRoutesInit {
       callbackURL: HOST + '/auth/google/callback'
     },
       function (accessToken, refreshToken, profile, done) {
-        process.nextTick(function () {          
+        process.nextTick(function () {
           return done(null, profile.id);
         });
       }));
 
-      Passport.serializeUser(function(user, done) {
-        done(null, user);
-      });
-      
-      Passport.deserializeUser(function(user, done) {
-        done(null, user);
-      });
+    Passport.serializeUser(function (user, done) {
+      done(null, user);
+    });
 
+    Passport.deserializeUser(function (user, done) {
+      done(null, user);
+    });
+    this.app.use(session({ secret: GOOGLE_CLIENT_SECRET  /* reuse this secret for now*/ }));
     this.app.use(Passport.initialize());
     this.app.use(Passport.session());
 
