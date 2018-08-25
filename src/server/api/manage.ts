@@ -1,7 +1,7 @@
 import {
   Controller, Get, Post,
   Required, BodyParams, PathParams,
-  Delete, QueryParams
+  Delete, QueryParams, Authenticated
 } from "@tsed/common";
 import * as qs from 'qs';
 import Book from '../db/book'
@@ -12,6 +12,7 @@ import { NotFound } from 'ts-httpexceptions';
 export class ManageController {
 
   @Get("/book")
+  @Authenticated({ role: 'admin' })
   async getBook(@QueryParams('page') page?: number, @QueryParams('count') count?: number, @QueryParams('qry') qryStr?: string) {
 
     let qry = Book.query();

@@ -25,13 +25,14 @@ export class AuthService implements BeforeRoutesInit, AfterRoutesInit {
         });
       }));
 
-    Passport.serializeUser(function (user, done) {
-      done(null, user);
+    Passport.serializeUser(function (userId: number, done) {
+      done(null, userId);
     });
 
-    Passport.deserializeUser(function (user, done) {
-      done(null, user);
+    Passport.deserializeUser(function (userId: number, done) {
+      done(null, { id: userId, role: 'admin' }); //temp hack for testing
     });
+
     this.app.use(session({ secret: GOOGLE_CLIENT_SECRET  /* reuse this secret for now*/ }));
     this.app.use(Passport.initialize());
     this.app.use(Passport.session());
