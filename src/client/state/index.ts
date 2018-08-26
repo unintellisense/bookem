@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
-import { userReducer, UserState } from './user';
 import { ManageState, manageReducers } from './manage'
+import { authReducer, } from './auth'
 export { ActionTypeKeys } from './actionTypes'
 import { reducer as toastrReducer, ToastrState } from 'react-redux-toastr';
-
-export interface AppState {
-  user: UserState
+import { AuthState } from '../../shared/dto/auth'
+export interface AppState {  
   manage: ManageState
   toastr: any
+  auth: AuthState
 };
 
-export const appReducers = combineReducers<AppState>({
-  user: userReducer,
+export const appReducers = combineReducers<AppState>({  
   manage: manageReducers,
-  toastr: toastrReducer
+  toastr: toastrReducer,
+  auth: authReducer
 });

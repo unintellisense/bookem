@@ -56,7 +56,7 @@ type ViewBookDispatch = {
   deleteBook: (book: Book) => any
 }
 
-class viewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
+class ViewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
 
   clearCurrentEditedBook = () => {
     this.props.updateFocusedBook(null);
@@ -116,7 +116,7 @@ const mapDispatchToProps: (dispatch: Function) => ViewBookDispatch
     deleteBook: (book: Book) => dispatch(deleteBookAction(book))
   });
 
-const connectedViewBookPage = connect<ViewBookProps, ViewBookDispatch>(mapStateToProps, mapDispatchToProps)(viewBookPage);
+const connectedViewBookPage = connect<ViewBookProps, ViewBookDispatch>(mapStateToProps, mapDispatchToProps)(ViewBookPage);
 
 const wrapper: RouteComponentWrapper = {
   component: connectedViewBookPage,
