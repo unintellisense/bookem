@@ -1,7 +1,8 @@
 import { BookSearchDetailOption } from '../models/manageBookSearchOption'
 import { Book } from '../models/book'
-
+import { AuthState } from '../../shared/dto/auth'
 export const enum ActionTypeKeys {
+  authState,
   /** addBook related */
   addBookSuccess,
   addBookSaveForm,
@@ -21,6 +22,7 @@ export const enum ActionTypeKeys {
 };
 
 export type ActionType =
+  { type: ActionTypeKeys.authState, authState: AuthState } |
   { type: ActionTypeKeys.addBookSuccess } |
   { type: ActionTypeKeys.addBookSaveForm, book: Book } |
   { type: ActionTypeKeys.addBookPartialTag, partial: string } |

@@ -4,12 +4,14 @@ import * as session from 'express-session';
 import { Service, BeforeRoutesInit, AfterRoutesInit, ServerSettingsService, Inject, ExpressApplication } from "@tsed/common";
 import { Request, Response } from 'express'
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST } from '../config'
+import { UserInfo } from '../../shared/dto/auth'
 
 @Service()
 export class AuthService implements BeforeRoutesInit, AfterRoutesInit {
+  private app: ExpressApplication;
 
-  constructor(@Inject(ExpressApplication) private app: ExpressApplication) {
-
+  constructor(@Inject(ExpressApplication) app: ExpressApplication) {
+    this.app = app;
   }
 
   $beforeRoutesInit() {
@@ -29,7 +31,7 @@ export class AuthService implements BeforeRoutesInit, AfterRoutesInit {
       done(null, userId);
     });
 
-    Passport.deserializeUser(function (userId: number, done) {
+    Passport.deserializeUser(function (userId: number, done: (err: any, user?: UserInfo) => void) {
       done(null, { id: userId, role: 'admin' }); //temp hack for testing
     });
 
