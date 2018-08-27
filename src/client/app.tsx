@@ -13,16 +13,19 @@ export class App extends React.Component {
   render() {
 
     return (
-      <Provider store={store}>
-        <div>
-          <AppRouter />
-          <ReduxToastr
-            timeOut={2500}
-            transitionIn="fadeIn"
-            transitionOut="fadeOut"
-            progressBar />
-        </div>
-      </Provider>
+      <div>
+        <h1 className="text-center">Book Store</h1>
+        <Provider store={store}>
+          <div>
+            <AppRouter />
+            <ReduxToastr
+              timeOut={2500}
+              transitionIn="fadeIn"
+              transitionOut="fadeOut"
+              progressBar />
+          </div>
+        </Provider>
+      </div>
     )
   }
 }
