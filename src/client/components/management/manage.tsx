@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RouteComponentWrapper } from '..'
+import { RouteWrapper } from '../../route'
 import AddBook from './addBook'
 import ViewBooks from './viewBook/viewBookPage'
 import { Navbar, NavItem, Nav } from 'react-bootstrap'
@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { RouteComponentProps } from 'react-router'
 
-const routeComponents: RouteComponentWrapper[] = [ViewBooks, AddBook];
+const routeComponents: RouteWrapper[] = [ViewBooks, AddBook];
 type ManageProps = RouteComponentProps<{}>;
 
 class Manage extends React.Component<ManageProps> {
@@ -47,7 +47,8 @@ class Manage extends React.Component<ManageProps> {
   }
 }
 
-const wrapper: RouteComponentWrapper = {
+const wrapper: RouteWrapper = {
+  isAuth: false,
   component: Manage,
   routeLabel: 'Manage',
   routePath: 'manage'

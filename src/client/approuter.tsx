@@ -1,15 +1,16 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
-import { RouteComponentWrapper, Browse, Manage, Login, LogOut } from './components'
+import { Browse, Manage, Login } from './components'
+import { RouteWrapper, NavBarWrapper, RedirectLink } from './route'
 import { AppState } from './state';
 import { AuthState, LoginState } from '../shared/dto/auth';
 import { updateAuthStateAction } from './state/auth/action';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const loggedInComponents: RouteComponentWrapper[] = [Browse, Manage, LogOut];
-const loggedOutComponents: RouteComponentWrapper[] = [Browse, Login];
+const loggedInComponents: NavBarWrapper[] = [Browse, Manage, { isAuth: true, href: "api/auth/logout", text: "Logout" }];
+const loggedOutComponents: NavBarWrapper[] = [Browse, Login];
 
 type AppRouteProps = {
   authState: AuthState
@@ -25,7 +26,7 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
     this.props.updateAuthState();
   }
 
-  private getRouteComponents(): RouteComponentWrapper[] {
+  private getRouteComponents(): NavBarWrapper[] {
     switch (this.props.authState.loginState) {
       case LoginState.LoggedOut:
         return loggedOutComponents;
@@ -52,20 +53,25 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
             <Navbar.Collapse>
               <Nav>
                 {routeComponents.map((wrap) => // add appropriate linkContainers 
-                  <LinkContainer to={`/${wrap.routePath}`} key={wrap.routeLabel}>
-                    <NavItem>{wrap.routeLabel}</NavItem>
-                  </LinkContainer >
+                  wrap.isAuth ?
+                    <RedirectLink href={wrap.href} text={wrap.text} /> :
+                    <LinkContainer to={`/${wrap.routePath}`} key={wrap.routeLabel}>
+                      <NavItem>{wrap.routeLabel}</NavItem>
+                    </LinkContainer >
                 )}
               </Nav>
             </Navbar.Collapse>
           </Navbar>
           <Switch>
             {routeComponents.map((wrap) => // add appropriate routes 
-              <Route path={`/${wrap.routePath}`} component={wrap.component} key={wrap.routeLabel} />
+              wrap.isAuth ?
+                null /* no need to render 'auth' page loads */
+                :
+                <Route path={`/${wrap.routePath}`} component={wrap.component} key={wrap.routeLabel} />
             )}
             { // default to the first route in the path when no match, but make sure routeComponents isn't empty
               routeComponents.length &&
-              <Route exact path="*" render={() => <Redirect to={`/${routeComponents[0].routePath}`} />} />
+              <Route exact path="*" render={() => <Redirect to={`/${(routeComponents[0] as RouteWrapper).routePath}`} />} />
             }
           </Switch>
         </div>

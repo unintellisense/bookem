@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RouteComponentWrapper } from '.'
+import { RouteWrapper } from '../route'
 
 class Browse extends React.Component {
 
@@ -13,7 +13,8 @@ class Browse extends React.Component {
   }
 }
 
-const wrapper: RouteComponentWrapper = {
+const wrapper: RouteWrapper = {
+  isAuth: false,
   component: Browse,
   routeLabel: 'Browse',
   routePath: 'browse'

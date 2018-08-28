@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Button, PageHeader } from 'react-bootstrap'
-import { RouteComponentWrapper } from '.'
+import { PageHeader } from 'react-bootstrap'
+import { RouteWrapper } from '../route'
 
 class Login extends React.Component {
 
@@ -14,7 +14,8 @@ class Login extends React.Component {
   }
 }
 
-const wrapper: RouteComponentWrapper = {
+const wrapper: RouteWrapper = {
+  isAuth: false,
   component: Login,
   routeLabel: 'Login',
   routePath: 'login'

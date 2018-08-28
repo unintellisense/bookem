@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap'
 import { style, media } from 'typestyle';
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
-import { RouteComponentWrapper } from '../..'
+import { RouteWrapper } from '../../../route/routeWrapper'
 import { updateLocalEditedBookAction, updateLocalEditedBookPartialCategory, updateBookAction, deleteBookAction } from '../../../state/manage/viewBook/action'
 import { ViewBookModal } from './viewBookModal'
 import ViewBookSearchControl from './viewBookSearchControl/viewBookSearchControl'
@@ -118,7 +118,8 @@ const mapDispatchToProps: (dispatch: Function) => ViewBookDispatch
 
 const connectedViewBookPage = connect<ViewBookProps, ViewBookDispatch>(mapStateToProps, mapDispatchToProps)(ViewBookPage);
 
-const wrapper: RouteComponentWrapper = {
+const wrapper: RouteWrapper = {
+  isAuth: false,
   component: connectedViewBookPage,
   routeLabel: 'View Books',
   routePath: 'viewBooks'

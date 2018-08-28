@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Form, Col, Button } from 'react-bootstrap'
-import { RouteComponentWrapper } from '../..'
+import { RouteWrapper } from '../../../route/routeWrapper'
 import { postBookAction, saveAddBookFieldsAction, saveAddBookPartialTagAction } from '../../../state/manage/addBook/action'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
@@ -35,7 +35,7 @@ class AddBookPage extends React.Component<AddBooksProps, AddBooksState> {
     // add any pending categories to the existing book categories, unless it exists
     if (this.props.partialCategoryTag && categories.indexOf(this.props.partialCategoryTag) == -1) {
       if (this.props.partialCategoryTag) categories.push(this.props.partialCategoryTag);
-    }    
+    }
     this.props.postBook({ ...this.props.book, categories });
   }
 
@@ -113,7 +113,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connectedAddBookPage = connect(mapStateToProps, mapDispatchToProps)(AddBookPage);
 
-const wrapper: RouteComponentWrapper = {
+const wrapper: RouteWrapper = {
+  isAuth: false,
   component: connectedAddBookPage,
   routeLabel: 'Add Books',
   routePath: 'addBooks'
