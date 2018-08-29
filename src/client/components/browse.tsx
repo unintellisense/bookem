@@ -14,7 +14,7 @@ class Browse extends React.Component {
 }
 
 const wrapper: RouteWrapper = {
-  isAuth: false,
+  isRedirect: false,
   component: Browse,
   routeLabel: 'Browse',
   routePath: 'browse'

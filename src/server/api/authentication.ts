@@ -14,15 +14,16 @@ export class AuthController {
     return { loginState: LoginState.LoggedOut };
   }
 
-  @Get("/logout")
-  @Status(204)
+  @Get("/logout")  
   async logOut(@Req() request: Request, @Res() response: Response) {
     response.clearCookie(APP_COOKIE_NAME);
     if (request.user) {
-      request.logout();
-      return null;
+      request.logout();      
+      response.status(304);
+    }else {
+      response.status(404);
     }
-    throw new NotFound("no login session.");
+    response.redirect("/");
   }
 
 }

@@ -48,7 +48,7 @@ class Manage extends React.Component<ManageProps> {
 }
 
 const wrapper: RouteWrapper = {
-  isAuth: false,
+  isRedirect: false,
   component: Manage,
   routeLabel: 'Manage',
   routePath: 'manage'

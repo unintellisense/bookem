@@ -119,7 +119,7 @@ const mapDispatchToProps: (dispatch: Function) => ViewBookDispatch
 const connectedViewBookPage = connect<ViewBookProps, ViewBookDispatch>(mapStateToProps, mapDispatchToProps)(ViewBookPage);
 
 const wrapper: RouteWrapper = {
-  isAuth: false,
+  isRedirect: false,
   component: connectedViewBookPage,
   routeLabel: 'View Books',
   routePath: 'viewBooks'

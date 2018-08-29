@@ -15,7 +15,7 @@ class Login extends React.Component {
 }
 
 const wrapper: RouteWrapper = {
-  isAuth: false,
+  isRedirect: false,
   component: Login,
   routeLabel: 'Login',
   routePath: 'login'

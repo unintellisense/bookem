@@ -9,7 +9,7 @@ import { updateAuthStateAction } from './state/auth/action';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const loggedInComponents: NavBarWrapper[] = [Browse, Manage, { isAuth: true, href: "api/auth/logout", text: "Logout" }];
+const loggedInComponents: NavBarWrapper[] = [Browse, Manage, { isRedirect: true, href: "api/auth/logout", text: "Logout" }];
 const loggedOutComponents: NavBarWrapper[] = [Browse, Login];
 
 type AppRouteProps = {
@@ -53,7 +53,7 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
             <Navbar.Collapse>
               <Nav>
                 {routeComponents.map((wrap) => // add appropriate linkContainers 
-                  wrap.isAuth ?
+                  wrap.isRedirect ?
                     <RedirectLink href={wrap.href} text={wrap.text} /> :
                     <LinkContainer to={`/${wrap.routePath}`} key={wrap.routeLabel}>
                       <NavItem>{wrap.routeLabel}</NavItem>
@@ -64,8 +64,8 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
           </Navbar>
           <Switch>
             {routeComponents.map((wrap) => // add appropriate routes 
-              wrap.isAuth ?
-                null /* no need to render 'auth' page loads */
+              wrap.isRedirect ?
+                null /* nothing to render for redirect component */
                 :
                 <Route path={`/${wrap.routePath}`} component={wrap.component} key={wrap.routeLabel} />
             )}

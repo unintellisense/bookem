@@ -114,7 +114,7 @@ const mapDispatchToProps = (dispatch) => ({
 const connectedAddBookPage = connect(mapStateToProps, mapDispatchToProps)(AddBookPage);
 
 const wrapper: RouteWrapper = {
-  isAuth: false,
+  isRedirect: false,
   component: connectedAddBookPage,
   routeLabel: 'Add Books',
   routePath: 'addBooks'
