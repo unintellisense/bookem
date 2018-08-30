@@ -13,9 +13,9 @@ const serverBuildPath = path.resolve(__dirname, '../', '../', 'dist', 'server');
 
 gulp.task('server-clean', done => rimraf(`${serverBuildPath}/**/*`, (err) => done(err)));
 
-gulp.task('server-build-development', () => buildSource(true));
+gulp.task('server-build-development', (done) => buildSource(true).end(done));
 
-gulp.task('server-build-production', () => buildSource(false));
+gulp.task('server-build-production', (done) => buildSource(false).end(done));
 
 gulp.task('server-production', gulp.series('server-clean', 'server-build-production'));
 
