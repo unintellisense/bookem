@@ -36,7 +36,12 @@ export class AuthService implements BeforeRoutesInit, AfterRoutesInit {
       done(null, { id: userId, role: 'admin' }); //temp hack for testing
     });
 
-    this.app.use(session({ name: APP_COOKIE_NAME, secret: GOOGLE_CLIENT_SECRET  /* reuse this secret for now*/ }));
+    this.app.use(session({
+      name: APP_COOKIE_NAME,
+      secret: GOOGLE_CLIENT_SECRET  /* reuse this secret for now*/,
+      resave: false,
+      saveUninitialized: false
+    }));
     this.app.use(Passport.initialize());
     this.app.use(Passport.session());
 
