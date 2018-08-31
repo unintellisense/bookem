@@ -13,9 +13,9 @@ const serverBuildPath = path.resolve(__dirname, '../', '../', 'dist', 'server');
 
 gulp.task('server-clean', done => rimraf(`${serverBuildPath}/**/*`, (err) => done(err)));
 
-gulp.task('server-build-development', (done) => buildSource(true).end(done));
+gulp.task('server-build-development', () => buildSource(true));
 
-gulp.task('server-build-production', (done) => buildSource(false).end(done));
+gulp.task('server-build-production', () => buildSource(false));
 
 gulp.task('server-production', gulp.series('server-clean', 'server-build-production'));
 
@@ -45,13 +45,6 @@ function buildSource(devMode) {
   }
 
   out = out.pipe(project());
-  if (devMode) {
-    out = out.js.pipe(sourcemaps.mapSources((path, file) => {
-      let slashCnt = file.sourceMap.file.split('/').length - 1;
-      return '../'.repeat(slashCnt) + path;
-    }))
-      .pipe(sourcemaps.write('./'));
-  }
 
   out.pipe(envify({ BUILD_FLAG: devMode ? 'development' : 'production' }));
 
@@ -61,5 +54,14 @@ function buildSource(devMode) {
       console.log(err.toString());
     });
   }
+
+  if (devMode) {
+    out = out.js.pipe(sourcemaps.mapSources((path, file) => {
+      let slashCnt = file.sourceMap.file.split('/').length - 1;
+      return '../'.repeat(slashCnt) + path;
+    }))
+      .pipe(sourcemaps.write('./'));
+  }
+
   return out.pipe(gulp.dest(serverBuildPath));
 }
