@@ -1,8 +1,8 @@
 import { Controller, Get, Req, Status, Res } from "@tsed/common";
 import { NotFound } from 'ts-httpexceptions';
-import { AuthState, LoginState } from '../../shared/dto/auth';
+import { AuthState, LoginState } from '../../../shared/dto/auth';
 import { Request, Response } from 'express';
-import { APP_COOKIE_NAME } from '../constants'
+import { APP_COOKIE_NAME } from '../../constants'
 @Controller("/auth")
 export class AuthController {
 
