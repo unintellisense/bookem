@@ -1,13 +1,26 @@
 import { Model, JsonSchema } from 'objection';
 import { Required, Property, AllowTypes, Allow } from "@tsed/common";
+import { body, validationResult, ValidationChain, ValidationChainBuilder } from 'express-validator/check';
 import { IBook } from '../../shared/dto/ibook'
 
-export default class Book extends Model implements IBook {
+type BookBody = typeof body &
+{ (bookProp: keyof IBook): ValidationChainBuilder }
+
+
+export const validations: BookValidationChain[] = [
+  body('title').isString(),
+  //body('isFiction').isBoolean(),
+  //body('isbn')
+]
+
+export class Book extends Model implements IBook {
+
+
 
   @Required()
   title: string
-  /** fiction or nonFiction */
 
+  /** fiction or nonFiction */
   @Required()
   isFiction: boolean
 

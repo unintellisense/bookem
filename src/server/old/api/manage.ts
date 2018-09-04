@@ -4,7 +4,7 @@ import {
   Delete, QueryParams, Authenticated
 } from "@tsed/common";
 import * as qs from 'qs';
-import Book from '../../db/book'
+import { Book } from '../../db/book'
 import { NotFound } from 'ts-httpexceptions';
 //import DtoBook from '../dto/dtoBook'
 
