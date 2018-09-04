@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import configureSessions from './configureSessions'
-import configurePassport from './configurePassport'
+import configureSessions from './authMiddleware/configureSessions'
+import configurePassport from './authMiddleware/configurePassport'
 
-import AuthRouter from './authentication';
-import ManageRouter from './manage';
+import AuthRouter from './endPoint/authentication';
+import ManageRouter from './endPoint/manage';
 
 const router = Router();
 

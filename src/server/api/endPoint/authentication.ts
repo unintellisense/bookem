@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { LoginState } from '../../shared/dto/auth';
-import { APP_COOKIE_NAME } from './../constants'
+import { LoginState } from '../../../shared/dto/auth';
+import { APP_COOKIE_NAME } from '../../constants'
 
 const router = Router();
 

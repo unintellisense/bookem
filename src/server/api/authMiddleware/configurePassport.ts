@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
 import * as Passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
-import { UserInfo } from '../../shared/dto/auth'
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST } from './../config'
+import { UserInfo } from '../../../shared/dto/auth'
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST } from '../../config'
 
 function configurePassport(router: Router) {
   Passport.use(new GoogleStrategy({
