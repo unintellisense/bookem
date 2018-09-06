@@ -1,59 +1,49 @@
 import { Model, JsonSchema } from 'objection';
-import { Required, Property, AllowTypes, Allow } from "@tsed/common";
-import { body, validationResult, ValidationChain, ValidationChainBuilder } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator/check';
 import { IBook } from '../../shared/dto/ibook'
 
-
-export const validations: ValidationChain[] = [
+export const BookValidations: ValidationChain[] = [
   body('title').isString(),
-  //body('isFiction').isBoolean(),
-  //body('isbn')
+  body('isFiction').isBoolean(),
+
+  body('categories').isArray(),
+  body('categories.*').isString(),
+
+  body('isbn').isString().optional(),
+  body('authors').isString().optional(),
+  body('description').isString().optional(),
+  body('libraryIdentifier').isString().optional(),
+
+  body('isbn').isString().optional(),
+  body('bookSeriesNumber').isNumeric().optional(),
+  body('yearPublished').isNumeric().optional()
 ]
 
 export class Book extends Model implements IBook {
 
-
-
-  @Required()
   title: string
-
   /** fiction or nonFiction */
-  @Required()
   isFiction: boolean
 
   /** ISBN */
-  @Property()
-  @Allow(null)
   isbn: string
 
-  /** Author */
-  @Property()
-  @Allow(null)
+  /** Author */ 
   authors: string
 
-  /**description of the book */
-  @Property()
-  @Allow(null)
+  /**description of the book */  
   description: string
 
   /** local identifier */
-  @Property()
-  @Allow(null)
   libraryIdentifier: string
 
   /** order of book in series */
-  @Property()
-  @Allow(null)
   bookSeriesNumber: number | null
 
   /** year the book was published */
-  @Property()
-  @Allow(null)
   yearPublished: number | null
 
-  /**category of this book */
-  @Property()
-  @AllowTypes('string')
+  /**category of this book */  
   categories: string[]
 
   static get tableName() { return 'book'; }

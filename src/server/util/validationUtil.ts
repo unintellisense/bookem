@@ -1,17 +1,10 @@
-import { body, validationResult, Validator, ValidationChain } from 'express-validator/check';
+import { body } from 'express-validator/check';
+// keep for now, but delete if unused
+type GetArgs<F extends Function> = F extends (...args: infer A) => any ? A : never;
 
-type ValidationArg<F> = F extends (arg: infer U) => any ? U : never
+type BodyArgs = GetArgs<typeof body>
+type BodyArgsForType<T> = BodyArgs[0] & keyof T
 
-type ValidationCall<F extends keyof Validator> = [F, ValidationArg<Validator[F]>]
-
-let call1: ValidationCall<'isLength'> = ['isLength', { min: 1, max: '5x' }] // this breaks properly
-
-let call2: ValidationCall<keyof Validator> = ['isLength', { min: 1, max: '5x' }] // this doesnt, cant infer arg?
-
-function bodyValidationByType<T>(typeProps: Partial<{ [prop in keyof T]: ValidationCall<keyof Validator> }>) {
-
+export function bodyValidationForType<T>(field: BodyArgsForType<T>) {
+  return body(field);
 }
-
-body('').isLength({ min: 1, max: 5 })
-
-bodyValidationByType<{ x: string, y: string }>({ x: ['isLength', { shouldntwork: 1 }] }) // but not here???
