@@ -54,7 +54,7 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
               <Nav>
                 {routeComponents.map((wrap) => // add appropriate linkContainers 
                   wrap.isRedirect ?
-                    <RedirectLink href={wrap.href} text={wrap.text} /> :
+                    <RedirectLink href={wrap.href} text={wrap.text} key="logoutRedirectLink" /> :
                     <LinkContainer to={`/${wrap.routePath}`} key={wrap.routeLabel}>
                       <NavItem>{wrap.routeLabel}</NavItem>
                     </LinkContainer >

@@ -10,7 +10,7 @@ export type GetBookResponse = {
 const baseApiUrl = `${window.location.protocol}//${window.location.host}/api`;
 
 export async function postBook(book: Book): Promise<AxiosResponse<Book>> {
-  var payload = { book };
+  var payload = book;
   return axios.post<Book>(`${baseApiUrl}/manage/book`, payload, { timeout: 7500 })
 }
 

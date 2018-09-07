@@ -1,22 +1,30 @@
+import { RequestHandler } from 'express'
 import { Model, JsonSchema } from 'objection';
-import { body, ValidationChain } from 'express-validator/check';
+import { oneOf, body } from 'express-validator/check';
 import { IBook } from '../../shared/dto/ibook'
 
-export const BookValidations: ValidationChain[] = [
-  body('title').isString(),
+export const BookValidations: RequestHandler[] = [
+  body('title').isString().isLength({ min: 1 }),
   body('isFiction').isBoolean(),
 
-  body('categories').isArray(),
+  body('categories').isArray().optional(),
   body('categories.*').isString(),
 
   body('isbn').isString().optional(),
   body('authors').isString().optional(),
   body('description').isString().optional(),
   body('libraryIdentifier').isString().optional(),
-
   body('isbn').isString().optional(),
-  body('bookSeriesNumber').isNumeric().optional(),
-  body('yearPublished').isNumeric().optional()
+
+  oneOf([
+    body('bookSeriesNumber').isInt(),
+    body('bookSeriesNumber').isEmpty()
+  ]),
+
+  oneOf([
+    body('yearPublished').isInt().optional(),
+    body('yearPublished').isEmpty()
+  ])
 ]
 
 export class Book extends Model implements IBook {
@@ -28,10 +36,10 @@ export class Book extends Model implements IBook {
   /** ISBN */
   isbn: string
 
-  /** Author */ 
+  /** Author */
   authors: string
 
-  /**description of the book */  
+  /**description of the book */
   description: string
 
   /** local identifier */
@@ -43,7 +51,7 @@ export class Book extends Model implements IBook {
   /** year the book was published */
   yearPublished: number | null
 
-  /**category of this book */  
+  /**category of this book */
   categories: string[]
 
   static get tableName() { return 'book'; }
@@ -59,16 +67,11 @@ export class Book extends Model implements IBook {
       title: { type: 'string' },
       isFiction: { type: 'boolean' },
       isbn: { type: 'string' },
-      authors: {
-        type: 'array',
-        items: {
-          type: 'string'
-        }
-      },
+      authors: { type: 'string' },
       description: { type: 'string' },
       libraryIdentifier: { type: 'string' },
-      bookSeriesNumber: { type: ['number'] },
-      yearPublished: { type: 'number' },
+      bookSeriesNumber: { type: ['number', 'null'], },
+      yearPublished: { type: ['number', 'null'] },
       categories: {
         type: 'array',
         items: {

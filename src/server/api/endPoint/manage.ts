@@ -3,7 +3,8 @@ import { query, validationResult } from 'express-validator/check';
 import { sanitizeQuery } from 'express-validator/filter';
 import * as qs from 'qs';
 import { Book, BookValidations } from '../../db/book'
-
+import { validationErrorHandler } from '../../util/validationUtil'
+import { objectionErrorHandler } from '../../util/objectionUtil'
 const router = Router();
 
 router.get('/book',
@@ -11,13 +12,8 @@ router.get('/book',
   query('page').isInt(), sanitizeQuery('page').toInt(),
   query('count').isInt(), sanitizeQuery('count').toInt(),
   query('qry').isString().optional(),
+  validationErrorHandler,
   (req: Request, res: Response, next: NextFunction) => {
-    // validate
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
     let { page, count, qry } = req.query;
     let bookQry = Book.query();
     if (qry) {
@@ -31,15 +27,23 @@ router.get('/book',
     }
     bookQry.page(page, count)
       .select()
-      .then(books => res.json(books)).catch(next);
-  })
+      .then(books => res.json(books))
+      .catch(next);
+  },
+  objectionErrorHandler
+)
 
 router.post('/book',
   /* TODO need a handler to check that they are admin user */
   BookValidations,
-  (req: Request, res: Response) => {
-
-    res.sendStatus(201);
-  })
+  validationErrorHandler,
+  (req: Request, res: Response, next: NextFunction) => {
+    let book = req.body;
+    Book.query().insert(book)
+      .then(() => res.sendStatus(201))
+      .catch(next);
+  },
+  objectionErrorHandler
+)
 
 export default router;

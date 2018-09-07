@@ -15,12 +15,9 @@ router.get('/state', (req, res) => {
 
 router.get('/logout', (req, res) => {
   res.clearCookie(APP_COOKIE_NAME);
-  if (req.user) {
-    req.logout();
-    res.sendStatus(304);
-  } else {
-    res.sendStatus(404);
-  }
+  if (req.user) req.logout();
+
+  res.status(304);
   res.redirect("/");
 })
 
