@@ -13,7 +13,12 @@ export class ManageController {
 
   @Get("/book")
   @Authenticated({ role: 'admin' })
-  async getBook(@QueryParams('page') page?: number, @QueryParams('count') count?: number, @QueryParams('qry') qryStr?: string) {
+  async getBook(
+    @QueryParams('page') page?: number, 
+    @QueryParams('count') count?: number, 
+    @QueryParams('qry') qryStr?: string
+    
+    ) {
 
     let qry = Book.query();
     if (qryStr) {

@@ -8,3 +8,5 @@ type BodyArgsForType<T> = BodyArgs[0] & keyof T
 export function bodyValidationForType<T>(field: BodyArgsForType<T>) {
   return body(field);
 }
+
+bodyValidationForType<{ a: string }>('a')
