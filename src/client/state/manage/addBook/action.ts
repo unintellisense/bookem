@@ -6,10 +6,9 @@ import { Book } from '../../../models/book'
 import { postBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
 import { getSearchedBooksAction } from '../viewBook/action';
+import { apiErrorToText } from '../../../util/ApiErrorUtil'
 
 type Dispatch = ThunkDispatch<AppState, void, ActionType>
-
-const alertMessageLengthMillis = 3000;
 
 export const saveAddBookFieldsAction = (book: Book) => {
   return (dispatch: Dispatch) => {
@@ -38,7 +37,7 @@ export const postBookAction = (book: Book) => {
       dispatch(await getSearchedBooksAction());
     } catch (e) { // report error from response.data if response was bad, otherwise whatever we caught (timeout?)
       toastError('failed to add book',
-        (e.response && e.response.data && Array.isArray(e.response.data)) ? e.response.data.join('\n') : e.message);
+        apiErrorToText(e));
     }
   };
 };

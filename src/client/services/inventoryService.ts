@@ -36,8 +36,7 @@ export async function deleteBook(id: number): Promise<AxiosResponse<Book[]>> {
 }
 
 export async function updatePostBook(book: Book): Promise<AxiosResponse<Book[]>> {
-  let { id } = book;
-  var payload = { book };
+  let { id } = book;  
   delete book.id; // cannot submit with id property, will be interpreted as attempt to update primary key
-  return axios.post(`${baseApiUrl}/manage/book/${id}`, payload)
+  return axios.post(`${baseApiUrl}/manage/book/${id}`, book)
 }

@@ -6,6 +6,7 @@ import { ActionType } from '../../actionTypes'
 import { getBooks, deleteBook, updatePostBook } from '../../../services/inventoryService'
 import { toastSuccess, toastError } from '../../../services/toastService'
 import { store } from '../../../app'
+import { apiErrorToText } from '../../../util/ApiErrorUtil'
 
 type Dispatch = ThunkDispatch<AppState, void, ActionType>
 
@@ -51,7 +52,9 @@ export const updateBookAction = (book: Book) => {
       return dispatch(await getSearchedBooksAction());
     } catch (e) {
       // handle nonexistent record
-      toastError('failed to update book', (e.response && e.response.data) ? e.response.data : e.message);
+      toastError('failed to update book',
+        apiErrorToText(e)
+      );
     }
   }
 }
