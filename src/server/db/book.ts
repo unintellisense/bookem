@@ -4,11 +4,11 @@ import { oneOf, body } from 'express-validator/check';
 import { IBook } from '../../shared/dto/ibook'
 
 export const BookValidations: RequestHandler[] = [
-  body('title').isString().not().isEmpty(),
-  body('isFiction').isBoolean(),
+  body('title', 'Enter a valid title.').isString().not().isEmpty(),
+  body('isFiction', 'isFiction must be boolean.').isBoolean(),
 
-  body('categories').isArray().optional(),
-  body('categories.*').isString(),
+  body('categories','categories must be array.').isArray().optional(),
+  body('categories.*','categories values must be strings.').isString(),
 
   body('isbn').isString().optional(),
   body('authors').isString().optional(),

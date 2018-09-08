@@ -37,7 +37,8 @@ export const postBookAction = (book: Book) => {
       dispatch({ type: ActionTypeKeys.addBookSuccess });
       dispatch(await getSearchedBooksAction());
     } catch (e) { // report error from response.data if response was bad, otherwise whatever we caught (timeout?)
-      toastError('failed to add book', (e.response && e.response.data) ? e.response.data : e.message);
+      toastError('failed to add book',
+        (e.response && e.response.data && Array.isArray(e.response.data)) ? e.response.data.join('\n') : e.message);
     }
   };
 };

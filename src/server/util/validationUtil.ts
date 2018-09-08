@@ -18,8 +18,13 @@ export function bodyValidationForType<T>(field: BodyArgsForType<T>) {
 
 export function validationErrorHandler(req: Request, res: Response, next: NextFunction) {
   // validate
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
+  const errors = validationResult(req).formatWith(errorFormatter);
+  if (!errors.isEmpty()) return res.status(422).json(errors.array());
 
   next();
 }
+
+function errorFormatter({ location, msg, param, value, nestedErrors }) {
+  // Build your resulting errors however you want! String, object, whatever - it works!
+  return msg;
+};
