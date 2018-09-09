@@ -5,10 +5,12 @@ import * as qs from 'qs';
 import { Book, BookValidations } from '../../db/book'
 import { validationErrorHandler } from '../../util/validationUtil'
 import { objectionErrorHandler } from '../../util/objectionUtil'
+import { adminOnlyMiddleware } from '../authMiddleware/authorizeMiddleware'
 const router = Router();
 
+router.use(adminOnlyMiddleware); // require admin user
+
 router.get('/book',
-  /* TODO need a handler to check that they are admin user */
   query('page').isInt(), sanitizeQuery('page').toInt(),
   query('count').isInt(), sanitizeQuery('count').toInt(),
   query('qry').isString().optional(),
@@ -35,7 +37,6 @@ router.get('/book',
 )
 
 router.post('/book',
-  /* TODO need a handler to check that they are admin user */
   BookValidations,
   validationErrorHandler,
 
@@ -54,7 +55,7 @@ router.post('/book/:id',
   BookValidations,
   validationErrorHandler,
   (req: Request, res: Response, next: NextFunction) => {
-    let id = req.param('id');
+    let id = req.params.id;
     let book = req.body;
     Book.query().updateAndFetchById(id, book)
       .then(updatedBook => res.json(updatedBook))
@@ -67,7 +68,7 @@ router.delete('/book/:id',
   sanitizeParam('id').toInt(),
   validationErrorHandler,
   (req: Request, res: Response, next: NextFunction) => {
-    let id = req.param('id');
+    let id = req.params.id;
 
     Book.query().delete().where('id', '=', id)
       .then(result => {
