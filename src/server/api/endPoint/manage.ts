@@ -60,7 +60,8 @@ router.post('/book/:id',
     Book.query().updateAndFetchById(id, book)
       .then(updatedBook => res.json(updatedBook))
       .catch(next);
-  }
+  },
+  objectionErrorHandler
 )
 
 router.delete('/book/:id',
@@ -76,8 +77,9 @@ router.delete('/book/:id',
           return res.send(`deleted count: ${result}`)
         else
           next('no records deleted.');
-      });
-  }
+      }).catch(next);
+  },
+  objectionErrorHandler
 )
 
 export default router;
