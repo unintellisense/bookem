@@ -1,8 +1,12 @@
 import { Model, JsonSchema } from 'objection';
 import { IUser } from '../../shared/dto/iuser';
 
-export default class User extends Model implements IUser {
-  
+export enum UserProviderType {
+  Google = 1
+}
+
+export class User extends Model implements IUser {
+
   firstName: string;
 
   lastName: string;
@@ -11,7 +15,7 @@ export default class User extends Model implements IUser {
 
   externalIdentifier: string
 
-  externalProvider: string
+  externalProvider: UserProviderType
 
   creationDate: Date
 
@@ -42,7 +46,7 @@ export default class User extends Model implements IUser {
       lastLogin: { type: 'date' },
 
       enabled: { type: 'boolean' },
-      type: { type: 'boolean', enum: ['user', 'admin'] },
+      type: { type: 'string', enum: ['user', 'admin'] },
     }
   }
 }
