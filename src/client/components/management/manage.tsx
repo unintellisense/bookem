@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RouteWrapper } from '../../route'
+import { RouteWrapper, RouteItem } from '../../route'
 import AddBook from './addBook'
 import ViewBooks from './viewBook/viewBookPage'
 import { Navbar, NavItem, Nav } from 'react-bootstrap'
@@ -11,13 +11,6 @@ const routeComponents: RouteWrapper[] = [ViewBooks, AddBook];
 type ManageProps = RouteComponentProps<{}>;
 
 class Manage extends React.Component<ManageProps> {
-
-  // Get the printable name for the current route
-  private getSubRoute() {
-    var strippedPath = this.props.history.location.pathname.replace(`/${wrapper.routePath}/`, '');
-    var matchingComps = routeComponents.filter(comp => comp.routePath === strippedPath);
-    if (matchingComps.length > 0) return matchingComps[0].routeLabel;
-  }
 
   render() {
 
@@ -47,11 +40,6 @@ class Manage extends React.Component<ManageProps> {
   }
 }
 
-const wrapper: RouteWrapper = {
-  isRedirect: false,
-  component: Manage,
-  routeLabel: 'Manage',
-  routePath: 'manage'
-}
+const routeItem = new RouteItem('Manage', 'manage', Manage);
 
-export default wrapper;
+export default routeItem;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PageHeader } from 'react-bootstrap'
-import { RouteWrapper } from '../route'
+import { RouteItem } from '../route'
 
 class Login extends React.Component {
 
@@ -14,11 +14,6 @@ class Login extends React.Component {
   }
 }
 
-const wrapper: RouteWrapper = {
-  isRedirect: false,
-  component: Login,
-  routeLabel: 'Login',
-  routePath: 'login'
-}
+const routeItem = new RouteItem('Login', 'login', Login);
 
-export default wrapper;
+export default routeItem;

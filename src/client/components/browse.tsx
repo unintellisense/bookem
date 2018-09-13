@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RouteWrapper } from '../route'
+import { RouteItem } from '../route'
 
 class Browse extends React.Component {
 
@@ -13,11 +13,6 @@ class Browse extends React.Component {
   }
 }
 
-const wrapper: RouteWrapper = {
-  isRedirect: false,
-  component: Browse,
-  routeLabel: 'Browse',
-  routePath: 'browse'
-}
+const routeItem = new RouteItem('Browse', 'browse', Browse);
 
-export default wrapper;
+export default routeItem;

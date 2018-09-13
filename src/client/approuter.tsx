@@ -2,15 +2,19 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
 import { Browse, Manage, Login } from './components'
+
 import { RouteWrapper, NavBarWrapper, RedirectLink } from './route'
+import { IRouteItem, RouteItem } from './route/routeItem'
+import { RedirectRouteItem } from './route/redirectRouteItem'
+
 import { AppState } from './state';
 import { AuthState, LoginState } from '../shared/dto/auth';
 import { updateAuthStateAction } from './state/auth/action';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const loggedInComponents: NavBarWrapper[] = [Browse, Manage, { isRedirect: true, href: "api/auth/logout", text: "Logout" }];
-const loggedOutComponents: NavBarWrapper[] = [Browse, Login];
+const loggedInRouteItems: IRouteItem[] = [Browse, Manage, new RedirectRouteItem("api/auth/logout", "Logout")];
+const loggedOutRouteItems: IRouteItem[] = [Browse, Login];
 
 type AppRouteProps = {
   authState: AuthState
@@ -26,19 +30,19 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
     this.props.updateAuthState();
   }
 
-  private getRouteComponents(): NavBarWrapper[] {
+  private getRouteItems(): IRouteItem[] {
     switch (this.props.authState.loginState) {
       case LoginState.LoggedOut:
-        return loggedOutComponents;
+        return loggedOutRouteItems;
       case LoginState.LoggedIn:
-        return loggedInComponents;
+        return loggedInRouteItems;
     }
     return [];
   }
 
   render() {
 
-    let routeComponents = this.getRouteComponents();
+    let routeItems = this.getRouteItems();
 
     return (
       <BrowserRouter>
@@ -52,26 +56,19 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav>
-                {routeComponents.map((wrap) => // add appropriate linkContainers 
-                  wrap.isRedirect ?
-                    <RedirectLink href={wrap.href} text={wrap.text} key="logoutRedirectLink" /> :
-                    <LinkContainer to={`/${wrap.routePath}`} key={wrap.routeLabel}>
-                      <NavItem>{wrap.routeLabel}</NavItem>
-                    </LinkContainer >
-                )}
+                {
+                  routeItems.map(item => item.getNavBarRender())
+                }
               </Nav>
             </Navbar.Collapse>
           </Navbar>
           <Switch>
-            {routeComponents.map((wrap) => // add appropriate routes 
-              wrap.isRedirect ?
-                null /* nothing to render for redirect component */
-                :
-                <Route path={`/${wrap.routePath}`} component={wrap.component} key={wrap.routeLabel} />
-            )}
+            {
+              routeItems.map(item => item.getSwitchRender())
+            }
             { // default to the first route in the path when no match, but make sure routeComponents isn't empty
-              routeComponents.length &&
-              <Route exact path="*" render={() => <Redirect to={`/${(routeComponents[0] as RouteWrapper).routePath}`} />} />
+              routeItems.length &&
+              <Route exact path="*" render={() => <Redirect to={`/${(routeItems[0] as RouteItem).routePath}`} />} />
             }
           </Switch>
         </div>
