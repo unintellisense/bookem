@@ -9,6 +9,6 @@ export class Signup extends React.Component {
   }
 }
 
-const routeItem = new InvisibleRouteItem("Signup", Signup);
+const routeItem = new InvisibleRouteItem("signup", Signup);
 
 export default routeItem;

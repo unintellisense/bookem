@@ -59,7 +59,7 @@ function configurePassport(router: Router) {
           return res.redirect('/');
         }
         // no user found
-        return res.redirect('Signup');
+        return res.redirect('signup');
       } catch (e) {
         next(e);
       }
