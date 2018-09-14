@@ -4,6 +4,7 @@ import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { UserInfo } from '../../../shared/dto/auth'
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST } from '../../config'
 import { User, UserProviderType } from '../../db/user'
+import { GetGoogleUser } from '../../service/userService';
 
 type GoogleProfileInfo = {
   // when we add support for a separate identity provider
@@ -53,15 +54,12 @@ function configurePassport(router: Router) {
     Passport.authenticate('google', { failureRedirect: '/login' }),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        let users = await User.query()
-          .where('externalProvider', '=', UserProviderType.Google)
-          .andWhere('externalIdentifier', '=', req.user.id);
-        console.log(`# of profiles found for user ${req.user.email}: ${users.length}`)
-
-        // either send to / if already signed up,
-        // or to signup page
-
-        res.redirect('/');
+        let user = await GetGoogleUser(req.user.id);
+        if (user) { // signed up already
+          return res.redirect('/');
+        }
+        // no user found
+        return res.redirect('Signup');
       } catch (e) {
         next(e);
       }

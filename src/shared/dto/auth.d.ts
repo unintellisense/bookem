@@ -7,6 +7,7 @@ export interface UserInfo {
 export const enum LoginState {
   Unknown,
   LoggedOut,
+  LoggedInNoUser,
   LoggedIn
 }
 

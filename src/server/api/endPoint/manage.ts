@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { query, param, validationResult } from 'express-validator/check';
+import { query, param } from 'express-validator/check';
 import { sanitizeQuery, sanitizeParam } from 'express-validator/filter';
 import * as qs from 'qs';
 import { Book, BookValidations } from '../../db/book'

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
-import { Browse, Manage, Login } from './components'
+import { Browse, Manage, Login, Signup } from './components'
 
 import { IRouteItem, StandardRouteItem } from './route'
 import { RedirectRouteItem } from './route/redirectRouteItem'
@@ -11,7 +11,8 @@ import { AuthState, LoginState } from '../shared/dto/auth';
 import { updateAuthStateAction } from './state/auth/action';
 import { Navbar, Nav } from 'react-bootstrap';
 
-const loggedInRouteItems: IRouteItem[] = [Browse, Manage, new RedirectRouteItem("api/auth/logout", "Logout")];
+const loggedInWithAccountRouteItems: IRouteItem[] = [Browse, Manage, new RedirectRouteItem("api/auth/logout", "Logout")];
+const loggedInNoAccountRouteItems: IRouteItem[] = [Signup, new RedirectRouteItem("api/auth/logout", "Logout")];
 const loggedOutRouteItems: IRouteItem[] = [Browse, Login];
 
 type AppRouteProps = {
@@ -32,8 +33,10 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
     switch (this.props.authState.loginState) {
       case LoginState.LoggedOut:
         return loggedOutRouteItems;
+      case LoginState.LoggedInNoUser:
+        return loggedInNoAccountRouteItems;
       case LoginState.LoggedIn:
-        return loggedInRouteItems;
+        return loggedInWithAccountRouteItems;
     }
     return [];
   }
