@@ -1,4 +1,4 @@
-import { IRouteItem } from "./routeItem";
+import { IRouteItem } from "./irouteItem";
 import React = require("react");
 
 

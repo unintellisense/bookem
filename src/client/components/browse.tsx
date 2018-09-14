@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { RouteItem } from '../route'
+import { StandardRouteItem } from '../route'
 
 class Browse extends React.Component {
 
@@ -13,6 +13,6 @@ class Browse extends React.Component {
   }
 }
 
-const routeItem = new RouteItem('Browse', 'browse', Browse);
+const routeItem = new StandardRouteItem('Browse', 'browse', Browse);
 
 export default routeItem;

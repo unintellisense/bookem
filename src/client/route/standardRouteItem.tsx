@@ -1,14 +1,10 @@
-import { Route } from "react-router";
-import * as React from 'react';
+import { IRouteItem } from ".";
 import { LinkContainer } from "react-router-bootstrap";
-import { NavItem } from 'react-bootstrap';
+import * as React from "react";
+import { NavItem } from "react-bootstrap";
+import { Route } from "react-router";
 
-export interface IRouteItem {
-  getNavBarRender(prefix?: string): JSX.Element | null
-  getSwitchRender(prefix?: string): JSX.Element | null
-}
-
-export class RouteItem implements IRouteItem {
+export class StandardRouteItem implements IRouteItem {
 
   constructor(
     public readonly routeLabel: string,

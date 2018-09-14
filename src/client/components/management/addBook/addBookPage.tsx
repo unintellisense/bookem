@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Form, Col, Button } from 'react-bootstrap'
-import { RouteItem } from '../../../route'
+import { StandardRouteItem } from '../../../route'
 import { postBookAction, saveAddBookFieldsAction, saveAddBookPartialTagAction } from '../../../state/manage/addBook/action'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
@@ -113,6 +113,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connectedAddBookPage = connect(mapStateToProps, mapDispatchToProps)(AddBookPage);
 
-const routeItem = new RouteItem('Add Books', 'addBooks', connectedAddBookPage);
+const routeItem = new StandardRouteItem('Add Books', 'addBooks', connectedAddBookPage);
 
 export default routeItem;

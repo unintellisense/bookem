@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import * as Passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { UserInfo } from '../../../shared/dto/auth'
@@ -51,17 +51,22 @@ function configurePassport(router: Router) {
 
   router.get('/auth/google/callback',
     Passport.authenticate('google', { failureRedirect: '/login' }),
-    async (req: Request, res: Response) => {
-      let users = await User.query()
-        .where('externalProvider', '=', UserProviderType.Google)
-        .andWhere('externalIdentifier', '=', req.user.id);
-      console.log(users.length)
-      
-      // either send to / if already signed up,
-      // or to signup page
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        let users = await User.query()
+          .where('externalProvider', '=', UserProviderType.Google)
+          .andWhere('externalIdentifier', '=', req.user.id);
+        console.log(`# of profiles found for user ${req.user.email}: ${users.length}`)
 
-      res.redirect('/');
+        // either send to / if already signed up,
+        // or to signup page
+
+        res.redirect('/');
+      } catch (e) {
+        next(e);
+      }
     }
+
   );
 
 }

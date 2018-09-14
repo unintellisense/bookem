@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IRouteItem, RouteItem } from '../../route'
+import { IRouteItem, StandardRouteItem } from '../../route'
 import AddBook from './addBook'
 import ViewBooks from './viewBook/viewBookPage'
 import { Navbar, Nav } from 'react-bootstrap'
@@ -30,7 +30,7 @@ class Manage extends React.Component<ManageProps> {
           }
           { // default to the first route in the path when no match, but make sure routeComponents isn't empty
             routeItems.length &&
-            <Route exact path="*" render={() => <Redirect to={`${matchUrl}/${(routeItems[0] as RouteItem).routePath}`} />} />
+            <Route exact path="*" render={() => <Redirect to={`${matchUrl}/${(routeItems[0] as StandardRouteItem).routePath}`} />} />
           }
         </Switch>
       </div>
@@ -38,6 +38,6 @@ class Manage extends React.Component<ManageProps> {
   }
 }
 
-const routeItem = new RouteItem('Manage', 'manage', Manage);
+const routeItem = new StandardRouteItem('Manage', 'manage', Manage);
 
 export default routeItem;

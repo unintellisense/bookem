@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PageHeader } from 'react-bootstrap'
-import { RouteItem } from '../route'
+import { StandardRouteItem } from '../route'
 
 class Login extends React.Component {
 
@@ -14,6 +14,6 @@ class Login extends React.Component {
   }
 }
 
-const routeItem = new RouteItem('Login', 'login', Login);
+const routeItem = new StandardRouteItem('Login', 'login', Login);
 
 export default routeItem;

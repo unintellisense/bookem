@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
 import { Browse, Manage, Login } from './components'
 
-import { IRouteItem, RouteItem } from './route/routeItem'
+import { IRouteItem, StandardRouteItem } from './route'
 import { RedirectRouteItem } from './route/redirectRouteItem'
 
 import { AppState } from './state';
@@ -66,7 +66,7 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
             }
             { // default to the first route in the path when no match, but make sure routeComponents isn't empty
               routeItems.length &&
-              <Route exact path="*" render={() => <Redirect to={`/${(routeItems[0] as RouteItem).routePath}`} />} />
+              <Route exact path="*" render={() => <Redirect to={`/${(routeItems[0] as StandardRouteItem).routePath}`} />} />
             }
           </Switch>
         </div>
