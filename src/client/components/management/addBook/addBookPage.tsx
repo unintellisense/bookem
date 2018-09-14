@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Form, Col, Button } from 'react-bootstrap'
-import { RouteWrapper } from '../../../route/routeWrapper'
+import { RouteItem } from '../../../route'
 import { postBookAction, saveAddBookFieldsAction, saveAddBookPartialTagAction } from '../../../state/manage/addBook/action'
 import { Book } from '../../../models/book'
 import { AppState } from '../../../state'
@@ -113,11 +113,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connectedAddBookPage = connect(mapStateToProps, mapDispatchToProps)(AddBookPage);
 
-const wrapper: RouteWrapper = {
-  isRedirect: false,
-  component: connectedAddBookPage,
-  routeLabel: 'Add Books',
-  routePath: 'addBooks'
-}
+const routeItem = new RouteItem('Add Books', 'addBooks', connectedAddBookPage);
 
-export default wrapper;
+export default routeItem;

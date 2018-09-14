@@ -4,8 +4,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { NavItem } from 'react-bootstrap';
 
 export interface IRouteItem {
-  getNavBarRender(): JSX.Element | null
-  getSwitchRender(): JSX.Element | null
+  getNavBarRender(prefix?: string): JSX.Element | null
+  getSwitchRender(prefix?: string): JSX.Element | null
 }
 
 export class RouteItem implements IRouteItem {
@@ -17,14 +17,16 @@ export class RouteItem implements IRouteItem {
   ) { }
 
 
-  getNavBarRender(): JSX.Element | null {
-    return <LinkContainer to={`/${this.routePath}`} key={this.routeLabel}>
+  getNavBarRender(prefix?: string): JSX.Element | null {
+    let to = `${prefix ? prefix : ''}/${this.routePath}`
+    return <LinkContainer to={to} key={this.routeLabel}>
       <NavItem>{this.routeLabel}</NavItem>
     </LinkContainer >
   }
 
-  getSwitchRender(): JSX.Element | null {
-    return <Route path={`/${this.routePath}`} component={this.component} key={this.routeLabel} />
+  getSwitchRender(prefix?: string): JSX.Element | null {
+    let path = `${prefix ? prefix : ''}/${this.routePath}`
+    return <Route path={path} component={this.component} key={this.routeLabel} />
   }
 
 

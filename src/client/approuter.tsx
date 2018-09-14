@@ -3,15 +3,13 @@ import { connect } from 'react-redux'
 import { Route, Redirect, Switch, BrowserRouter } from 'react-router-dom'
 import { Browse, Manage, Login } from './components'
 
-import { RouteWrapper, NavBarWrapper, RedirectLink } from './route'
 import { IRouteItem, RouteItem } from './route/routeItem'
 import { RedirectRouteItem } from './route/redirectRouteItem'
 
 import { AppState } from './state';
 import { AuthState, LoginState } from '../shared/dto/auth';
 import { updateAuthStateAction } from './state/auth/action';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 
 const loggedInRouteItems: IRouteItem[] = [Browse, Manage, new RedirectRouteItem("api/auth/logout", "Logout")];
 const loggedOutRouteItems: IRouteItem[] = [Browse, Login];
