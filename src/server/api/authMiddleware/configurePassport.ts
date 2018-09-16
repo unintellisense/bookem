@@ -3,7 +3,6 @@ import * as Passport from 'passport';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { UserInfo } from '../../../shared/dto/auth'
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST } from '../../config'
-import { User, UserProviderType } from '../../db/user'
 import { GetGoogleUser } from '../../service/userService';
 
 type GoogleProfileInfo = {

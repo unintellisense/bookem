@@ -7,3 +7,7 @@ export async function GetGoogleUser(googleIdentifier: string) {
   if (users.length > 1) throw new Error(`Expected 1 result, got ${users.length}`);
   return users[0] || null;
 }
+
+export async function CreateGoogleUser(googleIdentifier: string) { 
+  
+}
