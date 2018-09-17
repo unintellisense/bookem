@@ -4,6 +4,8 @@ import configurePassport from './authMiddleware/configurePassport'
 
 import AuthRouter from './endPoint/authentication';
 import ManageRouter from './endPoint/manage';
+import UserRouter from './endPoint/user'
+
 
 const router = Router();
 
@@ -15,6 +17,7 @@ configurePassport(router);
 
 router.use('/auth', AuthRouter);
 router.use('/manage', ManageRouter);
+router.use('/user', UserRouter);
 
 
 
