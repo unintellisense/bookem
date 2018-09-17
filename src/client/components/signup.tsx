@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { InvisibleRouteItem } from '../route/invisibleRouteItem'
+import { InvisibleRouteItem } from '../route'
 
 
 export class Signup extends React.Component {

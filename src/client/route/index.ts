@@ -1,5 +1,6 @@
 import { IRouteItem } from './irouteItem'
-import { RedirectRouteItem } from './redirectRouteItem'
 import { StandardRouteItem } from './standardRouteItem';
+import { RedirectRouteItem } from './redirectRouteItem'
+import { InvisibleRouteItem } from './invisibleRouteItem';
 
-export { IRouteItem, StandardRouteItem, RedirectRouteItem }
+export { IRouteItem, StandardRouteItem, RedirectRouteItem, InvisibleRouteItem }
