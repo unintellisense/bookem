@@ -4,13 +4,7 @@ import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import { UserInfo } from '../../../shared/dto/auth'
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, HOST } from '../../config'
 import { GetGoogleUser } from '../../service/userService';
-
-type GoogleProfileInfo = {
-  // when we add support for a separate identity provider
-  // will need to probably include a 'provider' field or something similar 
-  email: string
-  id: string
-}
+import { IdentityProviderType } from '../../../shared/dto/iuser';
 
 function configurePassport(router: Router) {
   Passport.use(new GoogleStrategy({
@@ -21,20 +15,21 @@ function configurePassport(router: Router) {
     function (accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
         let email: string = (Array.isArray(profile.emails) && profile.emails.find((row => row.type === 'account')).value);
-        let googleInfo: GoogleProfileInfo = {
+        let googleInfo: UserInfo = {
           email: email,
-          id: profile.id
+          id: profile.id,
+          providerType: IdentityProviderType.Google
         }
         return done(null, googleInfo);
       });
     }));
 
-  Passport.serializeUser(function (userInfo: GoogleProfileInfo, done) {
+  Passport.serializeUser(function (userInfo: UserInfo, done) {
     done(null, userInfo);
   });
 
-  Passport.deserializeUser(function (userInfo: GoogleProfileInfo, done: (err: any, user?: UserInfo) => void) {
-    done(null, { id: userInfo.id, role: 'admin' }); //temp hack for testing
+  Passport.deserializeUser(function (userInfo: UserInfo, done: (err: any, user?: UserInfo) => void) {
+    done(null, { id: userInfo.id, role: 'admin', email: userInfo.email, providerType: userInfo.providerType }); //temp hack for testing
   });
 
 

@@ -15,7 +15,7 @@ exports.up = function (knex: Knex): PromiseLike<any> {
     table.date('creationDate').notNullable();
     table.dateTime('lastLogin').notNullable();
 
-    table.boolean('enabled').notNullable();
+    table.boolean('enabled').notNullable().defaultTo(true);
     table.enum('type', ['user', 'admin']);
   });
 };

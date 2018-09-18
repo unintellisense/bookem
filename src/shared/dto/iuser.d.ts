@@ -1,5 +1,5 @@
-export enum UserProviderType {
-  Google = 1
+export const enum IdentityProviderType {
+  Google = "google"
 }
 
 export type UserType = 'user' | 'admin'
@@ -20,7 +20,7 @@ export interface UserRestrictedModifiable {
   enabled: boolean
 
   externalIdentifier: string
-  externalProvider: UserProviderType
+  externalProvider: IdentityProviderType
   type: UserType
 }
 

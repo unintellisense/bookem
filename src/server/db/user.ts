@@ -1,9 +1,5 @@
 import { Model, JsonSchema } from 'objection';
-import { IUser } from '../../shared/dto/iuser';
-
-export enum UserProviderType {
-  Google = 1
-}
+import { IUser, IdentityProviderType } from '../../shared/dto/iuser';
 
 export class User extends Model implements IUser {
 
@@ -15,7 +11,7 @@ export class User extends Model implements IUser {
 
   externalIdentifier: string
 
-  externalProvider: UserProviderType
+  externalProvider: IdentityProviderType
 
   creationDate: Date
 

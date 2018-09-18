@@ -7,7 +7,7 @@
     "allowJs": true,
     "outDir": "../../dist/server",
     "lib": [
-      "es2015"
+      "es2016"
     ],
     "moduleResolution": "node",
     "types": [

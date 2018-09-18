@@ -19,7 +19,7 @@ export function bodyValidationForType<T>(field: BodyArgsForType<T>) {
 export function validationErrorHandler(req: Request, res: Response, next: NextFunction) {
   // validate
   const errors = validationResult(req).formatWith(errorFormatter);
-  if (!errors.isEmpty()) return res.status(422).json(errors.array());
+  if (!errors.isEmpty()) return res.status(422).json(errors.array({ onlyFirstError: true }));
 
   next();
 }

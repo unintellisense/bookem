@@ -1,39 +1,35 @@
-import { User, UserProviderType } from '../db/user';
-import { UserSelfModifiable } from '../../shared/dto/iuser'
+import { User } from '../db/user';
+import { IdentityProviderType } from '../../shared/dto/iuser'
 
 export async function GetGoogleUser(googleIdentifier: string) {
   let users = await User.query()
-    .where('externalProvider', '=', UserProviderType.Google)
+    .where('externalProvider', '=', IdentityProviderType.Google)
     .andWhere('externalIdentifier', '=', googleIdentifier);
   if (users.length > 1) throw new Error(`Expected 1 result, got ${users.length}`);
   return users[0] || null;
 }
 
-
-const newUserFields: (keyof UserSelfModifiable)[] = [
-  'firstName',
-  'lastName'
-]
-
 export async function CreateGoogleUser(googleIdentifier: string, firstName: string, lastName: string, email: string) {
-  // lets make sure we arent creating a user
-  // for a already existing Google user
-  let existingGoogleUsers = await User.query()
-    .where('externalProvider', '=', UserProviderType.Google)
-    .where('externalIdentifier', '=', googleIdentifier);
-
-  if (existingGoogleUsers.length > 0) { 
-    throw new Error(`Found ${existingGoogleUsers.length} users with matching google identifier.`);
-  }
-
-
+  let now = new Date();
   let newUser = await User.query()
     .insert({
-      externalProvider: UserProviderType.Google,
+      externalProvider: IdentityProviderType.Google,
       externalIdentifier: googleIdentifier,
+      creationDate: now,
+      lastLogin: now,
       firstName, lastName, email
     });
 
   return newUser;
+
+}
+
+export async function DeleteGoogleUser(googleIdentifier: string) {
+  let deleteCount = await User.query()
+    .where('externalProvider', '=', IdentityProviderType.Google)
+    .andWhere('externalIdentifier', '=', googleIdentifier)
+    .delete();
+
+  if (deleteCount == 0) throw { code: 404 };
 
 }
