@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { Form, FormControlProps, Col, ControlLabel, FormControl, Alert, Button, Row } from 'react-bootstrap'
-import { style, media } from 'typestyle';
+import { style } from 'typestyle';
+import { connect } from 'react-redux';
 import { InvisibleRouteItem } from '../route'
 import { IUser, UserSelfModifiable } from '../../shared/dto/iuser';
-import { connect } from 'react-redux';
+import { createUserAction } from '../state/user'
 
 type SignupState = UserSelfModifiable;
 
@@ -20,7 +21,7 @@ type SignupDispatch = {
   submitSignup: (signupState: SignupState) => void
 }
 
-class Signup extends React.Component<{}, SignupState> {
+class Signup extends React.Component<SignupDispatch, SignupState> {
 
   constructor(props) {
     super(props);
@@ -35,6 +36,7 @@ class Signup extends React.Component<{}, SignupState> {
 
   handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
+    this.props.submitSignup(this.state);
   }
 
   handleReset = (e: React.FormEvent<any>) => {
@@ -65,8 +67,8 @@ class Signup extends React.Component<{}, SignupState> {
 
 const mapDispatchToProps: (dispatch: Function) => SignupDispatch
   = (dispatch) => ({
-    submitSignup: () => {console.log('finish me') }
-  });
+    submitSignup: (signupState: SignupState) => dispatch(createUserAction(signupState))
+  })
 
 const connectedSignup = connect<{}, SignupDispatch>(null, mapDispatchToProps)(Signup);
 
