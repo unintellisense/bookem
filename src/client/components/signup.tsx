@@ -3,8 +3,9 @@ import { Form, FormControlProps, Col, ControlLabel, FormControl, Alert, Button, 
 import { style, media } from 'typestyle';
 import { InvisibleRouteItem } from '../route'
 import { IUser, UserSelfModifiable } from '../../shared/dto/iuser';
+import { connect } from 'react-redux';
 
-type SignupState = { [prop in keyof UserSelfModifiable]: UserSelfModifiable[prop] }
+type SignupState = UserSelfModifiable;
 
 const DefaultState = {
   firstName: '',
@@ -15,7 +16,11 @@ const buttonMarginTopStyle = style({
   marginTop: '27px'
 })
 
-export class Signup extends React.Component<{}, SignupState> {
+type SignupDispatch = {
+  submitSignup: (signupState: SignupState) => void
+}
+
+class Signup extends React.Component<{}, SignupState> {
 
   constructor(props) {
     super(props);
@@ -58,6 +63,13 @@ export class Signup extends React.Component<{}, SignupState> {
   }
 }
 
-const routeItem = new InvisibleRouteItem("signup", Signup);
+const mapDispatchToProps: (dispatch: Function) => SignupDispatch
+  = (dispatch) => ({
+    submitSignup: () => {console.log('finish me') }
+  });
+
+const connectedSignup = connect<{}, SignupDispatch>(null, mapDispatchToProps)(Signup);
+
+const routeItem = new InvisibleRouteItem("signup", connectedSignup);
 
 export default routeItem;
