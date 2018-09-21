@@ -9,7 +9,8 @@ export class StandardRouteItem implements IRouteItem {
   constructor(
     public readonly routeLabel: string,
     public readonly routePath: string,
-    public readonly component: React.ComponentType
+    public readonly component: React.ComponentType,
+    public readonly pullRight: boolean = false
   ) { }
 
 

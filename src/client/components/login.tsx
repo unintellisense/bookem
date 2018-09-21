@@ -14,6 +14,6 @@ class Login extends React.Component {
   }
 }
 
-const routeItem = new StandardRouteItem('Login', 'login', Login);
+const routeItem = new StandardRouteItem('Login', 'login', Login, true);
 
 export default routeItem;

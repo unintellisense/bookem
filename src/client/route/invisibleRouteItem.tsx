@@ -9,7 +9,7 @@ export class InvisibleRouteItem implements IRouteItem {
     public readonly component: React.ComponentType
   ) { }
 
-
+  public readonly pullRight = false;
   getNavBarRender(): JSX.Element | null { return null; }
 
   getSwitchRender(prefix?: string): JSX.Element | null {

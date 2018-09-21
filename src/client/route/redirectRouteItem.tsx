@@ -4,7 +4,9 @@ import React = require("react");
 
 export class RedirectRouteItem implements IRouteItem {
 
-  constructor(private href: string, private text: string) { }
+  constructor(private href: string, private text: string, public pullRight: boolean = false) {
+
+  }
 
   getNavBarRender() {
     return <RedirectLink href={this.href} text={this.text} />

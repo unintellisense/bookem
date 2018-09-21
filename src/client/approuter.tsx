@@ -11,8 +11,8 @@ import { AuthState, LoginState } from '../shared/dto/auth';
 import { updateAuthStateAction } from './state/auth/action';
 import { Navbar, Nav } from 'react-bootstrap';
 
-const loggedInWithAccountRouteItems: IRouteItem[] = [Browse, Manage, new RedirectRouteItem("api/auth/logout", "Logout")];
-const loggedInNoAccountRouteItems: IRouteItem[] = [Signup, new RedirectRouteItem("api/auth/logout", "Logout")];
+const loggedInWithAccountRouteItems: IRouteItem[] = [Browse, Manage, new RedirectRouteItem("api/auth/logout", "Logout", true)];
+const loggedInNoAccountRouteItems: IRouteItem[] = [Signup, new RedirectRouteItem("api/auth/logout", "Logout", true)];
 const loggedOutRouteItems: IRouteItem[] = [Browse, Login];
 
 type AppRouteProps = {
@@ -58,7 +58,14 @@ class AppRouter extends React.Component<AppRouteProps & AppRouteDispatch> {
             <Navbar.Collapse>
               <Nav>
                 {
-                  routeItems.map(item => item.getNavBarRender())
+                  routeItems.filter(route => !route.pullRight)
+                    .map(item => item.getNavBarRender())
+                }
+              </Nav>
+              <Nav pullRight>
+                {
+                  routeItems.filter(route => route.pullRight)
+                    .map(item => item.getNavBarRender())
                 }
               </Nav>
             </Navbar.Collapse>
