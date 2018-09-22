@@ -44,7 +44,7 @@ const otherColCss = style(
 
 
 type ViewBookProps = {
-  searchedBooks: Book[]
+  searchBooks: Book[]
   currentFocusedBook: Book | null
   currentFocusedPartialCategory: string
 }
@@ -77,7 +77,7 @@ class ViewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
           </tr>
         </thead>
         <tbody>
-          {this.props.searchedBooks.map && this.props.searchedBooks.map(book => {
+          {this.props.searchBooks.map && this.props.searchBooks.map(book => {
             return <tr
               onClick={() => { this.props.updateFocusedBook(book) }}
               key={book.id}>
@@ -103,7 +103,7 @@ class ViewBookPage extends React.Component<ViewBookProps & ViewBookDispatch> {
 
 const mapStateToProps: (state: AppState) => ViewBookProps
   = (state) => ({
-    searchedBooks: state.manage.viewBook.page.searchedBooks,
+    searchBooks: state.manage.viewBook.page.searchBooks,
     currentFocusedBook: state.manage.viewBook.modal.editedBook,
     currentFocusedPartialCategory: state.manage.viewBook.modal.editedBookPartialCategory
   })
