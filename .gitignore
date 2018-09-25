@@ -2,3 +2,4 @@ node_modules
 dist
 # development db
 dev.sqlite3
+src/misc/IsbnLookup/data.csv

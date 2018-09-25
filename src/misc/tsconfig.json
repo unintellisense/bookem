@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2016"
+    ],
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "types": [
+      "node"
+    ],
+    "importHelpers": true,
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}
