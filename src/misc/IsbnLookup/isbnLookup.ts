@@ -9,29 +9,57 @@ const googleBooksApiKeyEnvName = 'GOOGLE_BOOKS_API_KEY';
 
 const googleBooksApiKey = process.env[googleBooksApiKeyEnvName];
 
-enum RowField {
+enum RowField { // original fields from input file
   localId = 0,
   ISBN = 1,
   Author = 2,
-  Title = 3
+  Title = 3,
+  YearPublished = 5,
+  Category = 8,
+  Synopsis = 10
   // not sure others will be used for this function
 }
 
-type OutputRow = string[];
+type BookResult = { // results from API call
+  authors: string
+  categories: string[] | null
+  description: string
+  title: string
+  yearPublished: number | null
+}
+
+type InputRow = string[];
+
+type OutputRow = {
+  localId: string
+  ISBN: string
+  yearPublished: string | null
+  authors: string
+  categories: string | null
+  description: string
+  title: string
+}
 
 const dataFileName = path.resolve(__dirname, 'data.csv');
-const apiRequestRate = 1000;
+const apiRequestRate = 0;
 
 const outFileName = path.resolve(__dirname, 'output.csv');
+
+if (fs.existsSync(outFileName)) {
+  fs.unlinkSync(outFileName);
+}
+
+let writer = fs.createWriteStream(outFileName);
 
 const stringer = stringify();
 
 stringer.on('readable', () => {
   let stringRow;
   while (stringRow = stringer.read()) {
-    console.log(stringRow);
+    writer.write(stringRow);
   }
 }).on('finish', () => {
+  writer.close();
   console.log('all done!');
 });
 
@@ -49,10 +77,10 @@ const parser = parse({ delimiter: ',' })
           getBooksByIsbn(isbnString, googleBooksApiKey).then(results => {
             parser.resume();
             if (results.length === 1) {
-              //console.log(results[0]);
+              handleResultRow(stringer, row, results[0]);
             } else {
               //write out what we had to begin with
-              writeToStringer(stringer, row);
+              handleOriginalRow(stringer, row);
             }
           }).catch(e => {
             console.log(e);
@@ -64,7 +92,7 @@ const parser = parse({ delimiter: ',' })
 
       } else {
         //write out what we had to begin with
-        writeToStringer(stringer, row);
+        handleOriginalRow(stringer, row);
       }
     }
   }).on('end', () => {
@@ -77,6 +105,37 @@ const parser = parse({ delimiter: ',' })
 fs.createReadStream(dataFileName).pipe(parser);
 
 
-function writeToStringer(stringer: stringify.Stringifier, row: OutputRow) {
-  stringer.write([row[RowField.Title], row[RowField.Author], row[RowField.localId], row[RowField.ISBN]]);
+function handleOriginalRow(stringer: stringify.Stringifier, row: InputRow) {
+  let outputRow: OutputRow =
+  {
+    localId: row[RowField.localId],
+    ISBN: row[RowField.ISBN],
+    title: row[RowField.Title],
+    authors: row[RowField.Author],
+    categories: row[RowField.Category],
+    yearPublished: row[RowField.YearPublished],
+    description: row[RowField.Synopsis]
+  }
+  writeOutput(stringer, outputRow);
+}
+
+function handleResultRow(stringer: stringify.Stringifier, row: InputRow, result: BookResult) {
+  let outputRow: OutputRow =
+  {
+    localId: row[RowField.localId],
+    ISBN: row[RowField.ISBN],
+    title: result.title,
+    authors: result.authors,
+    categories: result.categories && result.categories.join(', '),
+    yearPublished: result.yearPublished ? result.yearPublished.toString() : row[RowField.YearPublished],
+    description: result.description
+  }
+  writeOutput(stringer, outputRow);
+}
+
+let recCount = 0;
+
+function writeOutput(stringer: stringify.Stringifier, output: OutputRow) {
+  stringer.write([output.localId, output.ISBN, output.title, output.authors, output.categories, output.yearPublished, output.description]);
+  console.log(`rec count: ${recCount++}`);
 }
