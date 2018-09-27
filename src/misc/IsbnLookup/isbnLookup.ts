@@ -41,7 +41,7 @@ type OutputRow = {
 }
 
 const dataFileName = path.resolve(__dirname, 'data.csv');
-const apiRequestRate = 0;
+const apiRequestRate = 1000;
 
 const outFileName = path.resolve(__dirname, 'output.csv');
 
@@ -88,13 +88,15 @@ const parser = parse({ delimiter: ',' })
           })
         }, apiRequestRate)
 
-        return;
-
-      } else {
+      } else { // ISBN, but no digits
         //write out what we had to begin with
         handleOriginalRow(stringer, row);
       }
+    } else { // No ISBN
+      //write out what we had to begin with
+      handleOriginalRow(stringer, row);
     }
+
   }).on('end', () => {
     stringer.end();
   });
