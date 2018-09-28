@@ -2,4 +2,6 @@ node_modules
 dist
 # development db
 dev.sqlite3
-src/misc/IsbnLookup/data.csv
+# ignore everything in IsbnLookup except for TS files
+src/misc/IsbnLookup/*
+!src/misc/IsbnLookup/*.ts
